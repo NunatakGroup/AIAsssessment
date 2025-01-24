@@ -5,8 +5,9 @@ namespace AI_Maturity_Assessment.Services
 {
     public interface IQuestionService
     {
-        Question GetQuestion(int id);
-        List<Question> GetAllQuestions();
-        int GetTotalQuestionCount();
+        Task<Question> GetQuestion(int id);
+        Task<List<Question>> GetAllQuestions();
+        Task<int> GetTotalQuestionCount();
+
     }
 }

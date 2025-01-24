@@ -66,8 +66,13 @@ namespace AI_Maturity_Assessment.Services
             };
         }
 
-        public Question GetQuestion(int id) => _questions.FirstOrDefault(q => q.Id == id);
-        public List<Question> GetAllQuestions() => _questions;
-        public int GetTotalQuestionCount() => _questions.Count;
-    }
+        public async Task<Question> GetQuestion(int id) 
+        => await Task.FromResult(_questions.FirstOrDefault(q => q.Id == id));
+
+        public async Task<List<Question>> GetAllQuestions() 
+        => await Task.FromResult(_questions);
+
+        public async Task<int> GetTotalQuestionCount() 
+        => await Task.FromResult(_questions.Count);
+}
 }

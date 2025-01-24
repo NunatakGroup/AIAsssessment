@@ -3,24 +3,36 @@ using AI_Maturity_Assessment.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load environment variables before configuration
+DotNetEnv.Env.Load();
+builder.Configuration.AddEnvironmentVariables();
+
+// Register services
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<AzureTableService>();
+var serviceProvider = builder.Services.BuildServiceProvider();
+var azureTableService = serviceProvider.GetRequiredService<AzureTableService>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
+app.UseSession();
 
-// Configure the HTTP request pipeline.
+// Configure pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

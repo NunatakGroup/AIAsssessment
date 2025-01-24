@@ -1,15 +1,53 @@
 // Views/Assessment/AssessmentViewController.js
+// @ts-nocheck
 
 const AssessmentViewController = {
     currentQuestionId: 1,
     totalQuestions: 0,
     userAnswers: new Map(),
- 
+
     async initialize() {
         await this.getTotalQuestions();
         await this.loadQuestion(this.currentQuestionId);
         this.setupEventListeners();
     },
+
+    async saveAnswer(questionId, answerId) {
+        try {
+            const response = await fetch('/Assessment/SaveAnswer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ questionId, answerId })
+            });
+            
+            if (!response.ok) throw new Error('Failed to save answer');
+            return await response.json();
+        } catch (error) {
+            console.error('Error saving answer:', error);
+            throw error;
+        }
+    },
+
+        async nextQuestion() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (!selectedAnswer) {
+                this.showNotification('Please select an answer', true);
+                return;
+            }
+    
+            const answerId = parseInt(selectedAnswer.value);
+            await this.saveAnswer(this.currentQuestionId, answerId);
+            this.userAnswers.set(this.currentQuestionId, answerId);
+    
+            if (this.currentQuestionId === this.totalQuestions) {
+                await this.submitAssessment();
+            } else {
+                this.currentQuestionId++;
+                await this.loadQuestion(this.currentQuestionId);
+            }
+        },
  
     async getTotalQuestions() {
         const response = await fetch('/Assessment/GetTotalQuestions');
@@ -77,23 +115,6 @@ const AssessmentViewController = {
     previousQuestion() {
         if (this.currentQuestionId > 1) {
             this.currentQuestionId--;
-            this.loadQuestion(this.currentQuestionId);
-        }
-    },
- 
-    async nextQuestion() {
-        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-        if (!selectedAnswer) {
-            this.showNotification('Please select an answer', true);
-            return;
-        }
- 
-        this.userAnswers.set(this.currentQuestionId, parseInt(selectedAnswer.value));
- 
-        if (this.currentQuestionId === this.totalQuestions) {
-            await this.submitAssessment();
-        } else {
-            this.currentQuestionId++;
             this.loadQuestion(this.currentQuestionId);
         }
     },
