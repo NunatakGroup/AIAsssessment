@@ -1,22 +1,24 @@
 const ResultsViewController = {
-    initialize() {
+    async initialize() {
         this.setupEventListeners();
-        this.loadResults();
+        const results = await this.loadResults();
         this.initializeModal();
         this.showModal();
-        this.initializeChart();
+        if (results) {
+            this.initializeChart(results);
+        }
     },
 
-    initializeChart() {
+    initializeChart(results) {
         const ctx = document.getElementById('radarChart');
         if (!ctx) return;
 
         const data = {
-            labels: ['Ai Products', 'New Business Models', 'AI Enhanced Processes', 
-                    'Ai Impact Management', 'Ai Governance', 'Roles/ Skills / Competencies', 
-                    'Security/ Privacy', 'Platform/ Tools', 'Data Infrastructure'],
+            labels: ['AI Products', 'New Business Models', 'AI Enhanced Processes', 
+                    'AI Impact Management', 'AI Governance', 'Roles/Skills/Competencies', 
+                    'Security/Privacy', 'Platform/Tools', 'Data Infrastructure'],
             datasets: [{
-                data: [4.2, 3.8, 3.5, 4.0, 3.2, 3.7, 3.9, 4.1, 3.6],
+                data: results.chartData,
                 backgroundColor: 'rgba(160, 208, 203, 0.2)',
                 borderColor: '#A0D0CB',
                 pointBackgroundColor: '#62B2A9',
@@ -43,7 +45,7 @@ const ResultsViewController = {
                         ticks: {
                             stepSize: 1,
                             display: true,
-                            color: 'rgba(255, 255, 255, 0.7)'
+                            color: 'rgb(255, 255, 255)'
                         },
                         grid: {
                             circular: true,
@@ -58,7 +60,7 @@ const ResultsViewController = {
                                            width < 800 ? 12 : 14;
                                 }
                             },
-                            color: 'rgba(255, 255, 255, 0.9)',
+                            color: 'rgb(255, 255, 255)',
                             centerPointLabels: true,
                             padding: (context) => {
                                 const width = context.chart.width;
@@ -70,7 +72,7 @@ const ResultsViewController = {
                     }
                 }
             }
-        });
+    });
     },
 
     setupEventListeners() {
@@ -98,10 +100,12 @@ const ResultsViewController = {
             const response = await fetch('/Results/GetResults');
             if (!response.ok) throw new Error('Failed to load results');
             const results = await response.json();
+            console.log('Results:', results);  // Debug log
             this.updateUI(results);
-            this.showModal();
+            return results;
         } catch (error) {
             console.error('Error loading results:', error);
+            return null;
         }
     },
 

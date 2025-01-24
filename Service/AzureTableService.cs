@@ -16,6 +16,19 @@ namespace AI_Maturity_Assessment.Services
         _tableClient = new TableClient(connectionString, "AssessmentResponses");
     }
 
+    // Add to AzureTableService.cs
+public async Task<AssessmentResponseEntity> GetResponses(string sessionId)
+{
+    try
+    {
+        return await _tableClient.GetEntityAsync<AssessmentResponseEntity>(sessionId, "1");
+    }
+    catch (Azure.RequestFailedException)
+    {
+        return null;
+    }
+}
+
     public async Task SaveResponse(string sessionId, int questionId, int answerId)
 {
     try

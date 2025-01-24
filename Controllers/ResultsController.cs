@@ -25,6 +25,7 @@ public IActionResult Index()
     return View();
 }
 
+// Update ResultsController.cs GetResults method
 [HttpGet]
 public async Task<IActionResult> GetResults()
 {
@@ -32,12 +33,26 @@ public async Task<IActionResult> GetResults()
     if (string.IsNullOrEmpty(sessionId))
         return BadRequest("No session found");
 
-    // Placeholder data for radar chart - replace with actual calculations
+    var responses = await _azureTableService.GetResponses(sessionId);
+    if (responses == null)
+        return NotFound();
+
+    var chartData = new[] {
+        responses.Question2Answer ?? 0,  // AI Products
+        responses.Question3Answer ?? 0,  // New Business Models
+        responses.Question4Answer ?? 0,  // AI Enhanced Processes
+        responses.Question5Answer ?? 0,  // AI Impact Management
+        responses.Question6Answer ?? 0,  // AI Governance
+        responses.Question7Answer ?? 0,  // Roles/Skills/Competencies
+        responses.Question8Answer ?? 0,  // Security/Privacy
+        responses.Question9Answer ?? 0,  // Platform/Tools
+        responses.Question10Answer ?? 0  // Data Infrastructure
+    };
+
     var results = new
     {
-        ambition = new { score = 80, details = "Strong AI ambition" },
-        useCase = new { score = 75, details = "Good use cases" },
-        enablers = new { score = 70, details = "Solid enablers" }
+        chartData = chartData,
+        ambition = new { score = responses.Question1Answer ?? 0, details = "AI Ambition Score" }
     };
 
     return Json(results);
