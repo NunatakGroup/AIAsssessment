@@ -48,6 +48,27 @@ namespace AI_Maturity_Assessment.Services
     }
 }
 
+public async Task SaveContactInfo(string sessionId, string name, string company, string email)
+{
+    var entity = await GetOrCreateEntity(sessionId);
+    entity.Name = name;
+    entity.Company = company;
+    entity.Email = email;
+    await _tableClient.UpsertEntityAsync(entity);
+}
+
+private async Task<AssessmentResponseEntity> GetOrCreateEntity(string sessionId)
+{
+    try
+    {
+        return await _tableClient.GetEntityAsync<AssessmentResponseEntity>(sessionId, "1");
+    }
+    catch (Azure.RequestFailedException ex) when (ex.Status == 404)
+    {
+        return new AssessmentResponseEntity { PartitionKey = sessionId, RowKey = "1" };
+    }
+}
+
     public async Task TestConnection() => await _tableClient.CreateIfNotExistsAsync();
 }
 }

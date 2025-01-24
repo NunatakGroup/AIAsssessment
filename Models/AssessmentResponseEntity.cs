@@ -7,6 +7,10 @@ public class AssessmentResponseEntity : ITableEntity
     public DateTimeOffset? Timestamp { get; set; }
     public ETag ETag { get; set; }
     
+    public string? Name { get; set; }
+    public string? Company { get; set; }
+    public string? Email { get; set; }
+    
     // Answer columns
     public int? Question1Answer { get; set; }
     public int? Question2Answer { get; set; }
