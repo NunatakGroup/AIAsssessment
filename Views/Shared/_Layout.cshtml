@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="dark-mode">
+    <nav class="main-nav">
+        <div class="nav-logo">
+            <img src="~/images/Nunatak-AI-Lab.png" alt="Logo" class="logo-image">
+        </div>
+        <div class="nav-links">
+            <a href="https://www.nunatak.com/ueber-uns/">Über uns</a>
+            <a href="https://www.nunatak.com/expertise/">Expertise</a>
+            <a href="https://www.nunatak.com/themen/">Themen</a>
+            <a href="https://www.nunatak.com/news/">News</a>
+            <a href="https://www.nunatak.com/karriere/">Karriere</a>
+            <a href="https://www.nunatak.com/academy/">Academy</a>
+        </div>
+    </nav>
+    @RenderBody()
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

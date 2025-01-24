@@ -1,0 +1,35 @@
+@model List<AI_Maturity_Assessment.Models.Question>
+@using AI_Maturity_Assessment.Models
+@{
+    ViewData["Title"] = "AI Assessment";
+    Layout = "_Layout";
+}
+
+<section class="assessment-view" id="assessmentView">
+    <div class="assessment-content">
+        <div class="assessment-left">
+            <div class="image-container" id="questionImage">
+                <!-- Image will be loaded via JS -->
+            </div>
+        </div>
+        <div class="assessment-right">
+            <div class="glass-panel" id="questionPanel">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        Question <span id="currentQuestionNumber">1</span> of <span id="totalQuestions">0</span>
+                    </div>
+                </div>
+                <div id="questionContent">
+                    <!-- Question content will be loaded via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/AssessmentViewController.js"></script>
+}

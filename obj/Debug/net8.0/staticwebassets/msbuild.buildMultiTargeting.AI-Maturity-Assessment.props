@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/AI-Maturity-Assessment.props" />
+</Project>

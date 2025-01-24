@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI-Maturity-Assessment", "AI-Maturity-Assessment.csproj", "{39C7025A-2BD9-968F-7F37-A9D264D21B7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39C7025A-2BD9-968F-7F37-A9D264D21B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C7025A-2BD9-968F-7F37-A9D264D21B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C7025A-2BD9-968F-7F37-A9D264D21B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C7025A-2BD9-968F-7F37-A9D264D21B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F3FE9A8-C859-4511-8301-10541124F66D}
+	EndGlobalSection
+EndGlobal

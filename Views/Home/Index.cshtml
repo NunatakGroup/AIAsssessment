@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "AI Assessment";
+}
+<section class="landing-container">
+    <section class="hero-view" id="heroView">
+        <div class="hero-content">
+            <div class="hero-left">
+                <h1>Discover your AI Readiness</h1>
+                <h2>Take our free test!</h2>
+                <p>Fast and easy, with direct results!</p>
+            </div>
+            <div class="hero-right">
+                <img src="~/images/StrategicWheel.png" alt="Hero illustration" class="hero-image">
+            </div>
+        </div>
+        <a asp-controller="Assessment" asp-action="Index" class="cta-button">TAKE THE TEST</a>
+    </section>
+</section>
+@section Scripts {
+    <script src="~/js/home.js"></script>
+}

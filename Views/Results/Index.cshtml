@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Your AI Readiness Results";
+}
+<div class="results-header-wrapper">
+    <div class="results-header">
+        <h1>Your AI Readiness Results</h1>
+    </div>
+</div>
+<div class="results-container">
+    <div class="results-content">
+        <div class="results-left">
+            <div class="glass-panel chart-panel">
+                <h3>AI Readiness Assessment</h3>
+                <canvas id="radarChart"></canvas>
+            </div>
+</div>
+        <div class="results-right">
+            <div class="results-tabs">
+                @foreach (var category in new[] { "ambition", "use-cases", "enablers" })
+                {
+                    <div class="result-tab" data-tab="@category">
+                        <div class="tab-header">
+                            <h3>@(char.ToUpper(category[0]) + category[1..].Replace("-", " "))</h3>
+                            <span class="tab-subheader">Click to extend</span>
+                        </div>
+                        <div class="tab-content"></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay" id="contactModal">
+    <div class="contact-modal">
+        <h2>Complete Your Profile</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="consent-group">
+                <input type="checkbox" id="privacy" name="privacy" required>
+                <label for="privacy">I agree to the privacy policy</label>
+            </div>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/ResultsViewController.js"></script>
+}
