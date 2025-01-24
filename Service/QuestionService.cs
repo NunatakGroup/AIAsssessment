@@ -26,7 +26,7 @@ namespace AI_Maturity_Assessment.Services
                         new Answer { Id = 2, AnswerText = " ", Score = 2 },
                         new Answer { Id = 3, AnswerText = " ", Score = 3 },
                         new Answer { Id = 4, AnswerText = " ", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "following our ambition to outperform market competitors", Score = 5 }
+                        new Answer { Id = 5, AnswerText = "...following our ambition to outperform market competitors", Score = 5 }
                     }
                 },
                  new Question
@@ -41,7 +41,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -58,7 +58,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -75,7 +75,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -85,14 +85,14 @@ namespace AI_Maturity_Assessment.Services
                     Id = 5,
                     Chapter = "PEOPLE & ORGANIZATION",
                     ImagePath = "/images/StrategicWheel.png",
-                    QuestionText = "we have the capability to assess the impact of AI applications and consistently monitor their performance",
+                    QuestionText = "We have the capability to assess the impact of AI applications and consistently monitor their performance",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -109,7 +109,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -126,7 +126,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -143,7 +143,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -160,7 +160,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
@@ -177,7 +177,7 @@ namespace AI_Maturity_Assessment.Services
                     {
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Somewhat Agree", Score = 3 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
                     }
