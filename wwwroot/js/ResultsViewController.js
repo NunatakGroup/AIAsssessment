@@ -110,13 +110,21 @@ const ResultsViewController = {
     },
 
     updateUI(results) {
-        const categories = ['ambition', 'use-cases', 'enablers'];
-        categories.forEach(category => {
-            const content = document.querySelector(`[data-tab="${category}"] .tab-content`);
-            if (content && results[category]) {
-                content.innerHTML = this.generateCategoryContent(results[category]);
-            }
-        });
+        if (results.categoryResults) {
+            results.categoryResults.forEach(category => {
+                const tabElement = document.querySelector(`[data-category="${category.Name}"] .tab-content`);
+                if (tabElement) {
+                    tabElement.innerHTML = `
+                        <div class="category-score">
+                            Average Score: ${category.Average.toFixed(1)}
+                        </div>
+                        <div class="category-details">
+                            ${category.ResultText}
+                        </div>
+                    `;
+                }
+            });
+        }
     },
 
     generateCategoryContent(categoryData) {

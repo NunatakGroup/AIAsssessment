@@ -73,11 +73,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We do not use AI to make internal processes efficient" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a critical driver for our internal process efficiency" }
                     }
                 },
                 new Question
@@ -90,11 +90,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have no mechanism in place to measure the impact of AI applications" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We continuously measure the impact and adjust our strategy accordingly" }
                     }
                 },
                 new Question
@@ -107,11 +107,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have no AI governance set up in place" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy a comprehensive governance ensuring ethical, compliant, and controlled AI deployment" }
                     }
                 },
                 new Question
@@ -119,16 +119,16 @@ namespace AI_Maturity_Assessment.Services
                     Id = 7,
                     Chapter = "PEOPLE & ORGANIZATION",
                     ImagePath = "/images/StrategicWheel.png",
-                    QuestionText = "Our organization has clearly defined the competencies required for an AI-driven organization, strategically recruits talent in this field, and provides continuous training to empower employees to effectively use AI",
+                    QuestionText = "Our organization has defined the AI competencies required, strategically recruits talent in this field, and provides continuous training to empower employees to effectively use AI",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have critical AI skill gaps with no development strategy" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have strong AI capabilities with effective talent acquisition and development programs" }
                     }
                 },
                 new Question
@@ -141,11 +141,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific measures for AI applications are in place" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have comprehensive security and privacy controls and guidelines across all new and existing AI initiatives" }
                     }
                 },
                 new Question
@@ -158,11 +158,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have limited or outdated AI tools and no platform integration" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy state-of-the-art AI infrastructure enabling rapid development and integration into our ecosystem" }
                     }
                 },
                 new Question
@@ -175,11 +175,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have fragmented data infrastructure hindering AI development" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have an advanced data strategy with sophisticated and high-quality data to fully leverage AI solutions" }
                     }
                 }
                 
