@@ -16,7 +16,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 1,
                     Chapter = "AI AMBITION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Full.png",
                     QuestionText = "Currently, we are...",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -33,7 +33,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 2,
                     Chapter = "AI APPLICATION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q1.png",
                     QuestionText = "We consistently leverage AI to advance our existing products and services",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -50,7 +50,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 3,
                     Chapter = "AI APPLICATION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q2.png",
                     QuestionText = "We continuously create new AI-driven Business Models and Revenue Streams",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -67,7 +67,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 4,
                     Chapter = "AI APPLICATION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q3.png",
                     QuestionText = "We deploy AI to improve efficiency throughout all internal processes",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -84,7 +84,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 5,
                     Chapter = "PEOPLE & ORGANIZATION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q4.png",
                     QuestionText = "We have the capability to assess the impact of AI applications and consistently monitor their performance",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -101,7 +101,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 6,
                     Chapter = "PEOPLE & ORGANIZATION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q5.png",
                     QuestionText = "Our organization has clearly established structures, decision-making processes, and guidelines for responsible AI development",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -118,7 +118,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 7,
                     Chapter = "PEOPLE & ORGANIZATION",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q6.png",
                     QuestionText = "Our organization has defined the AI competencies required, strategically recruits talent in this field, and provides continuous training to empower employees to effectively use AI",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -135,7 +135,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 8,
                     Chapter = "TECH & DATA",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q7.png",
                     QuestionText = "We ensure robust security and privacy protection in the development and deployment of AI solutions",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -152,7 +152,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 9,
                     Chapter = "TECH & DATA",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q8.png",
                     QuestionText = "We deploy the right tools and models to power AI applications and integrate solutions into a coherent ecosystem",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -169,7 +169,7 @@ namespace AI_Maturity_Assessment.Services
                 {
                     Id = 10,
                     Chapter = "TECH & DATA",
-                    ImagePath = "/images/StrategicWheel.png",
+                    ImagePath = "/images/AI_Wheel_Q9.png",
                     QuestionText = "We have an effective data strategy in place and provide sufficient data to fully leverage the power of our AI applications",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,

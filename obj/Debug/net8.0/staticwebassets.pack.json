@@ -53,6 +53,46 @@
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Thin.ttf"
     },
     {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Full.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Full.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q1.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q1.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q2.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q2.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q3.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q3.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q4.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q4.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q5.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q5.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q6.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q6.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q7.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q7.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q8.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q8.png"
+    },
+    {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q9.png",
+      "PackagePath": "staticwebassets/images/AI_Wheel_Q9.png"
+    },
+    {
       "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/Ai-House.png",
       "PackagePath": "staticwebassets/images/Ai-House.png"
     },
