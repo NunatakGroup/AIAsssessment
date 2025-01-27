@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj": {}
+    "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj": {}
   },
   "projects": {
-    "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj": {
+    "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj",
+        "projectUniqueName": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj",
         "projectName": "AI-Maturity-Assessment",
-        "projectPath": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj",
-        "packagesPath": "/Users/paolo.caesar/.nuget/packages/",
-        "outputPath": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/obj/",
+        "projectPath": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj",
+        "packagesPath": "/Users/moritz.wagner/.nuget/packages/",
+        "outputPath": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/paolo.caesar/.nuget/NuGet/NuGet.Config"
+          "/Users/moritz.wagner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

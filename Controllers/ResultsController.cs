@@ -1,82 +1,167 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 using AI_Maturity_Assessment.Services;
 using AI_Maturity_Assessment.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace AI_Maturity_Assessment.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class ResultsController : Controller
-{
-    private readonly AzureTableService _azureTableService;
-    private readonly ResultEvaluationService _evaluationService;
-    private const string SessionIdKey = "AssessmentSessionId";
-
-    public ResultsController(AzureTableService azureTableService)
     {
-        _azureTableService = azureTableService;
-        _evaluationService = new ResultEvaluationService();
-    }
+        private readonly AzureTableService _azureTableService;
+        private readonly ResultEvaluationService _evaluationService;
+        private readonly ILogger<ResultsController> _logger;
+        private const string SessionIdKey = "AssessmentSessionId";
 
-    [HttpGet]
-public IActionResult Index()
-{
-    var sessionId = HttpContext.Session.GetString(SessionIdKey);
-    if (string.IsNullOrEmpty(sessionId))
-        return RedirectToAction("Index", "Assessment");
-    
-    return View();
-}
-
-[HttpGet]
-[Route("GetResults")]
-public IActionResult GetResults()
-    {
-        var chartData = new[] { 3.5, 3.2, 3.8, 2.8, 2.9, 2.7, 4.0, 3.9, 4.1 };  // Dummy data for now
-
-        var categoryResults = new[]
+        public ResultsController(
+            AzureTableService azureTableService,
+            ILogger<ResultsController> logger)
         {
-            new {
-                Name = "AI APPLICATION",
-                Average = 3.5,  // Dummy score for now
-                ResultText = _evaluationService.GetEvaluation("AI APPLICATION")
-            },
-            new {
-                Name = "PEOPLE & ORGANIZATION",
-                Average = 2.8,  // Dummy score for now
-                ResultText = _evaluationService.GetEvaluation("PEOPLE & ORGANIZATION")
-            },
-            new {
-                Name = "TECH & DATA",
-                Average = 4.0,  // Dummy score for now
-                ResultText = _evaluationService.GetEvaluation("TECH & DATA")
+            _azureTableService = azureTableService;
+            _evaluationService = new ResultEvaluationService();
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var sessionId = HttpContext.Session.GetString(SessionIdKey);
+            _logger.LogInformation("Index accessed with sessionId: {SessionId}", sessionId);
+            
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                return RedirectToAction("Index", "Assessment");
             }
-        };
+            
+            return View();
+        }
 
-        var results = new
+        [HttpGet]
+        [Route("GetResults")]
+        public async Task<IActionResult> GetResults()
         {
-            chartData,
-            categoryResults,
-            ambition = new { score = 4.0, details = "AI Ambition Score" }
-        };
+            try
+            {
+                var sessionId = HttpContext.Session.GetString(SessionIdKey);
+                _logger.LogInformation("GetResults called with sessionId: {SessionId}", sessionId);
 
-        return Json(results);
-}
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    _logger.LogWarning("No session found");
+                    return BadRequest(new { error = "No session found" });
+                }
 
-    [HttpPost]
-    [Route("SubmitContact")]
-    public async Task<IActionResult> SubmitContact([FromForm] ContactFormModel model)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+                var responses = await _azureTableService.GetResponses(sessionId);
+                _logger.LogInformation("Responses retrieved: {ResponsesExist}", responses != null);
+                
+                if (responses == null)
+                {
+                    return NotFound(new { error = "No responses found" });
+                }
 
-        var sessionId = HttpContext.Session.GetString(SessionIdKey);
-        if (string.IsNullOrEmpty(sessionId))
-            return BadRequest("No session found");
+                // Calculate category averages
+                var aiApplicationAvg = CalculateAverage(responses, 2, 4);
+                var peopleOrgAvg = CalculateAverage(responses, 5, 7);
+                var techDataAvg = CalculateAverage(responses, 8, 10);
 
-        await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email);
-        return Ok();
+                // Store averages in the entity
+                responses.AIApplicationAverage = aiApplicationAvg;
+                responses.PeopleOrgAverage = peopleOrgAvg;
+                responses.TechDataAverage = techDataAvg;
+                await _azureTableService.UpdateEntity(responses);
+
+                var chartData = new[] 
+                { 
+                    responses.Question2Answer ?? 0,
+                    responses.Question3Answer ?? 0,
+                    responses.Question4Answer ?? 0,
+                    responses.Question5Answer ?? 0,
+                    responses.Question6Answer ?? 0,
+                    responses.Question7Answer ?? 0,
+                    responses.Question8Answer ?? 0,
+                    responses.Question9Answer ?? 0,
+                    responses.Question10Answer ?? 0
+                };
+
+                var categoryResults = new[]
+                {
+                    new {
+                        name = "AI APPLICATION",
+                        average = aiApplicationAvg,
+                        resultText = _evaluationService.GetEvaluation("AI APPLICATION", aiApplicationAvg)
+                    },
+                    new {
+                        name = "PEOPLE & ORGANIZATION",
+                        average = peopleOrgAvg,
+                        resultText = _evaluationService.GetEvaluation("PEOPLE & ORGANIZATION", peopleOrgAvg)
+                    },
+                    new {
+                        name = "TECH & DATA",
+                        average = techDataAvg,
+                        resultText = _evaluationService.GetEvaluation("TECH & DATA", techDataAvg)
+                    }
+                };
+
+                var results = new
+                {
+                    chartData,
+                    categoryResults,
+                    ambition = new { score = responses.Question1Answer ?? 0, details = "AI Ambition Score" }
+                };
+
+                return Json(results);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in GetResults");
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        private double CalculateAverage(AssessmentResponseEntity responses, int startQuestion, int endQuestion)
+        {
+            var answers = new List<int>();
+            for (int i = startQuestion; i <= endQuestion; i++)
+            {
+                var answer = typeof(AssessmentResponseEntity)
+                    .GetProperty($"Question{i}Answer")
+                    ?.GetValue(responses) as int?;
+                
+                if (answer.HasValue)
+                    answers.Add(answer.Value);
+            }
+
+            return answers.Any() ? answers.Average() : 0;
+        }
+
+        [HttpPost]
+        [Route("SubmitContact")]
+        public async Task<IActionResult> SubmitContact([FromForm] ContactFormModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var sessionId = HttpContext.Session.GetString(SessionIdKey);
+                if (string.IsNullOrEmpty(sessionId))
+                {
+                    return BadRequest(new { error = "No session found" });
+                }
+
+                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error submitting contact form");
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
-}
 }

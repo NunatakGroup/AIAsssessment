@@ -76,10 +76,23 @@ const ResultsViewController = {
 
     async loadResults() {
         try {
+            console.log('Attempting to load results...'); // Add this
             const response = await fetch('/Results/GetResults');
-            const results = await response.json();
             
-            console.log('Received results:', results); // Debug log
+            if (!response.ok) {
+                console.error('Results response not OK:', response.status);
+                const errorText = await response.text();
+                console.error('Error details:', errorText);
+                return null;
+            }
+            
+            const results = await response.json();
+            console.log('Received results:', results);
+            
+            if (!results.categoryResults) {
+                console.error('No category results in response');
+                return null;
+            }
             
             const tabs = document.querySelectorAll('.result-tab');
             

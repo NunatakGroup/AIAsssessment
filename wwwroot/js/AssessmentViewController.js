@@ -19,11 +19,19 @@ const AssessmentViewController = {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'same-origin',  // Add this line
                 body: JSON.stringify({ questionId, answerId })
             });
             
             if (!response.ok) throw new Error('Failed to save answer');
-            return await response.json();
+            const result = await response.json();
+            
+            // Store the session ID locally if returned
+            if (result.sessionId) {
+                localStorage.setItem('assessmentSessionId', result.sessionId);
+            }
+            
+            return result;
         } catch (error) {
             console.error('Error saving answer:', error);
             throw error;
@@ -121,25 +129,43 @@ const AssessmentViewController = {
  
     async submitAssessment() {
         try {
+            console.log('Starting submission...');
             const answers = Array.from(this.userAnswers, ([questionId, answerId]) => ({
                 questionId,
                 answerId
             }));
             
+            console.log('Submitting answers:', answers);
+            
             const response = await fetch('/Assessment/SubmitAnswers', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin',  // Add this line
                 body: JSON.stringify(answers)
             });
     
-            if (response.ok) {
-                const result = await response.json();
-                if (result.redirectUrl) {
-                    window.location.href = result.redirectUrl;
-                }
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                const errorData = await response.text();
+                console.error('Submit error:', errorData);
+                throw new Error(`Submission failed: ${errorData}`);
+            }
+    
+            const result = await response.json();
+            console.log('Submit result:', result);
+            
+            if (result.redirectUrl) {
+                window.location.href = result.redirectUrl;
+            } else {
+                throw new Error('No redirect URL in response');
             }
         } catch (error) {
-            this.showNotification('Error submitting assessment', true);
+            console.error('Error in submitAssessment:', error);
+            this.showNotification('Error submitting assessment. Please try again.', true);
         }
     },
  

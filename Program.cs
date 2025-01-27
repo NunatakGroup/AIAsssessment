@@ -1,5 +1,6 @@
 using AI_Maturity_Assessment.Models;
 using AI_Maturity_Assessment.Services;
+using AI_Maturity_Assessment.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,18 +13,27 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<AzureTableService>();
 builder.Services.AddScoped<ResultEvaluationService>();
-builder.Services.AddControllersWithViews();
-var serviceProvider = builder.Services.BuildServiceProvider();
-var azureTableService = serviceProvider.GetRequiredService<AzureTableService>();
+
+// Remove duplicate AddControllersWithViews()
+// builder.Services.AddControllersWithViews(); 
+
+// Configure Session with more specific settings
+builder.Services.AddDistributedMemoryCache(); // Add this line first
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;  // Changed from Strict to Lax
+    options.Cookie.Name = ".AI_Maturity_Assessment.Session"; // Add a specific name
 });
 
+// Move this after app building
+// var serviceProvider = builder.Services.BuildServiceProvider();
+// var azureTableService = serviceProvider.GetRequiredService<AzureTableService>();
+
 var app = builder.Build();
-app.UseSession();
 
 // Configure pipeline
 if (!app.Environment.IsDevelopment())
@@ -32,8 +42,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSession();
+app.UseSessionDebug();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSessionDebug();
 app.UseRouting();
 app.UseAuthorization();
 
