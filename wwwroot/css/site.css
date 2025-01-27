@@ -394,33 +394,38 @@ html {
 }
 
 .option-item {
-  display: block;
-  padding: 1rem 1.5rem 1rem 3rem;
-  background: var(--bg-grey);
-  border-radius: 8px;
-  border: 1px solid var(--accent-grey);
-  position: relative;
-  overflow: hidden;
-  min-height: 60px; /* Set a consistent minimum height for all options */
+  /* Basic layout */
   display: flex;
   align-items: center;
-  padding: 1rem 1.5rem; /* Keep your existing padding */
-  background: rgba(255, 255, 255, 0.1);
+  min-height: 60px;
+  padding: 1rem 1.5rem 1rem 3rem;
+  position: relative;
+  
+  /* Styling */
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  /* Animation */
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .option-item:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid var(--accent-white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--accent-green);
+  background: rgba(160, 208, 203, 0.05);
 }
 
+/* Hide radio button */
 .option-item input[type="radio"] {
   display: none;
 }
 
-/* Add the checkmark */
+/* Checkmark styling */
 .option-item input[type="radio"]:checked + .option-text::before {
   content: "✓";
   position: absolute;
@@ -429,23 +434,27 @@ html {
   font-size: 1.2rem;
 }
 
+/* Text styling for selected option */
 .option-item input[type="radio"]:checked + .option-text {
-  font-weight: 600;
-  letter-spacing: 0.02em;
   color: var(--accent-green);
-  padding-left: 1rem;
 }
 
+/* Selected state styling */
+.option-item:has(input[type="radio"]:checked) {
+  background: linear-gradient(90deg,
+      rgba(160, 208, 203, 0.1) 0%,
+      rgba(160, 208, 203, 0.05) 100%);
+  border-color: var(--accent-green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Option text container */
 .option-text {
   color: var(--accent-white);
   font-size: 1.1rem;
-  display: inline-block;
-  width: 100%;
   transition: color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%; /* Ensure text takes full width */
+  width: 100%;
 }
 
 .option-text-content {
