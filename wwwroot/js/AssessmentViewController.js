@@ -38,24 +38,35 @@ const AssessmentViewController = {
         }
     },
 
-        async nextQuestion() {
+    async nextQuestion() {
+        let answerId;
+        
+        if (this.currentQuestionId === 1) {
+            const slider = document.querySelector('#maturitySlider');
+            if (!slider) {
+                this.showNotification('Error: Slider not found', true);
+                return;
+            }
+            answerId = parseInt(slider.value);
+        } else {
             const selectedAnswer = document.querySelector('input[name="answer"]:checked');
             if (!selectedAnswer) {
                 this.showNotification('Please select an answer', true);
                 return;
             }
+            answerId = parseInt(selectedAnswer.value);
+        }
     
-            const answerId = parseInt(selectedAnswer.value);
-            await this.saveAnswer(this.currentQuestionId, answerId);
-            this.userAnswers.set(this.currentQuestionId, answerId);
+        await this.saveAnswer(this.currentQuestionId, answerId);
+        this.userAnswers.set(this.currentQuestionId, answerId);
     
-            if (this.currentQuestionId === this.totalQuestions) {
-                await this.submitAssessment();
-            } else {
-                this.currentQuestionId++;
-                await this.loadQuestion(this.currentQuestionId);
-            }
-        },
+        if (this.currentQuestionId === this.totalQuestions) {
+            await this.submitAssessment();
+        } else {
+            this.currentQuestionId++;
+            await this.loadQuestion(this.currentQuestionId);
+        }
+    },
  
     async getTotalQuestions() {
         const response = await fetch('/Assessment/GetTotalQuestions');
@@ -75,40 +86,102 @@ const AssessmentViewController = {
             console.error('Error:', error);
         }
     },
+
+    createSliderUI(question) {
+        return `
+            <div class="chapter-label">${question.chapter}</div>
+            <h2>${question.questionText}</h2>
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <input type="range" 
+                        class="custom-slider" 
+                        min="1" 
+                        max="5" 
+                        step="1" 
+                        value="${this.userAnswers.get(1) || 3}"
+                        id="maturitySlider">
+                    <div class="slider-markers">
+                        ${Array.from({length: 5}, (_, i) => 
+                            `<div class="slider-marker" data-value="${i + 1}"></div>`
+                        ).join('')}
+                    </div>
+                </div>
+                <div class="slider-labels">
+                    ${question.answers.map((answer, index) => 
+                        `<div class="slider-label" data-value="${index + 1}">
+                            ${answer.answerText}
+                        </div>`
+                    ).join('')}
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="continue-button" onclick="AssessmentViewController.nextQuestion()">
+                    Continue
+                </button>
+            </div>`;
+    },
  
     updateUI(question) {
         const panel = document.querySelector('.glass-panel');
-        panel.innerHTML = `
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${(this.currentQuestionId - 1) / this.totalQuestions * 100}%"></div>
+        
+        // Check if it's the first question
+        if (this.currentQuestionId === 1) {
+            panel.innerHTML = this.createSliderUI(question);
+            
+            // Add slider event listener
+            const slider = document.querySelector('#maturitySlider');
+            const labels = document.querySelectorAll('.slider-label');
+            const markers = document.querySelectorAll('.slider-marker');
+            
+            slider.addEventListener('input', function() {
+                // Update labels and markers
+                labels.forEach(label => {
+                    label.classList.toggle('active', 
+                        parseInt(label.dataset.value) === parseInt(this.value));
+                });
+                markers.forEach(marker => {
+                    marker.classList.toggle('active', 
+                        parseInt(marker.dataset.value) <= parseInt(this.value));
+                });
+            });
+    
+            // Trigger initial state
+            slider.dispatchEvent(new Event('input'));
+        } else {
+            // Original question UI for questions 2-10
+            panel.innerHTML = `
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${(this.currentQuestionId - 1) / this.totalQuestions * 100}%"></div>
+                    </div>
+                    <div class="progress-text">Question ${this.currentQuestionId} of ${this.totalQuestions}</div>
                 </div>
-                <div class="progress-text">Question ${this.currentQuestionId} of ${this.totalQuestions}</div>
-            </div>
-            <div class="chapter-label">${question.chapter}</div>
-            <h2>${question.questionText}</h2>
-            <div class="options-container">
-                ${question.answers.map(answer => `
-                    <label class="option-item">
-                        <input type="radio" name="answer" value="${answer.id}">
-                        <span class="option-text">
-                            <div class="option-text-content">${answer.answerText}</div>
-                            ${answer.description ? `<span class="option-description">${answer.description}</span>` : ''}
-                        </span>
-                    </label>
-                `).join('')}
-            </div>
-            <div class="button-container">
-                ${this.currentQuestionId > 1 ? `<button class="back-button" onclick="AssessmentViewController.previousQuestion()">Back</button>` : ''}
-                <button class="continue-button" onclick="AssessmentViewController.nextQuestion()">
-                    ${this.currentQuestionId === this.totalQuestions ? 'Complete' : 'Continue'}
-                </button>
-            </div>`;
- 
-        if (this.userAnswers.has(this.currentQuestionId)) {
-            const previousAnswer = this.userAnswers.get(this.currentQuestionId);
-            document.querySelector(`input[value="${previousAnswer}"]`).checked = true;
+                <div class="chapter-label">${question.chapter}</div>
+                <h2>${question.questionText}</h2>
+                <div class="options-container">
+                    ${question.answers.map(answer => `
+                        <label class="option-item">
+                            <input type="radio" name="answer" value="${answer.id}">
+                            <span class="option-text">
+                                <div class="option-text-content">${answer.answerText}</div>
+                                ${answer.description ? `<span class="option-description">${answer.description}</span>` : ''}
+                            </span>
+                        </label>
+                    `).join('')}
+                </div>
+                <div class="button-container">
+                    ${this.currentQuestionId > 1 ? `<button class="back-button" onclick="AssessmentViewController.previousQuestion()">Back</button>` : ''}
+                    <button class="continue-button" onclick="AssessmentViewController.nextQuestion()">
+                        ${this.currentQuestionId === this.totalQuestions ? 'Complete' : 'Continue'}
+                    </button>
+                </div>`;
+    
+            if (this.userAnswers.has(this.currentQuestionId)) {
+                const previousAnswer = this.userAnswers.get(this.currentQuestionId);
+                document.querySelector(`input[value="${previousAnswer}"]`).checked = true;
+            }
         }
+    
         const imageContainer = document.querySelector('#questionImage');
         imageContainer.innerHTML = `<img src="${question.imagePath}" alt="Question visual">`;
     },
