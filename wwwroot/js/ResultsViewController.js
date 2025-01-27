@@ -1,6 +1,5 @@
 const ResultsViewController = {
     async initialize() {
-        this.setupEventListeners();
         const results = await this.loadResults();
         this.initializeModal();
         this.showModal();
@@ -45,11 +44,11 @@ const ResultsViewController = {
                         ticks: {
                             stepSize: 1,
                             display: true,
-                            color: 'rgb(255, 255, 255)'
+                            color: 'rgb(0, 0, 0)'
                         },
                         grid: {
                             circular: true,
-                            color: 'rgba(255, 255, 255, 0.1)'
+                            color: 'rgb(255, 255, 255)'
                         },
                         pointLabels: {
                             font: {
@@ -75,67 +74,43 @@ const ResultsViewController = {
     });
     },
 
-    setupEventListeners() {
-        document.querySelectorAll('.result-tab').forEach(tab => {
-            tab.addEventListener('click', () => this.toggleTab(tab));
-        });
-    },
-
-    toggleTab(tab) {
-        const isActive = tab.classList.contains('active');
-        document.querySelectorAll('.result-tab').forEach(t => {
-            t.classList.remove('active');
-            t.querySelector('.tab-content').style.maxHeight = null;
-        });
-
-        if (!isActive) {
-            tab.classList.add('active');
-            const content = tab.querySelector('.tab-content');
-            content.style.maxHeight = content.scrollHeight + "px";
-        }
-    },
-
     async loadResults() {
         try {
             const response = await fetch('/Results/GetResults');
-            if (!response.ok) throw new Error('Failed to load results');
             const results = await response.json();
-            console.log('Results:', results);  // Debug log
-            this.updateUI(results);
-            return results;
-        } catch (error) {
-            console.error('Error loading results:', error);
-            return null;
-        }
-    },
+            
+            if (!results || !results.categoryResults) {
+                console.error('No category results found');
+                return null;
+            }
 
-    updateUI(results) {
-        if (results.categoryResults) {
+            const tabs = document.querySelectorAll('.result-tab');
             results.categoryResults.forEach(category => {
-                const tabElement = document.querySelector(`[data-category="${category.Name}"] .tab-content`);
-                if (tabElement) {
-                    tabElement.innerHTML = `
-                        <div class="category-score">
-                            Average Score: ${category.Average.toFixed(1)}
-                        </div>
-                        <div class="category-details">
-                            ${category.ResultText}
-                        </div>
+                const tab = Array.from(tabs).find(t => t.dataset.category === category.Name);
+                if (tab) {
+                    const content = tab.querySelector('.tab-content');
+                    const score = Math.round(category.Average * 10) / 10;
+                    
+                    content.innerHTML = `
+                        <div class="category-score">Score: ${score}/5</div>
+                        <div class="category-details">${category.ResultText}</div>
                     `;
+                    
+                    // Add click handler for expandable content
+                    tab.querySelector('.tab-header').addEventListener('click', () => {
+                        const isActive = tab.classList.contains('active');
+                        content.style.maxHeight = isActive ? '0' : content.scrollHeight + 'px';
+                        content.style.opacity = isActive ? '0' : '1';
+                        tab.classList.toggle('active');
+                    });
                 }
             });
+    
+            return results;
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
         }
-    },
-
-    generateCategoryContent(categoryData) {
-        return `
-            <div class="category-score">
-                Score: ${categoryData.score}%
-            </div>
-            <div class="category-details">
-                ${categoryData.details}
-            </div>
-        `;
     },
 
     initializeModal() {
@@ -187,5 +162,6 @@ const ResultsViewController = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded');
     ResultsViewController.initialize();
 });

@@ -67,30 +67,64 @@ namespace AI_Maturity_Assessment.Controllers
        }
 
        [HttpPost("SubmitAnswers")]
-public async Task<IActionResult> SubmitAnswers([FromBody] List<AnswerSubmission> answers)
-{
-    try
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
-        var sessionId = HttpContext.Session.GetString(SessionIdKey);
-        if (string.IsNullOrEmpty(sessionId))
-            return BadRequest("No session found");
-
-        // Save final submission
-        foreach (var answer in answers)
+        public async Task<IActionResult> SubmitAnswers([FromBody] List<AnswerSubmission> answers)
         {
-            await _azureTableService.SaveResponse(sessionId, answer.QuestionId, answer.AnswerId);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var sessionId = HttpContext.Session.GetString(SessionIdKey);
+                if (string.IsNullOrEmpty(sessionId))
+                    return BadRequest("No session found");
+
+                // Save final submission
+                foreach (var answer in answers)
+                {
+                    await _azureTableService.SaveResponse(sessionId, answer.QuestionId, answer.AnswerId);
+                }
+
+                // Calculate and store averages
+                var responses = await _azureTableService.GetResponses(sessionId);
+                responses.AIApplicationAverage = CalculateAverage(responses, new[] { 2, 3, 4 });
+                responses.PeopleOrgAverage = CalculateAverage(responses, new[] { 5, 6, 7 });
+                responses.TechDataAverage = CalculateAverage(responses, new[] { 8, 9, 10 });
+                await _azureTableService.UpdateEntity(responses);
+
+                return Ok(new { redirectUrl = "/Results" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error submitting assessment");
+                return StatusCode(500);
+            }
         }
 
-        return Ok(new { redirectUrl = "/Results" });
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error submitting assessment");
-        return StatusCode(500);
-    }
-}
+        private double CalculateAverage(AssessmentResponseEntity responses, int[] questionIds)
+        {
+            var scores = questionIds
+                .Select(id => GetQuestionScore(responses, id))
+                .Where(score => score.HasValue)
+                .Select(score => score.Value);
+            
+            return scores.Any() ? scores.Average() : 0;
+        }
+
+        private double? GetQuestionScore(AssessmentResponseEntity responses, int id)
+        {
+            return id switch
+            {
+                2 => responses.Question2Answer,
+                3 => responses.Question3Answer,
+                4 => responses.Question4Answer,
+                5 => responses.Question5Answer,
+                6 => responses.Question6Answer,
+                7 => responses.Question7Answer,
+                8 => responses.Question8Answer,
+                9 => responses.Question9Answer,
+                10 => responses.Question10Answer,
+                _ => null
+            };
+        }
    }
 }

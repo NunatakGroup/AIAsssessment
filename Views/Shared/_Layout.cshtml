@@ -14,6 +14,11 @@
         <div class="nav-logo">
             <img src="~/images/Nunatak-AI-Lab.png" alt="Logo" class="logo-image">
         </div>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
         <div class="nav-links">
             <a href="https://www.nunatak.com/ueber-uns/">Über uns</a>
             <a href="https://www.nunatak.com/expertise/">Expertise</a>
@@ -27,5 +32,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/NavbarViewController.js" asp-append-version="true"></script>
 </body>
 </html>

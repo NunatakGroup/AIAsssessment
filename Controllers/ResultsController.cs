@@ -9,12 +9,14 @@ namespace AI_Maturity_Assessment.Controllers
 {
     private readonly AzureTableService _azureTableService;
     private readonly CategoryService _categoryService;
+    private readonly ResultEvaluationService _evaluationService;
     private const string SessionIdKey = "AssessmentSessionId";
 
     public ResultsController(AzureTableService azureTableService)
     {
         _azureTableService = azureTableService;
         _categoryService = new CategoryService();
+        _evaluationService = new ResultEvaluationService();
     }
 
     [HttpGet]
@@ -40,8 +42,12 @@ public IActionResult Index()
             return NotFound();
 
         var categoryResults = _categoryService.Categories.Keys
-            .Select(category => _categoryService.CalculateCategoryResult(category, responses))
-            .ToList();
+            .Select(category => {
+            var result = _categoryService.CalculateCategoryResult(category, responses);
+            result.ResultText = _evaluationService.GetEvaluation(category, result.Average);
+            return result;
+        })
+        .ToList();
 
         var chartData = new[] {
             responses.Question2Answer ?? 0,

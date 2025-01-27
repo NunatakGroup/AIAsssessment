@@ -22,4 +22,7 @@ public class AssessmentResponseEntity : ITableEntity
     public int? Question8Answer { get; set; }
     public int? Question9Answer { get; set; }
     public int? Question10Answer { get; set; }
+    public double? AIApplicationAverage { get; set; }
+    public double? PeopleOrgAverage { get; set; }
+    public double? TechDataAverage { get; set; }
 }

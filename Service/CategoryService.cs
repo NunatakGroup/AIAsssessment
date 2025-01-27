@@ -1,11 +1,11 @@
 public class CategoryService
 {
     public class CategoryResult
-    {
-        public string Name { get; set; }
-        public double Average { get; set; }
-        public string ResultText { get; set; }
-    }
+{
+    public string Name { get; set; } = string.Empty;
+    public double Average { get; set; }
+    public string ResultText { get; set; } = string.Empty;
+}
 
     public Dictionary<string, (int[] QuestionIds, Dictionary<double, string> ThresholdTexts)> Categories = 
         new()
