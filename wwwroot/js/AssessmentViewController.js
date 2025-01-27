@@ -82,9 +82,11 @@ const AssessmentViewController = {
             const question = await response.json();
             console.log('Question:', question);
             this.updateUI(question);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+            panel.style.opacity = '1';
+        panel.style.transform = 'translateY(0)';
+    } catch (error) {
+        console.error('Error:', error);
+    }
     },
 
     createSliderUI(question) {
@@ -184,6 +186,13 @@ const AssessmentViewController = {
     
         const imageContainer = document.querySelector('#questionImage');
         imageContainer.innerHTML = `<img src="${question.imagePath}" alt="Question visual">`;
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const continueButton = document.querySelector('.continue-button');
+                continueButton.classList.add('option-selected');
+            });
+        });
     },
  
     updateProgressBar() {
