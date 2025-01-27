@@ -17,16 +17,17 @@
            </div>
        </div>
        <div class="results-tabs">
-               @foreach (var category in new[] { "AI APPLICATION 2", "PEOPLE & ORGANIZATION", "TECH & DATA" })
-               {
-                   <div class="result-tab" data-category="@category">
-                       <div class="tab-header">
-                           <h3>@category</h3>
-                       </div>
-                       <div class="tab-content"></div>
-                       <span>Test Content</span>
-                   </div>
-               }
+               @foreach (var category in new[] { "AI APPLICATION", "PEOPLE & ORGANIZATION", "TECH & DATA" })
+                {
+                    <div class="result-tab" data-category="@category">
+                        <div class="tab-header">
+                            <h3>@category</h3>
+                        </div>
+                        <div class="tab-content">
+                            <!-- Our JavaScript will inject content here -->
+                        </div>
+                    </div>
+                }
            </div>
        </div>
    </div>

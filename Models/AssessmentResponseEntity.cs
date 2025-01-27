@@ -2,7 +2,7 @@ using Azure;
 using Azure.Data.Tables;
 public class AssessmentResponseEntity : ITableEntity
 {
-    public string PartitionKey { get; set; }  // SessionId
+     public required string PartitionKey { get; set; }
     public string RowKey { get; set; } = "1";  // Using fixed RowKey since we'll have one row per session
     public DateTimeOffset? Timestamp { get; set; }
     public ETag ETag { get; set; }

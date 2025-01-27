@@ -79,36 +79,35 @@ const ResultsViewController = {
             const response = await fetch('/Results/GetResults');
             const results = await response.json();
             
-            if (!results || !results.categoryResults) {
-                console.error('No category results found');
-                return null;
-            }
-
+            console.log('Received results:', results); // Debug log
+            
             const tabs = document.querySelectorAll('.result-tab');
-            results.categoryResults.forEach(category => {
-                const tab = Array.from(tabs).find(t => t.dataset.category === category.Name);
-                if (tab) {
+            
+            tabs.forEach(tab => {
+                const categoryName = tab.dataset.category;
+                
+                // ADD THE NEW CODE HERE ↓
+                console.log('Category Results Array:', results.categoryResults);
+                console.log('Looking for category:', categoryName);
+                const result = results.categoryResults.find(r => r.name === categoryName.trim());
+                console.log('Found result:', result);
+                // END OF NEW CODE ↑
+                
+                if (result) {
                     const content = tab.querySelector('.tab-content');
-                    const score = Math.round(category.Average * 10) / 10;
-                    
-                    content.innerHTML = `
-                        <div class="category-score">Score: ${score}/5</div>
-                        <div class="category-details">${category.ResultText}</div>
-                    `;
-                    
-                    // Add click handler for expandable content
-                    tab.querySelector('.tab-header').addEventListener('click', () => {
-                        const isActive = tab.classList.contains('active');
-                        content.style.maxHeight = isActive ? '0' : content.scrollHeight + 'px';
-                        content.style.opacity = isActive ? '0' : '1';
-                        tab.classList.toggle('active');
-                    });
+                    if (content) {
+                        content.innerHTML = `
+                            <div class="category-text">
+                                <p>${result.resultText}</p>
+                            </div>
+                        `;
+                    }
                 }
             });
     
             return results;
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error loading results:', error);
             return null;
         }
     },
@@ -141,14 +140,24 @@ const ResultsViewController = {
         try {
             const response = await fetch('/Results/SubmitContact', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
             });
             console.log('Response status:', response.status);
             
             if (response.ok) {
-                this.hideModal();
-                e.target.reset();
-                console.log('Modal should be hidden now');
+                const modal = document.getElementById('contactModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                    e.target.reset();
+                    console.log('Modal hidden');
+                } else {
+                    console.error('Modal element not found');
+                }
             }
         } catch (error) {
             console.error('Error:', error);

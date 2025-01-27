@@ -11,6 +11,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<AzureTableService>();
+builder.Services.AddScoped<ResultEvaluationService>();
+builder.Services.AddControllersWithViews();
 var serviceProvider = builder.Services.BuildServiceProvider();
 var azureTableService = serviceProvider.GetRequiredService<AzureTableService>();
 builder.Services.AddSession(options =>
