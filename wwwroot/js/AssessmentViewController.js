@@ -154,12 +154,21 @@ const AssessmentViewController = {
             panel.innerHTML = `
                 <div class="progress-container">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${(this.currentQuestionId - 1) / this.totalQuestions * 100}%"></div>
+                        <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <div class="progress-text">Question ${this.currentQuestionId} of ${this.totalQuestions}</div>
+                    <div class="progress-text">
+                        Question ${this.currentQuestionId} of ${this.totalQuestions}
+                    </div>
                 </div>
-                <div class="chapter-label">${question.chapter}</div>
-                <h2>${question.questionText}</h2>
+                <div class="question-header">
+                    <div class="question-content">
+                        <div class="chapter-label">${question.chapter}</div>
+                        <h2>${question.questionText}</h2>
+                    </div>
+                    <div class="image-container">
+                        <img src="${question.imagePath}" alt="Question visual">
+                    </div>
+                </div>
                 <div class="options-container">
                     ${question.answers.map(answer => `
                         <label class="option-item">
