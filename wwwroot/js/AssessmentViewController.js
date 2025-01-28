@@ -207,7 +207,9 @@ const AssessmentViewController = {
     updateProgressBar() {
         const progress = document.querySelector('.progress-fill');
         if (progress) {
-            progress.style.width = `${(this.currentQuestionId - 1) / this.totalQuestions * 100}%`;
+            // Calculate percentage based on current question
+            const percentage = ((this.currentQuestionId - 1) / this.totalQuestions) * 100;
+            progress.style.width = `${percentage}%`;
         }
     },
  

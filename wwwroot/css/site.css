@@ -583,7 +583,7 @@ html {
   margin-top: 0.5rem;
 }
 
-/* Buttons */
+/* Update the button container styles */
 .button-container {
   display: flex;
   gap: 0.75rem;
@@ -591,11 +591,17 @@ html {
   margin-top: 0.75rem;
   position: sticky;
   bottom: 0;
-  background: var(--bg-dark);
-  padding-top: 0.5rem;
+  padding: 1rem;
+  background: linear-gradient(to top, 
+    #343E48,
+    #343E48
+  );
   z-index: 10;
+  backdrop-filter: blur(8px);
+  border-radius: 16px; /* Match the glass-panel border radius */
 }
 
+/* Update button styles for better contrast */
 .continue-button {
   width: 100%;
   padding: 0.75rem;
@@ -607,29 +613,38 @@ html {
   cursor: pointer;
   transition: all 0.3s ease;
   flex: 2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .continue-button:hover {
   background: var(--accent-green);
   transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .back-button {
   width: 100%;
   padding: 0.75rem;
-  background: #4A5259;
+  background: rgba(74, 82, 89, 0.8);
   color: var(--accent-white);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
   flex: 1;
+  backdrop-filter: blur(4px);
 }
 
 .back-button:hover {
-  background: #5A636B;
+  background: rgba(90, 99, 107, 0.9);
   transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Add this to ensure proper spacing at the bottom of the glass panel */
+.glass-panel {
+  padding-bottom: calc(1rem + 60px); /* Adjust based on your button container height */
 }
 
 /* Animations */
