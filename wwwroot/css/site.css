@@ -24,8 +24,9 @@
   --breakpoint-desktop: 1200px;
 }
 
+
 body.dark-mode {
-  background-color: var(--bg-dark);
+  background: var(--bg-dark);
   color: var(--accent-white);
   min-height: 100vh;
   position: relative;
@@ -173,6 +174,7 @@ body.dark-mode {
   position: relative;
   height: 100%;
   width: 100%;
+  background-color: var(--bg-dark);
 }
 
 .hero-content {
@@ -244,6 +246,9 @@ h1 {
 }
 
 @media (max-width: 768px) {
+  .landing-container {
+      min-height: 100vh;
+  }
   .hero-content {
       flex-direction: column;
       padding: 1rem;
@@ -277,7 +282,13 @@ h1 {
   }
 
   .cta-button {
-   text-align: center;
+    text-align: center;
+    position: relative; /* Change to relative for mobile */
+    bottom: auto; /* Remove bottom positioning */
+    left: auto; /* Remove left positioning */
+    transform: none; /* Remove transform */
+    display: block;
+    margin: 2rem auto;
   }
 }
 
@@ -441,6 +452,18 @@ html {
   width: 100%;
 }
 
+.question-content {
+  position: relative;
+  z-index: 5;
+  margin-bottom: 1.0rem;
+}
+
+.question-content h2{
+  font-weight: 300;
+  position: relative;
+  z-index: 10;
+}
+
 /* Progress Bar */
 .progress-container {
   margin-bottom: 0.75rem;
@@ -457,7 +480,8 @@ html {
 .progress-fill {
   background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
   height: 100%;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  /*transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);*/
+  transition: all 0.3s ease-out;;
   position: relative;
   overflow: hidden;
 }
@@ -504,6 +528,9 @@ html {
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  padding-top: 0.2rem;
+  position: relative;
+  z-index: 20;
 }
 
 /* Option Items */
@@ -521,6 +548,7 @@ html {
   overflow: hidden;
   transform: translateY(0);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
 }
 
 .option-item:hover {
@@ -569,9 +597,9 @@ html {
 
 .option-description {
   font-size: 0.8rem;
-  color: var(--accent-green);
+  color: var(--accent-white);
   max-height: 0;
-  opacity: 0;
+  opacity: 0.5;
   transition: all 0.3s ease;
   margin-top: 0;
 }
@@ -596,7 +624,7 @@ html {
     #343E48,
     #343E48
   );
-  z-index: 10;
+  z-index: 30;
   backdrop-filter: blur(8px);
   border-radius: 16px; /* Match the glass-panel border radius */
 }
@@ -695,8 +723,9 @@ html {
 
   .option-item {
     padding: 0.5rem 1rem 0.5rem 2rem;
-    min-height: 40px;
+    min-height: 60px;
     margin-bottom: 0.25rem;
+    align-items: center;
   }
 
   .option-text {
@@ -868,6 +897,7 @@ html {
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
+  color: var(--accent-green);
 }
 
 .tab-header h3 {
@@ -1011,82 +1041,3 @@ html {
   }
 }
 
-/* Slider Container Styles */
-.slider-container {
-  margin: 2rem 0;
-  padding: 1rem;
-}
-
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  padding: 2rem 0;
-}
-
-.custom-slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 4px;
-  background: var(--bg-grey);
-  border-radius: 2px;
-  outline: none;
-  position: relative;
-  z-index: 2;
-}
-
-.custom-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
-  background: var(--accent-green);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.custom-slider::-webkit-slider-thumb:hover {
-  background: var(--accent-green-dark);
-  transform: scale(1.1);
-}
-
-.slider-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  position: relative;
-}
-
-.slider-label {
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--accent-white);
-  padding: 0.5rem;
-  position: relative;
-  width: 20%;
-}
-
-.slider-label.active {
-  color: var(--accent-green);
-  font-weight: bold;
-}
-
-.slider-markers {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  z-index: 1;
-}
-
-.slider-marker {
-  width: 2px;
-  height: 10px;
-  background: var(--bg-grey);
-  transform: translateY(-50%);
-}
-
-.slider-marker.active {
-  background: var(--accent-green);
-}

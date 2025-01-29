@@ -67,7 +67,6 @@
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.MvcApplicationPartsAssemblyInfo.cache
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.RazorAssemblyInfo.cache
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.RazorAssemblyInfo.cs
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.sourcelink.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/staticwebassets.build.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/staticwebassets.development.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/staticwebassets/msbuild.AI-Maturity-Assessment.Microsoft.AspNetCore.StaticWebAssets.props
@@ -127,3 +126,6 @@
 /Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/Archive_AI-Maturity-Assessment/AI-Maturity-Assessment-v18/obj/Debug/net8.0/AI-Maturity-Assessment.pdb
 /Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/Archive_AI-Maturity-Assessment/AI-Maturity-Assessment-v18/obj/Debug/net8.0/AI-Maturity-Assessment.genruntimeconfig.cache
 /Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/Archive_AI-Maturity-Assessment/AI-Maturity-Assessment-v18/obj/Debug/net8.0/ref/AI-Maturity-Assessment.dll
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/Azure.Communication.Email.dll
+/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/bin/Debug/net8.0/Azure.Communication.Email.dll
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.sourcelink.json

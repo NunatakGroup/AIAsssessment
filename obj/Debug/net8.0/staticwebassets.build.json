@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iWR6CSw6gTV1tya4c5yGAVQbVhftdRD8DaqTg5BglhI=",
+  "Hash": "Gpcp6Dodn31XJn6vWIwYEVge7MsuSau1LiuPvo1I48s=",
   "Source": "AI-Maturity-Assessment",
   "BasePath": "_content/AI-Maturity-Assessment",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/css/slider.css",
+      "SourceId": "AI-Maturity-Assessment",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/",
+      "BasePath": "_content/AI-Maturity-Assessment",
+      "RelativePath": "css/slider.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/slider.css"
     },
     {
       "Identity": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/favicon.ico",

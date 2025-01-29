@@ -65,6 +65,7 @@ const AssessmentViewController = {
         } else {
             this.currentQuestionId++;
             await this.loadQuestion(this.currentQuestionId);
+            this.updateProgressBar();
         }
     },
  
@@ -93,7 +94,7 @@ const AssessmentViewController = {
         return `
             <div class="chapter-label">${question.chapter}</div>
             <h2>${question.questionText}</h2>
-            <div class="slider-container">
+            <div class="custom-slider-container">
                 <div class="slider-wrapper">
                     <input type="range" 
                         class="custom-slider" 
@@ -102,15 +103,10 @@ const AssessmentViewController = {
                         step="1" 
                         value="${this.userAnswers.get(1) || 3}"
                         id="maturitySlider">
-                    <div class="slider-markers">
-                        ${Array.from({length: 5}, (_, i) => 
-                            `<div class="slider-marker" data-value="${i + 1}"></div>`
-                        ).join('')}
-                    </div>
                 </div>
                 <div class="slider-labels">
                     ${question.answers.map((answer, index) => 
-                        `<div class="slider-label" data-value="${index + 1}">
+                        `<div class="slider-label${index < (this.userAnswers.get(1) || 3) ? ' active' : ''}" data-value="${index + 1}">
                             ${answer.answerText}
                         </div>`
                     ).join('')}
@@ -124,6 +120,7 @@ const AssessmentViewController = {
     },
  
     updateUI(question) {
+        this.updateProgressBar();
         const panel = document.querySelector('.glass-panel');
         
         // Check if it's the first question
@@ -207,8 +204,12 @@ const AssessmentViewController = {
     updateProgressBar() {
         const progress = document.querySelector('.progress-fill');
         if (progress) {
-            // Calculate percentage based on current question
             const percentage = ((this.currentQuestionId - 1) / this.totalQuestions) * 100;
+            console.log('Progress Debug:', {
+                currentQuestionId: this.currentQuestionId,
+                totalQuestions: this.totalQuestions,
+                calculatedPercentage: percentage
+            });
             progress.style.width = `${percentage}%`;
         }
     },
@@ -216,7 +217,10 @@ const AssessmentViewController = {
     previousQuestion() {
         if (this.currentQuestionId > 1) {
             this.currentQuestionId--;
-            this.loadQuestion(this.currentQuestionId);
+            this.loadQuestion(this.currentQuestionId).then(() => {
+                // Update progress bar AFTER loading question
+                this.updateProgressBar();
+            });
         }
     },
  
@@ -270,6 +274,15 @@ const AssessmentViewController = {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 this.nextQuestion();
+            }
+        });
+    
+        document.addEventListener('input', (e) => {
+            if (e.target.classList.contains('custom-slider')) {
+                const value = parseInt(e.target.value);
+                const percentage = ((value - 1) / 4) * 100;
+                // Update with the new blue color
+                e.target.style.background = `linear-gradient(to right, #A0D0CB 0%, #A0D0CB ${percentage}%, #e0e0e0 ${percentage}%, #e0e0e0 100%)`;
             }
         });
     }

@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/css/slider.css",
+      "PackagePath": "staticwebassets/css/slider.css"
+    },
+    {
       "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
     },

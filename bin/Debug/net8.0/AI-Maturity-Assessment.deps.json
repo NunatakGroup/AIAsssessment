@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "AI-Maturity-Assessment/1.0.0": {
         "dependencies": {
+          "Azure.Communication.Email": "1.0.1",
           "Azure.Data.Tables": "12.10.0",
           "Azure.Storage.Blobs": "12.23.0",
           "Azure.Storage.Common": "12.22.0",
@@ -15,6 +16,17 @@
         },
         "runtime": {
           "AI-Maturity-Assessment.dll": {}
+        }
+      },
+      "Azure.Communication.Email/1.0.1": {
+        "dependencies": {
+          "Azure.Core": "1.44.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Communication.Email.dll": {
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.123.41802"
+          }
         }
       },
       "Azure.Core/1.44.1": {
@@ -840,6 +852,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Azure.Communication.Email/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dzbU2uBV12kgeF7c6gXoSOSJx21axQ7t9vPmzoR9k4+QHVO4CIqR3FjMXLmEDi27SCo5jovA8PWbY7GwDupZ3w==",
+      "path": "azure.communication.email/1.0.1",
+      "hashPath": "azure.communication.email.1.0.1.nupkg.sha512"
     },
     "Azure.Core/1.44.1": {
       "type": "package",

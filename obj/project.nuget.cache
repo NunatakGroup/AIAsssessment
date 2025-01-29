@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Ei5aLznNbxs=",
+  "dgSpecHash": "rEApB5nN1jI=",
   "success": true,
   "projectFilePath": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj",
   "expectedPackageFiles": [
+    "/Users/moritz.wagner/.nuget/packages/azure.communication.email/1.0.1/azure.communication.email.1.0.1.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/azure.core/1.44.1/azure.core.1.44.1.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/azure.data.tables/12.10.0/azure.data.tables.12.10.0.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/azure.storage.blobs/12.23.0/azure.storage.blobs.12.23.0.nupkg.sha512",

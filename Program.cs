@@ -13,25 +13,19 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<AzureTableService>();
 builder.Services.AddScoped<ResultEvaluationService>();
-
-// Remove duplicate AddControllersWithViews()
-// builder.Services.AddControllersWithViews(); 
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure Session with more specific settings
-builder.Services.AddDistributedMemoryCache(); // Add this line first
+builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = SameSiteMode.Lax;  // Changed from Strict to Lax
-    options.Cookie.Name = ".AI_Maturity_Assessment.Session"; // Add a specific name
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.Name = ".AI_Maturity_Assessment.Session";
 });
-
-// Move this after app building
-// var serviceProvider = builder.Services.BuildServiceProvider();
-// var azureTableService = serviceProvider.GetRequiredService<AzureTableService>();
 
 var app = builder.Build();
 

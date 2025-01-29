@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using AI_Maturity_Assessment.Services;
 using AI_Maturity_Assessment.Models;
+using AI_Maturity_Assessment.Models.Assessment;
 
 namespace AI_Maturity_Assessment.Controllers
 {
@@ -13,14 +14,17 @@ namespace AI_Maturity_Assessment.Controllers
     {
         private readonly AzureTableService _azureTableService;
         private readonly ResultEvaluationService _evaluationService;
+        private readonly IEmailService _emailService;
         private readonly ILogger<ResultsController> _logger;
         private const string SessionIdKey = "AssessmentSessionId";
 
         public ResultsController(
             AzureTableService azureTableService,
+            IEmailService emailService,
             ILogger<ResultsController> logger)
         {
             _azureTableService = azureTableService;
+            _emailService = emailService;
             _evaluationService = new ResultEvaluationService();
             _logger = logger;
         }
@@ -154,7 +158,44 @@ namespace AI_Maturity_Assessment.Controllers
                     return BadRequest(new { error = "No session found" });
                 }
 
+                // Save contact info
                 await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email);
+
+                // Get assessment results
+                var responses = await _azureTableService.GetResponses(sessionId);
+                if (responses == null)
+                {
+                    return BadRequest(new { error = "Assessment results not found" });
+                }
+
+                // Prepare results for email
+                var resultsDto = new AssessmentResultsDTO
+                {
+                    AIApplicationAverage = responses.AIApplicationAverage ?? 0,
+                    PeopleOrgAverage = responses.PeopleOrgAverage ?? 0,
+                    TechDataAverage = responses.TechDataAverage ?? 0,
+                    AIApplicationText = _evaluationService.GetEvaluation("AI APPLICATION", responses.AIApplicationAverage ?? 0),
+                    PeopleOrgText = _evaluationService.GetEvaluation("PEOPLE & ORGANIZATION", responses.PeopleOrgAverage ?? 0),
+                    TechDataText = _evaluationService.GetEvaluation("TECH & DATA", responses.TechDataAverage ?? 0)
+                };
+
+                // Send email
+                try
+                {
+                    await _emailService.SendAssessmentResultsAsync(
+                        model.Email,
+                        model.Name,
+                        model.Company,
+                        resultsDto
+                    );
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send assessment results email");
+                    // Note: We're not returning an error to the client here
+                    // as the contact form submission was successful
+                }
+
                 return Ok();
             }
             catch (Exception ex)
