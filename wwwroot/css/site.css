@@ -1009,6 +1009,16 @@ html {
   margin-top: 0.3rem;
 }
 
+.privacy-link {
+  color: var(--accent-white);
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.privacy-link:hover {
+  opacity: 0.8;
+}
+
 .submit-button {
   padding: 1rem;
   background: var(--accent-green-dark);
