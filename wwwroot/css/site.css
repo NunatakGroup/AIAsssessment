@@ -811,29 +811,40 @@ html {
   padding-bottom: 4rem;
 }
 
-/* Results Header */
+/* Results Header Styling */
 .results-header-wrapper {
   background: linear-gradient(to bottom, rgba(52, 62, 72, 0.95) 0%, rgba(44, 53, 61, 0.9) 100%);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 4rem 0 3rem;
-  margin: var(--nav-height) 0 3rem;
+  padding: 2rem 0;  /* Reduced from 4rem to 2rem */
+  margin: var(--nav-height) 0 2rem;  /* Reduced bottom margin from 3rem to 2rem */
 }
 
 .results-header {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .results-header h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 100;
-  background: linear-gradient(135deg, var(--accent-white) 0%, rgba(64, 25, 25, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1.5rem;
+  font-size: 2.0rem;  /* Reduced from 4rem/clamp */
+  font-weight: 200;
+  color: var(--accent-white);
+  margin-bottom: 0.5rem;  /* Reduced from 1.5rem */
   letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+}
+
+.results-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;  /* Adjusted to be closer to text */
+  left: 0;
+  width: 60px;  /* Reduced from 120px */
+  height: 3px;  /* Reduced from 4px */
+  background: var(--accent-green);
+  border-radius: 2px;
 }
 
 /* Main Results Content */
@@ -1295,4 +1306,60 @@ html {
   .lock-message {
       padding: 1rem;
   }
+}
+
+/* Dynamic Chapter Option Highlighting */
+.chapter-1 .option-item input[type="radio"]:checked + .option-text::before {
+  color: var(--accent-green);
+}
+
+.chapter-1 .option-item input[type="radio"]:checked + .option-text {
+  color: var(--accent-green);
+}
+
+.chapter-1 .option-item:has(input[type="radio"]:checked) {
+  background: linear-gradient(90deg, rgba(160, 208, 203, 0.1) 0%, rgba(160, 208, 203, 0.05) 100%);
+  border-color: var(--accent-green);
+}
+
+.chapter-2 .option-item input[type="radio"]:checked + .option-text::before {
+  color: var(--accent-blue);
+}
+
+.chapter-2 .option-item input[type="radio"]:checked + .option-text {
+  color: var(--accent-blue);
+}
+
+.chapter-2 .option-item:has(input[type="radio"]:checked) {
+  background: linear-gradient(90deg, rgba(98, 130, 167, 0.1) 0%, rgba(98, 130, 167, 0.05) 100%);
+  border-color: var(--accent-blue);
+}
+
+.chapter-3 .option-item input[type="radio"]:checked + .option-text::before {
+  color: var(--accent-red);
+}
+
+.chapter-3 .option-item input[type="radio"]:checked + .option-text {
+  color: var(--accent-red);
+}
+
+.chapter-3 .option-item:has(input[type="radio"]:checked) {
+  background: linear-gradient(90deg, rgba(171, 113, 113, 0.1) 0%, rgba(171, 113, 113, 0.05) 100%);
+  border-color: var(--accent-red);
+}
+
+/* Hover states for each chapter */
+.chapter-1 .option-item:hover {
+  border-color: var(--accent-green);
+  background: rgba(160, 208, 203, 0.05);
+}
+
+.chapter-2 .option-item:hover {
+  border-color: var(--accent-blue);
+  background: rgba(98, 130, 167, 0.05);
+}
+
+.chapter-3 .option-item:hover {
+  border-color: var(--accent-red);
+  background: rgba(171, 113, 113, 0.05);
 }
