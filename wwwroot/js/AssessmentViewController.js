@@ -122,7 +122,9 @@ const AssessmentViewController = {
     updateUI(question) {
         this.updateProgressBar();
         const panel = document.querySelector('.glass-panel');
-        
+        const currentChapter = this.determineCurrentChapter();
+        panel.classList.add(`chapter-${currentChapter}`);
+
         // Check if it's the first question
         if (this.currentQuestionId === 1) {
             panel.innerHTML = this.createSliderUI(question);
@@ -215,10 +217,8 @@ const AssessmentViewController = {
     },
 
     determineCurrentChapter() {
-        // Example implementation - adjust based on your chapter structure
         if (this.currentQuestionId <= 4) return 1;
         if (this.currentQuestionId <= 7) return 2;
-        if (this.currentQuestionId <= 7) return 3;
         return 3;
       },
  

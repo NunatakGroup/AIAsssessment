@@ -13,35 +13,48 @@ const ResultsViewController = {
         console.log('Displaying category scores');
         const scoresContainer = document.querySelector('.category-scores');
         if (!scoresContainer) return;
-
+    
         const categoryScores = results.categoryResults.map(category => `
-            <div class="score-item">
-                <span class="score-label">${category.name}</span>
-                <span class="score-value">${category.average.toFixed(1)}/5.0</span>
+            <div class="score-item glass-effect">
+                <div class="score-label">${category.name}</div>
+                <div class="score-value">${category.average.toFixed(1)}/5.0</div>
             </div>
         `).join('');
-
+    
         scoresContainer.innerHTML = categoryScores;
     },
 
     initializeChart(results) {
         const ctx = document.getElementById('radarChart');
         if (!ctx) return;
-
+    
         const data = {
-            labels: ['AI Products', 'New Business Models', 'AI Enhanced Processes', 
-                    'AI Impact Management', 'AI Governance', 'Roles/Skills/Competencies', 
-                    'Security/Privacy', 'Platform/Tools', 'Data Infrastructure'],
+            labels: [
+                'AI Products', 
+                'New Business Models', 
+                'AI Enhanced Processes',
+                'AI Impact Management', 
+                'AI Governance', 
+                'Roles/Skills/Competencies',
+                'Security/Privacy', 
+                'Platform/Tools', 
+                'Data Infrastructure'
+            ],
             datasets: [{
                 data: results.chartData,
-                backgroundColor: 'rgba(160, 208, 203, 0.2)',
+                backgroundColor: 'rgba(160, 208, 203, 0.15)',
                 borderColor: '#A0D0CB',
                 pointBackgroundColor: '#62B2A9',
+                pointHoverBackgroundColor: '#ffffff',
                 borderWidth: 2,
-                pointRadius: 4
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBorderColor: '#ffffff',
+                pointHoverBorderColor: '#A0D0CB',
+                fill: true
             }]
         };
-
+    
         new Chart(ctx, {
             type: 'radar',
             data: data,
@@ -57,32 +70,44 @@ const ResultsViewController = {
                     r: {
                         beginAtZero: true,
                         max: 5,
+                        min: 0,
                         ticks: {
                             stepSize: 1,
                             display: true,
-                            color: 'rgb(255, 255, 255)'
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            backdropColor: 'transparent',
+                            z: 2
                         },
                         grid: {
                             circular: true,
-                            color: 'rgba(255, 255, 255, 0.1)'
+                            color: 'rgba(255, 255, 255, 0.1)',
+                            lineWidth: 1
                         },
                         pointLabels: {
                             font: {
+                                family: 'HKGrotesk',
                                 size: (context) => {
                                     const width = context.chart.width;
-                                    return width < 400 ? 8 : 
-                                           width < 600 ? 10 : 
-                                           width < 800 ? 12 : 14;
+                                    return width < 400 ? 10 : 
+                                           width < 600 ? 12 : 
+                                           width < 800 ? 14 : 16;
                                 }
                             },
-                            color: 'rgb(255, 255, 255)',
-                            padding: (context) => {
-                                const width = context.chart.width;
-                                return width < 400 ? 2 : 
-                                       width < 600 ? 4 : 
-                                       width < 800 ? 6 : 8;
-                            }
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            padding: 20
+                        },
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
                         }
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                },
+                elements: {
+                    line: {
+                        tension: 0.1
                     }
                 }
             }
