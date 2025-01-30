@@ -12,9 +12,15 @@
   --bg-glass: rgba(255, 255, 255, 0.1);
   --accent-white: #ffffff;
   --accent-grey: rgba(255, 255, 255, 0.18);
-  --accent-shadow: rgba(0, 0, 0, 0.1);
+  --accent-blue: rgb(98, 130, 167);
+  --accent-red: rgb(171, 113, 113);
+  --accent-shadow: rgba(17, 0, 0, 0.1);
   --accent-green: #A0D0CB; 
   --accent-green-dark: #62B2A9;
+  --chapter1-gradient: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green) 100%);
+  --chapter2-gradient: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-blue) 100%);
+  --chapter3-gradient: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-red) 100%);
+  --current-chapter-gradient: var(--chapter3-gradient); /* Default gradient */
   --nav-height: 80px;
   --nav-heigt-mobile: 300px;
   /* Add breakpoints for easier maintenance */
@@ -478,7 +484,7 @@ html {
 }
 
 .progress-fill {
-  background: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+  background: var(--current-chapter-gradient);
   height: 100%;
   /*transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);*/
   transition: all 0.3s ease-out;;

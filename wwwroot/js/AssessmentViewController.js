@@ -205,14 +205,22 @@ const AssessmentViewController = {
         const progress = document.querySelector('.progress-fill');
         if (progress) {
             const percentage = ((this.currentQuestionId - 1) / this.totalQuestions) * 100;
-            console.log('Progress Debug:', {
-                currentQuestionId: this.currentQuestionId,
-                totalQuestions: this.totalQuestions,
-                calculatedPercentage: percentage
-            });
+            const chapterNumber = this.determineCurrentChapter();
+            document.documentElement.style.setProperty(
+                '--current-chapter-gradient',
+                `var(--chapter${chapterNumber}-gradient)`
+              );
             progress.style.width = `${percentage}%`;
         }
     },
+
+    determineCurrentChapter() {
+        // Example implementation - adjust based on your chapter structure
+        if (this.currentQuestionId <= 4) return 1;
+        if (this.currentQuestionId <= 7) return 2;
+        if (this.currentQuestionId <= 7) return 3;
+        return 3;
+      },
  
     previousQuestion() {
         if (this.currentQuestionId > 1) {
