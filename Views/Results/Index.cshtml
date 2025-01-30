@@ -1,63 +1,85 @@
 @{
-   ViewData["Title"] = "Your AI Maturity Results";
+    ViewData["Title"] = "Your AI Maturity Results";
 }
 
 <div class="results-header-wrapper">
-   <div class="results-header">
-       <h1>Your AI Maturity Results</h1>
-   </div>
+    <div class="results-header">
+        <h1>Your AI Maturity Results</h1>
+    </div>
 </div>
 
 <div class="results-container">
-   <div class="results-content">
-       <div class="results-left">
-           <div class="glass-panel chart-panel">
-               <h3>AI Maturity Assessment</h3>
-               <canvas id="radarChart"></canvas>
-           </div>
-       </div>
-       <div class="results-tabs">
-               @foreach (var category in new[] { "AI APPLICATION", "PEOPLE & ORGANIZATION", "TECH & DATA" })
-                {
-                    <div class="result-tab" data-category="@category">
-                        <div class="tab-header">
-                            <h3>@category</h3>
-                        </div>
-                        <div class="tab-content">
-                            <!-- Our JavaScript will inject content here -->
-                        </div>
+    <!-- Initial Results Section -->
+    <div class="results-content initial-results">
+        <div class="results-left">
+            <div class="glass-panel chart-panel">
+                <h3>AI Maturity Overview</h3>
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+        <div class="results-right">
+            <div class="glass-panel scores-panel">
+                <h3>Category Scores</h3>
+                <div class="category-scores">
+                    <!-- Scores will be injected here by JavaScript -->
+                </div>
+                <div class="unlock-prompt">
+                    <p>Want to see the detailed analysis and recommendations?</p>
+                    <button class="unlock-button" onclick="ResultsViewController.showContactModal()">
+                        Unlock Full Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Results Section (Initially Hidden) -->
+    <div class="results-content detailed-results hidden">
+        <div class="results-tabs">
+            @foreach (var category in new[] { "AI APPLICATION", "PEOPLE & ORGANIZATION", "TECH & DATA" })
+            {
+                <div class="result-tab" data-category="@category">
+                    <div class="tab-header">
+                        <h3>@category</h3>
                     </div>
-                }
-           </div>
-       </div>
-   </div>
+                    <div class="tab-content">
+                        <!-- Content will be injected by JavaScript -->
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
+<!-- Contact Modal -->
 <div class="modal-overlay" id="contactModal">
-   <div class="contact-modal">
-       <h2>Complete Your Profile</h2>
-       <form class="contact-form" id="contactForm">
-           <div class="form-group">
-               <label for="name">Name</label>
-               <input type="text" id="name" name="name" required>
-           </div>
-           <div class="form-group">
-               <label for="company">Company</label>
-               <input type="text" id="company" name="company" required>
-           </div>
-           <div class="form-group">
-               <label for="email">Email</label>
-               <input type="email" id="email" name="email" required>
-           </div>
-           <div class="consent-group">
-               <input type="checkbox" id="privacy" name="privacy" required>
-                <label for="privacy">I agree to the <a href="https://example.com/privacy-policy" class="privacy-link" target="_blank" rel="noopener noreferrer">privacy policy</a></label>
-           </div>
-           <button type="submit" class="submit-button">Submit</button>
-       </form>
-   </div>
+    <div class="contact-modal">
+        <h2>Get Your Complete Results</h2>
+        <p>Enter your details to receive the full analysis and recommendations</p>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="consent-group">
+                <input type="checkbox" id="privacy" name="privacy" required>
+                <label for="privacy">
+                    I agree to the <a href="https://example.com/privacy-policy" class="privacy-link" target="_blank" rel="noopener noreferrer">privacy policy</a>
+                </label>
+            </div>
+            <button type="submit" class="submit-button">Get Full Results</button>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
-   <script src="~/js/ResultsViewController.js"></script>
+    <script src="~/js/ResultsViewController.js"></script>
 }

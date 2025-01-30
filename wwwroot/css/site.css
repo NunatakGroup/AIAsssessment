@@ -949,6 +949,15 @@ html {
   background: rgba(0, 0, 0, 0.550);
   backdrop-filter: blur(5px);
   z-index: 1000;
+  display: none;  /* Hidden by default */
+}
+
+.modal-overlay.active {
+  display: block;
+}
+
+/* Ensure detailed results are hidden initially */
+.detailed-results.hidden {
   display: none;
 }
 
@@ -1057,3 +1066,151 @@ html {
   }
 }
 
+/* Add these styles to your site.css */
+
+.initial-results {
+  margin-bottom: 2rem;
+}
+
+.scores-panel {
+  height: 100%;
+  padding: 2rem;
+}
+
+.category-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.score-item:hover {
+  transform: translateY(-2px);
+  background: rgba(160, 208, 203, 0.1);
+}
+
+.score-label {
+  font-weight: 500;
+}
+
+.score-value {
+  font-size: 1.2rem;
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.locked-content {
+  position: relative;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--accent-grey);
+}
+
+.lock-overlay {
+  position: relative;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+}
+
+.lock-message {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.lock-message h2 {
+  color: var(--accent-green);
+  margin-bottom: 1rem;
+}
+
+.lock-message ul {
+  text-align: left;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.lock-message li {
+  margin: 0.5rem 0;
+  color: var(--accent-white);
+}
+
+.unlock-button {
+  background: var(--accent-green-dark);
+  color: var(--accent-white);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.unlock-button:hover {
+  background: var(--accent-green);
+  transform: translateY(-2px);
+}
+
+.detailed-results.hidden {
+  display: none;
+}
+
+.detailed-results {
+  margin-top: 2rem;
+}
+
+.unlock-prompt {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--accent-grey);
+  text-align: center;
+}
+
+.unlock-prompt p {
+  color: var(--accent-white);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.scores-panel .unlock-button {
+  background: var(--accent-green-dark);
+  color: var(--accent-white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scores-panel .unlock-button:hover {
+  background: var(--accent-green);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .initial-results {
+      flex-direction: column;
+      gap: 1rem;
+  }
+
+  .results-left,
+  .results-right {
+      width: 100%;
+  }
+
+  .lock-message {
+      padding: 1rem;
+  }
+}
