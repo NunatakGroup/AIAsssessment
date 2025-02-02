@@ -184,6 +184,11 @@ const ResultsViewController = {
             });
             
             if (response.ok) {
+                const unlockPrompt = document.querySelector('.unlock-prompt');
+                if (unlockPrompt) {
+                    unlockPrompt.style.display = 'none';  // Using style.display for more forceful hiding
+                }
+                
                 this.hideModal();
                 this.showDetailedResults();
                 form.reset();
