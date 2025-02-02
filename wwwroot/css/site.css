@@ -920,31 +920,75 @@ html {
 /* Detailed Results Section */
 .detailed-results {
   margin-top: 4rem;
-  padding-top: 3rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2rem;
+  max-width: 1400px;
+  margin: 4rem auto 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
-  max-width: 1400px;
-  margin: 4rem auto 0;
-  padding: 3rem 2rem;
 }
 
 .result-tab {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
+  background: rgba(52, 62, 72, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 24px;
+  padding: 3rem;
+  margin: 1.5rem 0;
   transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.result-tab[data-category="AI APPLICATION"] {
+  border-left: 4px solid var(--accent-green);
+}
+
+.result-tab[data-category="PEOPLE & ORGANIZATION"] {
+  border-left: 4px solid var(--accent-blue);
+}
+
+.result-tab[data-category="TECH & DATA"] {
+  border-left: 4px solid var(--accent-red);
+}
+
+.result-tab[data-category="AI APPLICATION"] .tab-header h3 {
+  color: var(--accent-green);
+}
+
+.result-tab[data-category="PEOPLE & ORGANIZATION"] .tab-header h3 {
+  color: var(--accent-blue);
+}
+
+.result-tab[data-category="TECH & DATA"] .tab-header h3 {
+  color: var(--accent-red);
 }
 
 .result-tab:hover {
   transform: translateY(-5px);
-  border-color: rgba(160, 208, 203, 0.3);
+  border: var(--accent-white);
+  background: rgba(52, 62, 72, 0.8);
   box-shadow: 
       0 20px 40px rgba(0, 0, 0, 0.2),
       0 0 30px rgba(160, 208, 203, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tab-header h3 {
+  font-size: 1.7rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+tab-content {
+  color: var(--accent-white);
+  line-height: 1.6;
+  font-size: 1.5rem;
+  opacity: 0.8;
 }
 
 /* Unlock Section */
