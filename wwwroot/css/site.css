@@ -607,7 +607,7 @@ html {
 }
 
 .option-description {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: var(--accent-white);
   max-height: 0;
   opacity: 0.5;
@@ -1104,11 +1104,44 @@ html {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .submit-button:hover {
   background: var(--accent-green);
   transform: translateY(-2px);
+}
+
+.submit-button .button-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.submit-button .button-loading.hidden,
+.submit-button .button-text.hidden {
+  display: none;
+}
+
+.spinner-small {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {transform: rotate(360deg);}
+}
+
+/* Add disabled state */
+.submit-button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .modal-overlay.active {

@@ -166,10 +166,18 @@ const ResultsViewController = {
 
     async handleModalSubmit(e) {
         e.preventDefault();
-        console.log('Handling modal submit');
         
-        const formData = new FormData(e.target);
+        const form = e.target;
+        const button = form.querySelector('.submit-button');
+        const buttonText = button.querySelector('.button-text');
+        const buttonLoading = button.querySelector('.button-loading');
+        
         try {
+            buttonText.classList.add('hidden');
+            buttonLoading.classList.remove('hidden');
+            button.disabled = true;
+            
+            const formData = new FormData(form);
             const response = await fetch('/Results/SubmitContact', {
                 method: 'POST',
                 body: formData
@@ -178,10 +186,16 @@ const ResultsViewController = {
             if (response.ok) {
                 this.hideModal();
                 this.showDetailedResults();
-                e.target.reset();
+                form.reset();
+            } else {
+                throw new Error('Failed to submit form');
             }
         } catch (error) {
-            console.error('Error submitting form:', error);
+            alert('Failed to send results. Please try again.');
+        } finally {
+            buttonText.classList.remove('hidden');
+            buttonLoading.classList.add('hidden');
+            button.disabled = false;
         }
     },
 
