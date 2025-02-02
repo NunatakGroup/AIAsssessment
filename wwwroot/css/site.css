@@ -232,7 +232,10 @@ h1 {
 }
 
 .cta-button {
-  margin: 3rem auto;
+  display: block;  /* Makes the button a block element */
+  margin: 2rem auto;  /* Centers the button horizontally with space above/below */
+  width: fit-content;
+  text-align: center;
   padding: 1rem 3rem;
   font-size: 1.2rem;
   color: var(--accent-white);
@@ -244,11 +247,6 @@ h1 {
   background: var(--accent-green-dark);
   border: 1px solid var(--accent-white);
   animation: pulse 2s infinite;
-  position: fixed; /* Change from absolute to fixed */
-  bottom: 5vh; /* Use viewport height instead of percentage */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100; /* Ensure button stays above other content */
 }
 
 @media (max-width: 768px) {
