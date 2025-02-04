@@ -32,7 +32,7 @@ namespace AI_Maturity_Assessment.Services
                  new Question
                 {
                     Id = 2,
-                    Chapter = "AI APPLICATION",
+                    Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q1.png",
                     QuestionText = "We consistently leverage AI to advance our existing products and services",
                     Type = QuestionType.SingleChoice,
@@ -49,7 +49,7 @@ namespace AI_Maturity_Assessment.Services
                  new Question
                 {
                     Id = 3,
-                    Chapter = "AI APPLICATION",
+                    Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q2.png",
                     QuestionText = "We continuously create new AI-driven Business Models and Revenue Streams",
                     Type = QuestionType.SingleChoice,
@@ -66,7 +66,7 @@ namespace AI_Maturity_Assessment.Services
                 new Question
                 {
                     Id = 4,
-                    Chapter = "AI APPLICATION",
+                    Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q3.png",
                     QuestionText = "We deploy AI to improve efficiency throughout all internal processes",
                     Type = QuestionType.SingleChoice,
@@ -83,7 +83,7 @@ namespace AI_Maturity_Assessment.Services
                 new Question
                 {
                     Id = 5,
-                    Chapter = "PEOPLE & ORGANIZATION",
+                    Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q4.png",
                     QuestionText = "We have the capability to assess the impact of AI applications and consistently monitor their performance",
                     Type = QuestionType.SingleChoice,
@@ -100,7 +100,7 @@ namespace AI_Maturity_Assessment.Services
                 new Question
                 {
                     Id = 6,
-                    Chapter = "PEOPLE & ORGANIZATION",
+                    Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q5.png",
                     QuestionText = "Our organization has clearly established structures, decision-making processes, and guidelines for responsible AI development",
                     Type = QuestionType.SingleChoice,
@@ -117,7 +117,7 @@ namespace AI_Maturity_Assessment.Services
                 new Question
                 {
                     Id = 7,
-                    Chapter = "PEOPLE & ORGANIZATION",
+                    Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q6.png",
                     QuestionText = "Our organization has defined the AI competencies required, strategically recruits talent in this field, and provides continuous training to empower employees to effectively use AI",
                     Type = QuestionType.SingleChoice,
