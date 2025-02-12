@@ -7,21 +7,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/slider.css" />
-    
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="dark-mode">
+    <!-- Background Effects -->
+    <div class="dynamic-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+    <div class="grid-overlay"></div>
+        <div class="scan-line"></div>
+
+    <!-- Navigation -->
     <nav class="main-nav">
         <div class="nav-logo">
             <a href="/home" class="logo-link">
-               <img src="~/images/Nunatak-AI-Lab.png" alt="Logo" class="logo-image">
+                <img src="~/images/Nunatak-AI-Lab.png" alt="Logo" class="logo-image">
             </a>
         </div>
         <button class="nav-toggle" aria-label="Toggle navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <div class="nav-links">
             <a href="https://www.nunatak.com/ueber-uns/">Über uns</a>
             <a href="https://www.nunatak.com/expertise/">Expertise</a>
@@ -31,10 +40,17 @@
             <a href="https://www.nunatak.com/academy/">Academy</a>
         </div>
     </nav>
-    @RenderBody()
+
+    <!-- Main Content -->
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <!-- Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/NavbarViewController.js" asp-append-version="true"></script>
+    <script src="~/js/globalEffects.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

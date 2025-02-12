@@ -133,6 +133,10 @@
       "PackagePath": "staticwebassets/js/ResultsViewController.js"
     },
     {
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/globalEffects.js",
+      "PackagePath": "staticwebassets/js/globalEffects.js"
+    },
+    {
       "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

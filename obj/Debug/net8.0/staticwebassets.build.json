@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "u440JMHsaOEd6twsDC25RfK0P5ut02ymio49WX5LN54=",
+  "Hash": "Bo+tfl4GYXi3AVS4NoOPYLnHWjVnpUbejHxse9ps+l0=",
   "Source": "AI-Maturity-Assessment",
   "BasePath": "_content/AI-Maturity-Assessment",
   "Mode": "Default",
@@ -604,6 +604,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/AssessmentViewController.js"
+    },
+    {
+      "Identity": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/globalEffects.js",
+      "SourceId": "AI-Maturity-Assessment",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/",
+      "BasePath": "_content/AI-Maturity-Assessment",
+      "RelativePath": "js/globalEffects.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/globalEffects.js"
     },
     {
       "Identity": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/HomeViewController.js",

@@ -1,3 +1,102 @@
+const InteractiveEffects = {
+    initialize() {
+        this.initializeParallax();
+        this.initializeHoverEffects();
+        this.initializeGlowingDots();
+    },
+
+    initializeParallax() {
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+
+            document.querySelectorAll('.glass-panel').forEach(panel => {
+                panel.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    },
+
+    initializeHoverEffects() {
+        document.querySelectorAll('.score-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const value = item.querySelector('.score-value');
+                if (value) {
+                    value.style.transform = 'scale(1.1)';
+                    value.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                }
+            });
+
+            item.addEventListener('mouseleave', () => {
+                const value = item.querySelector('.score-value');
+                if (value) {
+                    value.style.transform = 'scale(1)';
+                }
+            });
+        });
+    },
+
+    initializeGlowingDots() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.querySelector('.results-container');
+        
+        if (!container) return;
+        
+        container.appendChild(canvas);
+        canvas.className = 'glowing-dots';
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        
+        const resize = () => {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+        };
+        
+        resize();
+        window.addEventListener('resize', resize);
+        
+        const dots = [];
+        const createDot = () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            alpha: Math.random() * 0.5 + 0.5
+        });
+        
+        for (let i = 0; i < 50; i++) {
+            dots.push(createDot());
+        }
+        
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            dots.forEach(dot => {
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+                
+                if (dot.x < 0) dot.x = canvas.width;
+                if (dot.x > canvas.width) dot.x = 0;
+                if (dot.y < 0) dot.y = canvas.height;
+                if (dot.y > canvas.height) dot.y = 0;
+                
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(160, 208, 203, ${dot.alpha})`;
+                ctx.fill();
+            });
+            
+            requestAnimationFrame(animate);
+        };
+        
+        animate();
+    }
+};
+
 const ResultsViewController = {
     async initialize() {
         console.log('Initializing ResultsViewController');
@@ -325,4 +424,5 @@ const ResultsViewController = {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing ResultsViewController');
     ResultsViewController.initialize();
+    InteractiveEffects.initialize();
 });
