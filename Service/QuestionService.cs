@@ -34,16 +34,16 @@ namespace AI_Maturity_Assessment.Services
                     Id = 2,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q1.png",
-                    QuestionText = "We consistently leverage AI to advance our existing products and services",
+                    QuestionText = "We consistently develop new AI-driven services for our customers",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into any products or services" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "The deployment of AI is critical for our customer experience" }
                     }
                 },
                  new Question
@@ -51,16 +51,16 @@ namespace AI_Maturity_Assessment.Services
                     Id = 3,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q2.png",
-                    QuestionText = "We continuously create new AI-driven Business Models and Revenue Streams",
+                    QuestionText = "We deploy AI to improve efficiency throughout all internal processes",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our strategic plans" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our internal processes" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a core component of our strategic vision" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have automated AI-driven processes accross the value chain" }
                     }
                 },
                 new Question
@@ -68,23 +68,6 @@ namespace AI_Maturity_Assessment.Services
                     Id = 4,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q3.png",
-                    QuestionText = "We deploy AI to improve efficiency throughout all internal processes",
-                    Type = QuestionType.SingleChoice,
-                    OrderIndex = 1,
-                    Answers = new List<Answer>
-                    {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We do not use AI to make internal processes efficient" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
-                        new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "AI is a critical driver for our internal process efficiency" }
-                    }
-                },
-                new Question
-                {
-                    Id = 5,
-                    Chapter = "ORGANIZATION & PEOPLE",
-                    ImagePath = "/images/AI_Wheel_Q4.png",
                     QuestionText = "We have the capability to assess the impact of AI applications and consistently monitor their performance",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -99,9 +82,9 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 6,
+                    Id = 5,
                     Chapter = "ORGANIZATION & PEOPLE",
-                    ImagePath = "/images/AI_Wheel_Q5.png",
+                    ImagePath = "/images/AI_Wheel_Q4.png",
                     QuestionText = "Our organization has clearly established structures, decision-making processes, and guidelines for responsible AI development",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -112,6 +95,23 @@ namespace AI_Maturity_Assessment.Services
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
                         new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy a comprehensive governance ensuring ethical, compliant, and controlled AI deployment" }
+                    }
+                },
+                new Question
+                {
+                    Id = 6,
+                    Chapter = "ORGANIZATION & PEOPLE",
+                    ImagePath = "/images/AI_Wheel_Q5.png",
+                    QuestionText = "Our organization embraces AI innovation and actively promotes a culture of data-driven decision making",
+                    Type = QuestionType.SingleChoice,
+                    OrderIndex = 1,
+                    Answers = new List<Answer>
+                    {
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "There is significant resistance to AI adoption and limited awareness of its potential" },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have a strong culture of AI innovation with widespread understanding and enthusiasm across all levels" }
                     }
                 },
                 new Question
@@ -136,23 +136,6 @@ namespace AI_Maturity_Assessment.Services
                     Id = 8,
                     Chapter = "TECH & DATA",
                     ImagePath = "/images/AI_Wheel_Q7.png",
-                    QuestionText = "We ensure robust security and privacy protection in the development and deployment of AI solutions",
-                    Type = QuestionType.SingleChoice,
-                    OrderIndex = 1,
-                    Answers = new List<Answer>
-                    {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific measures for AI applications are in place" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
-                        new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have comprehensive security and privacy controls and guidelines across all new and existing AI initiatives" }
-                    }
-                },
-                new Question
-                {
-                    Id = 9,
-                    Chapter = "TECH & DATA",
-                    ImagePath = "/images/AI_Wheel_Q8.png",
                     QuestionText = "We deploy the right tools and models to power AI applications and integrate solutions into a coherent ecosystem",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
@@ -167,19 +150,36 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 10,
+                    Id = 9,
                     Chapter = "TECH & DATA",
-                    ImagePath = "/images/AI_Wheel_Q9.png",
-                    QuestionText = "We have an effective data strategy in place and provide sufficient data to fully leverage the power of our AI applications",
+                    ImagePath = "/images/AI_Wheel_Q8.png",
+                    QuestionText = "We have established a robust data architecture that enables efficient data collection, storage, and access for AI applications",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have fragmented data infrastructure hindering AI development" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "Our data is fragmented, poorly organized, and difficult to access for AI applications" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have an advanced data strategy with sophisticated and high-quality data to fully leverage AI solutions" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We maintain high-quality, well-structured data with seamless access and integration capabilities for AI development" }
+                    }
+                },
+                new Question
+                {
+                    Id = 10,
+                    Chapter = "TECH & DATA",
+                    ImagePath = "/images/AI_Wheel_Q9.png",
+                    QuestionText = "We ensure robust security and privacy protection in the development and deployment of AI solutions",
+                    Type = QuestionType.SingleChoice,
+                    OrderIndex = 1,
+                    Answers = new List<Answer>
+                    {
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific measures for AI applications are in place" },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have comprehensive security and privacy controls and guidelines across all new and existing AI initiatives" }
                     }
                 }
                 
