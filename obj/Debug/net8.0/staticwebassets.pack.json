@@ -1,367 +1,367 @@
 {
   "Files": [
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/obj/Debug/net8.0/scopedcss/projectbundle/AI-Maturity-Assessment.bundle.scp.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/scopedcss/projectbundle/AI-Maturity-Assessment.bundle.scp.css",
       "PackagePath": "staticwebassets/AI-Maturity-Assessment.bundle.scp.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/css/site.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/css/slider.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/css/slider.css",
       "PackagePath": "staticwebassets/css/slider.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Bold.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Bold.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Bold.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-BoldItalic.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-BoldItalic.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-BoldItalic.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-ExtraBold.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-ExtraBold.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-ExtraBold.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-ExtraLight.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-ExtraLight.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-ExtraLight.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Italic.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Italic.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Italic.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Light.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Light.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Light.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Medium.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Medium.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Medium.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Regular.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Regular.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Regular.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-SemiBold.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-SemiBold.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-SemiBold.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Thin.ttf",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/fonts/HKGrotesk-Thin.ttf",
       "PackagePath": "staticwebassets/fonts/HKGrotesk-Thin.ttf"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Full.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Full.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Full.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q0.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q0.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q0.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q1.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q1.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q1.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q2.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q2.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q2.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q3.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q3.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q3.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q4.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q4.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q4.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q5.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q5.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q5.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q6.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q6.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q6.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q7.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q7.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q7.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q8.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q8.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q8.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q9.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q9.png",
       "PackagePath": "staticwebassets/images/AI_Wheel_Q9.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/Ai-House.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/Ai-House.png",
       "PackagePath": "staticwebassets/images/Ai-House.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/Ambition-Partnering.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/Ambition-Partnering.png",
       "PackagePath": "staticwebassets/images/Ambition-Partnering.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/Ambition-Planning.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/Ambition-Planning.png",
       "PackagePath": "staticwebassets/images/Ambition-Planning.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/Nunatak-AI-Lab.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/Nunatak-AI-Lab.png",
       "PackagePath": "staticwebassets/images/Nunatak-AI-Lab.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/StrategicWheel.png",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/images/StrategicWheel.png",
       "PackagePath": "staticwebassets/images/StrategicWheel.png"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/js/AssessmentViewController.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/AssessmentViewController.js",
       "PackagePath": "staticwebassets/js/AssessmentViewController.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/js/HomeViewController.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/HomeViewController.js",
       "PackagePath": "staticwebassets/js/HomeViewController.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/js/NavbarViewController.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/NavbarViewController.js",
       "PackagePath": "staticwebassets/js/NavbarViewController.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/js/ResultsViewController.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/ResultsViewController.js",
       "PackagePath": "staticwebassets/js/ResultsViewController.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/js/site.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/LICENSE",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/LICENSE",
       "PackagePath": "staticwebassets/lib/bootstrap"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
       "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
       "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/LICENSE.md",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/LICENSE.md",
       "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/additional-methods.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
       "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery/LICENSE.txt",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery/LICENSE.txt",
       "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery/dist/jquery.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery/dist/jquery.js",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery/dist/jquery.min.js",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery/dist/jquery.min.js",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
     },
     {
-      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/lib/jquery/dist/jquery.min.map",
+      "Id": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/wwwroot/lib/jquery/dist/jquery.min.map",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {

@@ -171,6 +171,7 @@ const ResultsViewController = {
         const button = form.querySelector('.submit-button');
         const buttonText = button.querySelector('.button-text');
         const buttonLoading = button.querySelector('.button-loading');
+        const scrollIndicator = document.querySelector('.scroll-indicator');
         
         try {
             buttonText.classList.add('hidden');
@@ -186,12 +187,43 @@ const ResultsViewController = {
             if (response.ok) {
                 const unlockPrompt = document.querySelector('.unlock-prompt');
                 if (unlockPrompt) {
-                    unlockPrompt.style.display = 'none';  // Using style.display for more forceful hiding
+                    unlockPrompt.style.display = 'none';
                 }
                 
                 this.hideModal();
                 this.showDetailedResults();
                 form.reset();
+
+                // Show scroll indicator after detailed results are shown
+                setTimeout(() => {
+                    if (scrollIndicator) {
+                        scrollIndicator.style.display = 'block';
+                        requestAnimationFrame(() => {
+                            scrollIndicator.classList.add('visible');
+                        });
+
+                        // Hide scroll indicator when user scrolls
+                        const handleScroll = () => {
+                            scrollIndicator.classList.remove('visible');
+                            setTimeout(() => {
+                                scrollIndicator.style.display = 'none';
+                            }, 300);
+                            window.removeEventListener('scroll', handleScroll);
+                        };
+                        
+                        window.addEventListener('scroll', handleScroll);
+                        
+                        // Auto-hide after 6 seconds if no scroll
+                        setTimeout(() => {
+                            if (scrollIndicator.classList.contains('visible')) {
+                                scrollIndicator.classList.remove('visible');
+                                setTimeout(() => {
+                                    scrollIndicator.style.display = 'none';
+                                }, 300);
+                            }
+                        }, 6000);
+                    }
+                }, 500); // Slight delay after content loads
             } else {
                 throw new Error('Failed to submit form');
             }

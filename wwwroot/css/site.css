@@ -873,7 +873,7 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   padding: 2rem;
-  height: 500px;
+  height: 600px;
   transition: all 0.3s ease;
 }
 
@@ -1448,4 +1448,47 @@ tab-content {
 .chapter-3 .option-item:hover {
   border-color: var(--accent-red);
   background: rgba(171, 113, 113, 0.05);
+}
+
+/* Scroll Indicator Styles */
+.scroll-indicator {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+.scroll-indicator.visible {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+  animation: floatAnimation 2s infinite ease-in-out;
+}
+
+.scroll-indicator svg {
+  width: 40px;
+  height: 25px;
+  filter: drop-shadow(0 0 8px rgba(160, 208, 203, 0.3));
+}
+
+.scroll-indicator .triangle {
+  fill: var(--accent-green);
+  opacity: 0.9;
+}
+
+@keyframes floatAnimation {
+  0% {
+      transform: translate(-50%, 0);
+  }
+  50% {
+      transform: translate(-50%, 15px);
+  }
+  100% {
+      transform: translate(-50%, 0);
+  }
 }
