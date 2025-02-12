@@ -43,7 +43,7 @@ namespace AI_Maturity_Assessment.Services
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "The deployment of AI is critical for our customer experience" }
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "The deployment of AI is already a crucial element of our customer experience" }
                     }
                 },
                  new Question
@@ -85,7 +85,7 @@ namespace AI_Maturity_Assessment.Services
                     Id = 5,
                     Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q4.png",
-                    QuestionText = "Our organization has clearly established structures, decision-making processes, and guidelines for responsible AI development",
+                    QuestionText = "Our organization has clearly established structures, decision-making processes, and guidelines for responsible AI deployment",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
@@ -141,7 +141,7 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have limited or outdated AI tools and no platform integration" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have limited or outdated tools and no platform integration" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
@@ -153,7 +153,7 @@ namespace AI_Maturity_Assessment.Services
                     Id = 9,
                     Chapter = "TECH & DATA",
                     ImagePath = "/images/AI_Wheel_Q8.png",
-                    QuestionText = "We have established a robust data architecture that enables efficient data collection, storage, and access for AI applications",
+                    QuestionText = "We have established a robust data architecture that enables efficient data collection, storage, and access for AI deployment",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
@@ -175,7 +175,7 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific measures for AI applications are in place" },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific protection measures for AI applications are in place" },
                         new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
                         new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
