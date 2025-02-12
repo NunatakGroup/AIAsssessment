@@ -6,6 +6,7 @@ const ResultsViewController = {
         if (results) {
             this.initializeChart(results);
             this.displayCategoryScores(results);
+            this.updatePerceptionGauge(results);
         }
     },
 
@@ -40,19 +41,32 @@ const ResultsViewController = {
                 'Platform/Tools', 
                 'Data Infrastructure'
             ],
-            datasets: [{
-                data: results.chartData,
-                backgroundColor: 'rgba(160, 208, 203, 0.15)',
-                borderColor: '#A0D0CB',
-                pointBackgroundColor: '#62B2A9',
-                pointHoverBackgroundColor: '#ffffff',
-                borderWidth: 2,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                pointBorderColor: '#ffffff',
-                pointHoverBorderColor: '#A0D0CB',
-                fill: true
-            }]
+            datasets: [
+                {
+                    label: 'Your Assessment Results',
+                    data: results.chartData,
+                    backgroundColor: 'rgba(160, 208, 203, 0.15)',
+                    borderColor: '#A0D0CB',
+                    pointBackgroundColor: '#62B2A9',
+                    pointHoverBackgroundColor: '#ffffff',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBorderColor: '#ffffff',
+                    pointHoverBorderColor: '#A0D0CB',
+                    fill: true
+                },
+                {
+                    label: 'Your Initial Perception',
+                    data: Array(9).fill(results.ambition.score), // Creates array with perception score
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
         };
     
         new Chart(ctx, {
@@ -63,7 +77,21 @@ const ResultsViewController = {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.9)',
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.raw.toFixed(1)}/5.0`;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -100,18 +128,44 @@ const ResultsViewController = {
                             color: 'rgba(255, 255, 255, 0.1)'
                         }
                     }
-                },
-                animation: {
-                    duration: 2000,
-                    easing: 'easeOutQuart'
-                },
-                elements: {
-                    line: {
-                        tension: 0.1
-                    }
                 }
             }
         });
+    },
+
+    updatePerceptionGauge(results) {
+        const actualAverage = results.chartData.reduce((a, b) => a + b, 0) / results.chartData.length;
+        const perception = results.ambition.score;
+        const difference = ((perception - actualAverage) / 5) * 100;
+        
+        // Calculate percentage for gauge (0.5 is middle/accurate)
+        let percentage = 0.5 + (difference / 200); // Normalize to 0-1 range
+        percentage = Math.max(0, Math.min(1, percentage)); // Clamp between 0 and 1
+        
+        const gauge = document.querySelector('.gauge-fill');
+        const needle = document.querySelector('.gauge-needle');
+        const differenceElement = document.querySelector('.perception-difference');
+        
+        if (gauge && needle && differenceElement) {
+            gauge.style.setProperty('--percentage', percentage);
+            needle.style.setProperty('--percentage', percentage);
+            
+            // Update difference text
+            const differenceText = difference > 0 
+                ? `+${difference.toFixed(1)}%` 
+                : `${difference.toFixed(1)}%`;
+            differenceElement.textContent = differenceText;
+            
+            // Add color based on accuracy
+            const accuracy = Math.abs(difference);
+            let color = 'var(--accent-green)';
+            if (accuracy > 30) {
+                color = 'var(--accent-red)';
+            } else if (accuracy > 15) {
+                color = 'var(--accent-blue)';
+            }
+            differenceElement.style.color = color;
+        }
     },
 
     async loadResults() {

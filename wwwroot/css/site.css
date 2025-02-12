@@ -1492,3 +1492,89 @@ tab-content {
       transform: translate(-50%, 0);
   }
 }
+
+
+.perception-gauge {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-container {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.gauge-background {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background: linear-gradient(90deg, 
+      var(--accent-red) 0%,
+      var(--accent-blue) 50%,
+      var(--accent-green) 100%
+  );
+  border-radius: 100px 100px 0 0;
+  opacity: 0.2;
+}
+
+.gauge-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 100px;
+  background: conic-gradient(
+      from 180deg at 50% 100%,
+      var(--accent-green) 0deg,
+      var(--accent-green) calc(var(--percentage) * 180deg),
+      transparent calc(var(--percentage) * 180deg),
+      transparent 180deg
+  );
+  border-radius: 100px 100px 0 0;
+  transform-origin: 50% 100%;
+  transition: all 1s ease-out;
+}
+
+.gauge-needle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  height: 90px;
+  background: var(--accent-white);
+  transform-origin: bottom center;
+  transform: rotate(calc(var(--percentage) * 180deg));
+  transition: transform 1s ease-out;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  color: var(--accent-white);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.perception-stats {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--accent-white);
+}
+
+.perception-value {
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--accent-green);
+}
