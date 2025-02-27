@@ -1,7 +1,7 @@
 const InteractiveEffects = {
     initialize() {
-        this.initializeParallax();
-        this.initializeHoverEffects();
+        //this.initializeParallax();
+        //this.initializeHoverEffects();
         this.initializeGlowingDots();
     },
 
@@ -171,6 +171,11 @@ const ResultsViewController = {
         new Chart(ctx, {
             type: 'radar',
             data: data,
+            layout: {
+                padding: {
+                    bottom: 70 // Reserve space for the legend
+                }
+            },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -182,8 +187,12 @@ const ResultsViewController = {
                             color: 'rgba(255, 255, 255, 0.9)',
                             padding: 20,
                             usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
+                            pointStyle: 'circle',
+                            font: {
+                                size: 12 // Adjust font size for better fit
+                            },
+                            boxWidth: 10 // Smaller color boxes for the legend
+                        },
                     },
                     tooltip: {
                         callbacks: {

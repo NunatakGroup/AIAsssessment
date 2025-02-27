@@ -1,8 +1,8 @@
 const GlobalEffects = {
     initialize() {
-        this.initializeParallax();
+        //this.initializeParallax();
         this.initializeHoverEffects();
-        this.initializeBackgroundInteraction();
+        //this.initializeBackgroundInteraction();
     },
 
     initializeParallax() {
@@ -47,7 +47,7 @@ const GlobalEffects = {
         
         interactiveElements.forEach(element => {
             element.addEventListener('mouseenter', () => {
-                element.style.transform = 'translateY(-5px)';
+                //element.style.transform = 'translateY(-5px)';
                 element.style.boxShadow = '0 8px 20px rgba(160, 208, 203, 0.2)';
             });
 
