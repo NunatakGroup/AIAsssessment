@@ -44,6 +44,42 @@ namespace AI_Maturity_Assessment.Services
 
         private string GenerateEmailContent(string recipientName, string company, AssessmentResultsDTO results)
         {
+            // Create score bars for visualization - table-based approach for maximum compatibility
+            string CreateScoreBar(double score, double maxScore = 5.0)
+            {
+                int percentage = (int)Math.Round((score / maxScore) * 100);
+                string bgColor = "#A0D0CB";
+                
+                return $@"
+                <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top:10px;'>
+                    <tr>
+                        <td style='background-color:#f2f2f2;border-radius:5px;padding:0;'>
+                            <table width='{percentage}%' cellpadding='0' cellspacing='0' border='0' style='border-radius:5px;'>
+                                <tr>
+                                    <td height='10' bgcolor='{bgColor}' style='border-radius:5px;font-size:0;line-height:0;'>&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>";
+            }
+
+            // Format category text with a better structure
+            string FormatCategoryText(string text)
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    return "<p style='margin:10px 0;color:#4a4a4a;line-height:1.7;'>No detailed assessment available for this category.</p>";
+                }
+
+                // Split by periods to create multiple paragraphs
+                var paragraphs = text.Split('.')
+                    .Where(p => !string.IsNullOrWhiteSpace(p))
+                    .Select(p => $"<p style='margin:10px 0;color:#4a4a4a;line-height:1.7;'>{p.Trim()}.</p>");
+
+                return string.Join("", paragraphs);
+            }
+
             return $@"
 <!DOCTYPE html>
 <html>
@@ -51,214 +87,193 @@ namespace AI_Maturity_Assessment.Services
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>AI Maturity Assessment Results</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
-        body {{
-            font-family: 'Inter', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-        }}
-
-        .email-container {{
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-        }}
-
-        .header {{
-            background: linear-gradient(135deg, #A0D0CB 0%, #62B2A9 100%);
-            color: #343E48;
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 3px solid #62B2A9;
-        }}
-
-        .header h1 {{
-            margin: 0;
-            font-size: 24px;
-            font-weight: 600;
-            color: #343E48;
-        }}
-
-        .header p {{
-            margin-top: 8px;
-            font-size: 18px;
-            color: #343E48;
-        }}
-
-        .content {{
-            padding: 30px;
-        }}
-
-        .scorecard {{
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid #A0D0CB;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }}
-
-        .score-item {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px 0;
-            padding: 10px;
-            border-bottom: 1px solid #A0D0CB;
-        }}
-
-        .score-label {{
-            font-weight: 600;
-            color: #343E48;
-        }}
-
-        .score-value {{
-            font-weight: 700;
-            color: #62B2A9;
-            font-size: 1.2em;
-        }}
-
-        .category {{
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #A0D0CB;
-            border-radius: 8px;
-        }}
-
-        .category-title {{
-            color: #343E48;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #A0D0CB;
-        }}
-
-        .contact-info {{
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-            border: 1px solid #A0D0CB;
-        }}
-
-        .cta-button {{
-            display: inline-block;
-            background-color: #62B2A9;
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 20px 0;
-            transition: background-color 0.3s ease;
-        }}
-
-        .cta-button:hover {{
-            background-color: #A0D0CB;
-        }}
-
-        .contact-person {{
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #ffffff;
-            border-left: 4px solid #62B2A9;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }}
-
-        .footer {{
-            background: linear-gradient(135deg, #343E48 0%, #2C353D 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-            margin-top: 40px;
-        }}
-
-        @media only screen and (max-width: 600px) {{
-            .content {{
-                padding: 15px;
-            }}
-            
-            .header {{
-                padding: 20px 15px;
-            }}
-            
-            .header h1 {{
-                font-size: 20px;
-            }}
-            
-            .category {{
-                padding: 15px;
-            }}
-        }}
-    </style>
 </head>
-<body>
-    <div class='email-container'>
-        <div class='header'>
-            <h1>AI Maturity Assessment Results</h1>
-            <p>{company}</p>
-        </div>
+<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #343E48; margin: 0; padding: 0; background-color: #f5f5f5;'>
+    <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f5f5f5;'>
+        <tr>
+            <td align='center' style='padding: 20px 0;'>
+                <table width='600' cellpadding='0' cellspacing='0' border='0' style='background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
+                    <!-- Header Section -->
+                    <tr>
+                        <td bgcolor='#A0D0CB' style='padding: 30px 20px; text-align: center;'>
+                            <h1 style='margin: 0; font-size: 26px; font-weight: 700; color:rgb(255, 255, 255); letter-spacing: -0.5px;'>AI Maturity Assessment Results</h1>
+                            <p style='margin-top: 10px; font-size: 18px; color:rgb(255, 255, 255); font-weight: 500;'>{company}</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content Section -->
+                    <tr>
+                        <td style='padding: 30px 25px;'>
+                            <p style='color: #343E48;'>Dear {recipientName},</p>
+                            
+                            <p style='color: #343E48;'>Thank you for completing Nunatak's AI Maturity Assessment. We have analyzed your responses and prepared a comprehensive evaluation of your organization's AI maturity across key dimensions.</p>
 
-        <div class='content'>
-            <p>Dear {recipientName},</p>
-            
-            <p>Thank you for completing Nunatak's AI Maturity Assessment. We have analyzed your responses and prepared a comprehensive evaluation of your organization's AI maturity across key dimensions.</p>
+                            <!-- Executive Summary Card -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-bottom: 30px; background-color: transparent; border-radius: 8px; border: 1px solid #cccccc; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
+                                <tr>
+                                    <td style='padding: 20px 25px;'>
+                                        <h2 style='margin-top:0; color:#343E48; font-size:20px; border-bottom: 1px solid #eaeaea; padding-bottom: 10px;'>Executive Summary</h2>
+                                        
+                                        <!-- AI Application Score -->
+                                        <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
+                                            <tr>
+                                                <td style='padding: 15px;'>
+                                                    <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                                        <tr>
+                                                            <td style='font-weight: 600; color: #343E48; font-size: 16px;'>AI Application</td>
+                                                            <td align='right' style='font-weight: 700; color: #62B2A9; font-size: 18px;'>{results.AIApplicationAverage:F1}/5.0</td>
+                                                        </tr>
+                                                    </table>
+                                                    {CreateScoreBar(results.AIApplicationAverage)}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                        <!-- People & Organization Score -->
+                                        <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
+                                            <tr>
+                                                <td style='padding: 15px;'>
+                                                    <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                                        <tr>
+                                                            <td style='font-weight: 600; color: #343E48; font-size: 16px;'>People & Organization</td>
+                                                            <td align='right' style='font-weight: 700; color: #62B2A9; font-size: 18px;'>{results.PeopleOrgAverage:F1}/5.0</td>
+                                                        </tr>
+                                                    </table>
+                                                    {CreateScoreBar(results.PeopleOrgAverage)}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                        <!-- Tech & Data Score -->
+                                        <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
+                                            <tr>
+                                                <td style='padding: 15px;'>
+                                                    <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                                        <tr>
+                                                            <td style='font-weight: 600; color: #343E48; font-size: 16px;'>Tech & Data</td>
+                                                            <td align='right' style='font-weight: 700; color: #62B2A9; font-size: 18px;'>{results.TechDataAverage:F1}/5.0</td>
+                                                        </tr>
+                                                    </table>
+                                                    {CreateScoreBar(results.TechDataAverage)}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
 
-            <div class='scorecard'>
-                <h2 style='margin-top:0;color:#343E48;'>Executive Summary</h2>
-                <div class='score-item'>
-                    <span class='score-label'>AI Application</span>
-                    <span class='score-value'>{results.AIApplicationAverage:F1}/5.0</span>
-                </div>
-                <div class='score-item'>
-                    <span class='score-label'>People & Organization</span>
-                    <span class='score-value'>{results.PeopleOrgAverage:F1}/5.0</span>
-                </div>
-                <div class='score-item'>
-                    <span class='score-label'>Tech & Data</span>
-                    <span class='score-value'>{results.TechDataAverage:F1}/5.0</span>
-                </div>
-            </div>
+                            <!-- AI Application Section -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
+                                <tr>
+                                    <td style='padding: 20px 25px;'>
+                                        <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                            <tr>
+                                                <td>
+                                                    <h3 style='color: #A0D0CB; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #A0D0CB;'>AI Application</h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {FormatCategoryText(results.AIApplicationText)}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
 
-            <div class='category'>
-                <h3 class='category-title'>AI Application</h3>
-                <p>{results.AIApplicationText}</p>
-            </div>
+                            <!-- People & Organization Section -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
+                                <tr>
+                                    <td style='padding: 20px 25px;'>
+                                        <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                            <tr>
+                                                <td>
+                                                    <h3 style='color: #6282a7; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #6282a7;'>People & Organization</h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {FormatCategoryText(results.PeopleOrgText)}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
 
-            <div class='category'>
-                <h3 class='category-title'>People & Organization</h3>
-                <p>{results.PeopleOrgText}</p>
-            </div>
+                            <!-- Tech & Data Section -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
+                                <tr>
+                                    <td style='padding: 20px 25px;'>
+                                        <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                            <tr>
+                                                <td>
+                                                    <h3 style='color: #ab7171; font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #ab7171;'>Tech & Data</h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {FormatCategoryText(results.TechDataText)}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
 
-            <div class='category'>
-                <h3 class='category-title'>Tech & Data</h3>
-                <p>{results.TechDataText}</p>
-            </div>
+                            <!-- Contact Person Section -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
+                                <tr>
+                                    <td width='6' bgcolor='#A0D0CB' style='border-radius: 8px 0 0 8px;'></td>
+                                    <td style='padding: 20px 25px;'>
+                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Feel free to contact our AI Lab Lead</h3>
+                                        <p style='color: #343E48; line-height: 1.6;'>
+                                            <strong>Manuel Halbing</strong><br>
+                                            AI Lab Managing Director<br>
+                                            Email: <a href='mailto:manuel.halbing@nunatak.com' style='color:#62B2A9; text-decoration: none;'>manuel.halbing@nunatak.com</a><br>
+                                            Phone: <a href='tel:+49%2089%20997%20436%20700' style='color:#62B2A9; text-decoration: none;'>+49 89 997 436 700</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
 
-            <div class='contact-person'>
-                <h3 style='margin-top:0;color:#343E48;'>Your Direct Contact</h3>
-                <p><strong>Manuel Halbing</strong><br>
-                Managing Partner, Nunatak AI Lab<br>
-                Email: <a href='mailto:manuel.halbing@nunatak.com' style='color:#62B2A9;'>manuel.halbing@nunatak.com</a><br>
-                Phone: <a href='tel:+491732597151' style='color:#62B2A9;'>+49 173 2597151</a></p>
-            </div>
-
-            <div style='text-align:center;margin-top:30px;'>
-                <a href='https://www.nunatak.com' class='cta-button'>Visit Nunatak.com</a>
-            </div>
-        </div>
-
-        <div class='footer'>
-            <p style='margin:0;'>© 2025 Nunatak Group</p>
-            <p style='margin:5px 0;'>Transforming businesses through AI innovation</p>
-        </div>
-    </div>
+                            <!-- CTA Button -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top: 30px;'>
+                                <tr>
+                                    <td align='center'>
+                                        <a href='https://www.nunatak.com' style='display: inline-block; background-color: #62B2A9; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: 600; letter-spacing: 0.5px;'>Visit Nunatak.com</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer Section -->
+                    <tr>
+                        <td bgcolor='#343E48' style='padding: 30px 25px; text-align: center; color: white;'>
+                            <p style='margin:0; font-size:14px;'>© 2025 The Nunatak Group</p>
+                            <p style='margin:8px 0; font-size:15px; font-weight:300;'>Transforming businesses through AI innovation</p>
+                            
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0;'>
+                                <tr>
+                                    <td align='center'>
+                                        <a href='https://www.nunatak.com/en/meta/legal-notice' style='color: #A0D0CB; text-decoration: none; margin: 0 10px; font-size: 13px;'>Legal Notice</a>
+                                        <a href='https://www.nunatak.com/en/meta/privacy-policy' style='color: #A0D0CB; text-decoration: none; margin: 0 10px; font-size: 13px;'>Privacy Policy</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                           <p style='font-style: italic; margin: 20px auto; max-width: 80%; color: rgba(255,255,255,0.8); font-size: 13px; line-height: 1.5;'>
+                                Nu|na|tak [ˈnʌnəˌtæk]<br>
+                                Nunataks are mountains which stick up above the level of a glacier. In Inuktitut language Nunataks resemble signposts which lead the way.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>";
         }

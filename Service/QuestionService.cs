@@ -34,16 +34,16 @@ namespace AI_Maturity_Assessment.Services
                     Id = 2,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q1.png",
-                    QuestionText = "We consistently develop new AI-driven services for our customers",
+                    QuestionText = "We consistently develop new AI-driven solutions for our customers",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into any products or services" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "The deployment of AI is already a crucial element of our customer experience" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "The deployment of AI is already a crucial element of our customer experience" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into any products or services"}
                     }
                 },
                  new Question
@@ -56,11 +56,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our internal processes" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have automated AI-driven processes accross the value chain" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have automated AI-driven processes accross the value chain" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "AI is not integrated into our internal processes" }
                     }
                 },
                 new Question
@@ -73,11 +73,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have no mechanism in place to measure the impact of AI applications" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We continuously measure the impact and adjust our strategy accordingly" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We continuously measure the impact and adjust our strategy accordingly" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have no mechanism in place to measure the impact of AI applications" }
                     }
                 },
                 new Question
@@ -90,11 +90,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have no AI governance set up in place" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy a comprehensive governance ensuring ethical, compliant, and controlled AI deployment" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy a comprehensive governance ensuring ethical, compliant, and controlled AI deployment" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have no AI governance set up in place" }
                     }
                 },
                 new Question
@@ -107,11 +107,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "There is significant resistance to AI adoption and limited awareness of its potential" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have a strong culture of AI innovation with widespread understanding and enthusiasm across all levels" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have a strong culture of AI innovation with widespread understanding and enthusiasm across all levels" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "There is significant resistance to AI adoption and limited awareness of its potential" }
                     }
                 },
                 new Question
@@ -124,11 +124,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have critical AI skill gaps with no development strategy" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have strong AI capabilities with effective talent acquisition and development programs" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have strong AI capabilities with effective talent acquisition and development programs" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have critical AI skill gaps with no development strategy" }
                     }
                 },
                 new Question
@@ -141,11 +141,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have limited or outdated tools and no platform integration" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy state-of-the-art AI infrastructure enabling rapid development and integration into our ecosystem" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We deploy state-of-the-art AI infrastructure enabling rapid development and integration into our ecosystem" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "We have limited or outdated tools and no platform integration" }
                     }
                 },
                 new Question
@@ -158,11 +158,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "Our data is fragmented, poorly organized, and difficult to access for AI applications" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We maintain high-quality, well-structured data with seamless access and integration capabilities for AI development" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We maintain high-quality, well-structured data with seamless access and integration capabilities for AI development" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "Our data is fragmented, poorly organized, and difficult to access for AI applications" }
                     }
                 },
                 new Question
@@ -175,11 +175,11 @@ namespace AI_Maturity_Assessment.Services
                     OrderIndex = 1,
                     Answers = new List<Answer>
                     {
-                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific protection measures for AI applications are in place" },
-                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
-                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have comprehensive security and privacy controls and guidelines across all new and existing AI initiatives" },
                         new Answer { Id = 4, AnswerText = "Agree", Score = 4 },
-                        new Answer { Id = 5, AnswerText = "Strongly Agree", Score = 5, Description = "We have comprehensive security and privacy controls and guidelines across all new and existing AI initiatives" }
+                        new Answer { Id = 3, AnswerText = "Neutral", Score = 3 },
+                        new Answer { Id = 2, AnswerText = "Disagree", Score = 2 },
+                        new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific protection measures for AI applications are in place" }
                     }
                 }
                 

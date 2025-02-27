@@ -12,11 +12,11 @@
   --bg-glass: rgba(255, 255, 255, 0.1);
   --accent-white: #ffffff;
   --accent-grey: rgba(255, 255, 255, 0.18);
-  --accent-blue: rgb(98, 130, 167);
-  --accent-red: rgb(171, 113, 113);
+  --accent-blue: #6282a7;
+  --accent-red: #ab7171;
   --accent-shadow: rgba(17, 0, 0, 0.1);
   --accent-green: #A0D0CB; 
-  --accent-green-dark: #62B2A9;
+  --accent-green-dark: rgb(98, 178, 169);
   --chapter1-gradient: linear-gradient(90deg, var(--accent-green) 0%, var(--accent-green) 100%);
   --chapter2-gradient: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-blue) 100%);
   --chapter3-gradient: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-red) 100%);
