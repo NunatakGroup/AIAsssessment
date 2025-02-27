@@ -227,7 +227,7 @@ namespace AI_Maturity_Assessment.Services
                                 <tr>
                                     <td width='6' bgcolor='#A0D0CB' style='border-radius: 8px 0 0 8px;'></td>
                                     <td style='padding: 20px 25px;'>
-                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Feel free to contact our AI Lab Lead</h3>
+                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Do you have any questions or would you like to discuss your results?</h3>
                                         <p style='color: #343E48; line-height: 1.6;'>
                                             <strong>Manuel Halbing</strong><br>
                                             AI Lab Managing Director<br>
@@ -265,7 +265,7 @@ namespace AI_Maturity_Assessment.Services
                             </table>
                             
                            <p style='font-style: italic; margin: 20px auto; max-width: 80%; color: rgba(255,255,255,0.8); font-size: 13px; line-height: 1.5;'>
-                                Nu|na|tak [ˈnʌnəˌtæk]<br>
+                                Nu|na|tak [’nu:natak]<br>
                                 Nunataks are mountains which stick up above the level of a glacier. In Inuktitut language Nunataks resemble signposts which lead the way.
                             </p>
                         </td>

@@ -182,7 +182,6 @@ namespace AI_Maturity_Assessment.Services
                         new Answer { Id = 1, AnswerText = "Strongly Disagree", Score = 1, Description = "No specific protection measures for AI applications are in place" }
                     }
                 }
-                
             };
         }
 

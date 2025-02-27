@@ -10,6 +10,8 @@ public class AssessmentResponseEntity : ITableEntity
     public string? Name { get; set; }
     public string? Company { get; set; }
     public string? Email { get; set; }
+    public string BusinessSector { get; set; }
+    public string CompanySize { get; set; }
     
     // Answer columns
     public int? Question1Answer { get; set; }

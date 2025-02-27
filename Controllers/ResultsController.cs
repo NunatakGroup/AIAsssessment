@@ -147,6 +147,11 @@ namespace AI_Maturity_Assessment.Controllers
         {
             try
             {
+                if (model.BusinessSector == "Other" && string.IsNullOrWhiteSpace(model.OtherBusinessSector))
+                {
+                    ModelState.AddModelError("OtherBusinessSector", "Please specify your business sector");
+                }
+                
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -159,7 +164,8 @@ namespace AI_Maturity_Assessment.Controllers
                 }
 
                 // Save contact info
-                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email);
+                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email, model.BusinessSector == "Other" ? model.OtherBusinessSector : model.BusinessSector,
+                model.CompanySize);
 
                 // Get assessment results
                 var responses = await _azureTableService.GetResponses(sessionId);

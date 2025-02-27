@@ -61,12 +61,14 @@ namespace AI_Maturity_Assessment.Services
             }
         }
 
-        public async Task SaveContactInfo(string sessionId, string name, string company, string email)
+        public async Task SaveContactInfo(string sessionId, string name, string company, string email, string businessSector, string companySize)
         {
             var entity = await GetOrCreateEntity(sessionId);
             entity.Name = name;
             entity.Company = company;
             entity.Email = email;
+            entity.BusinessSector = businessSector;
+            entity.CompanySize = companySize;
             await _tableClient.UpsertEntityAsync(entity);
         }
 

@@ -1,6 +1,6 @@
 namespace AI_Maturity_Assessment.Models
 {
-    public enum QuestionType { SingleChoice }
+    public enum QuestionType {SingleChoice}
 
     public class Question
     {
