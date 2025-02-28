@@ -865,6 +865,21 @@ html {
   padding: 0 2rem;
 }
 
+.results-content.detailed-results {
+  display: block;  /* Override the grid display from results-content */
+  width: 100%;
+  max-width: 1400px;
+  margin: 2rem auto 0;
+  padding: 0 2rem;
+}
+
+.results-tabs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 /* Chart Panel */
 .glass-panel.chart-panel {
   background: rgba(255, 255, 255, 0.03);
@@ -954,6 +969,8 @@ html {
   transition: all 0.3s ease;
   position: relative;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .result-tab[data-category="AI APPLICATION"] {
@@ -1058,6 +1075,10 @@ tab-content {
   #radarChart {
       flex: 1;
       width: 100% !important;
+  }
+
+  .results-content.detailed-results {
+    grid-template-columns: 1fr; /* Force single column if grid is applied */
   }
 }
 
