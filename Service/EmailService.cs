@@ -227,7 +227,7 @@ namespace AI_Maturity_Assessment.Services
                                 <tr>
                                     <td width='6' bgcolor='#A0D0CB' style='border-radius: 8px 0 0 8px;'></td>
                                     <td style='padding: 20px 25px;'>
-                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Do you have any questions or would you like to discuss your results?</h3>
+                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Do your have any questions or would you like to discuss your results?</h3>
                                         <p style='color: #343E48; line-height: 1.6;'>
                                             <strong>Manuel Halbing</strong><br>
                                             AI Lab Managing Director<br>

@@ -39,6 +39,25 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.UseSessionDebug();
 app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        // Add Cache-Control headers to allow browser caching
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
+        
+        // Ensure content type is set correctly for images
+        if (ctx.File.Name.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+        {
+            ctx.Context.Response.ContentType = "image/png";
+        }
+        else if (ctx.File.Name.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || 
+                 ctx.File.Name.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+        {
+            ctx.Context.Response.ContentType = "image/jpeg";
+        }
+    }
+});
 app.UseStaticFiles();
 app.UseSessionDebug();
 app.UseRouting();

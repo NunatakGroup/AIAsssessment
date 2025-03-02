@@ -97,16 +97,53 @@ const InteractiveEffects = {
     }
 };
 
+const ImageDebugHelper = {
+    initialize() {
+        console.log('Initializing ImageDebugHelper');
+        this.checkImages();
+    },
+
+    checkImages() {
+        // Find all images
+        const images = document.querySelectorAll('.avatar-image');
+        
+        images.forEach(img => {
+            console.log('Image source:', img.src);
+            
+            // Add event handlers
+            img.addEventListener('load', function() {
+                console.log('Image loaded successfully:', this.src);
+                // Hide placeholder when image loads
+                const placeholder = this.parentElement.querySelector('.avatar-placeholder');
+                if (placeholder) placeholder.style.display = 'none';
+            });
+            
+            img.addEventListener('error', function() {
+                console.error('Image failed to load:', this.src);
+                // Show placeholder when image fails to load
+                const placeholder = this.parentElement.querySelector('.avatar-placeholder');
+                if (placeholder) placeholder.style.display = 'flex';
+                this.style.display = 'none';
+            });
+        });
+    }
+};
+
 const ResultsViewController = {
     async initialize() {
         console.log('Initializing ResultsViewController');
-        const results = await this.loadResults();
-        this.initializeModal();  // Just initialize the modal handlers
-        if (results) {
-            this.initializeChart(results);
-            this.displayCategoryScores(results);
-            this.updatePerceptionGauge(results);
-        }
+    
+    // Initialize image handling first for better debugging
+    this.initializeImageHandling();
+    
+    const results = await this.loadResults();
+    this.initializeModal();
+    
+    if (results) {
+        this.initializeChart(results);
+        this.displayCategoryScores(results);
+        this.updatePerceptionGauge(results);
+    }
     },
 
     displayCategoryScores(results) {
@@ -238,6 +275,68 @@ const ResultsViewController = {
                     }
                 }
             }
+        });
+    },
+
+    initializeImageHandling() {
+        console.log('Setting up improved image handling');
+        
+        // Select all avatar images
+        const images = document.querySelectorAll('.avatar-image');
+        
+        images.forEach(img => {
+            // For images that are already loaded (from cache)
+            if (img.complete) {
+                if (img.naturalWidth === 0) {
+                    // Image failed to load (error state but complete)
+                    console.log('Image already failed:', img.src);
+                    // Show placeholder
+                    const placeholder = img.parentElement.querySelector('.avatar-placeholder');
+                    if (placeholder) placeholder.style.zIndex = 3; // Move above image
+                }
+            }
+            
+            // For images still loading
+            img.addEventListener('load', function() {
+                console.log('Image loaded successfully:', this.src);
+                // Image loaded successfully - make sure it's visible
+                this.style.display = 'block';
+                // Keep placeholder behind
+                const placeholder = this.parentElement.querySelector('.avatar-placeholder');
+                if (placeholder) placeholder.style.zIndex = 1;
+            });
+            
+            img.addEventListener('error', function() {
+                console.error('Image failed to load:', this.src);
+                // Show placeholder when image fails
+                const placeholder = this.parentElement.querySelector('.avatar-placeholder');
+                if (placeholder) placeholder.style.zIndex = 3; // Move above image
+            });
+        });
+    },
+
+    checkSpecificImage() {
+        // Try to load the specific image that's failing
+        const testImg = new Image();
+        
+        // Log paths to check
+        console.log('Current page URL:', window.location.href);
+        console.log('Application root:', window.location.origin);
+        
+        // Try different paths to see which one works
+        const paths = [
+            '/images/AI_Wheel_Q1.png',
+            '/images/AI_Wheel_Q9.png',
+            'images/AI_Wheel_Q1.png',
+            window.location.origin + '/images/AI_Wheel_Q1.png'
+        ];
+        
+        paths.forEach(path => {
+            const img = new Image();
+            img.onload = () => console.log('SUCCESS LOADING:', path);
+            img.onerror = () => console.error('FAILED LOADING:', path);
+            img.src = path;
+            console.log('Attempting to load:', path);
         });
     },
 
@@ -495,4 +594,5 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing ResultsViewController');
     ResultsViewController.initialize();
     InteractiveEffects.initialize();
+    ImageDebugHelper.initialize();
 });

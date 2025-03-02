@@ -55,6 +55,35 @@
     </div>
 </div>
 
+<!-- AI Lab Contact Section - UPDATED -->
+<div class="ai-lab-section">
+    <div class="results-content ai-lab-content full-width">
+        <div class="glass-panel contact-panel @(Model.Contacts.Count == 1 ? "single-contact" : "") full-width">
+            <h3>Do you have any questions or would you like to discuss your results? <br> <br> Contact Our <span class="accent-text">AI LAB @(Model.Contacts.Count == 1 ? "LEAD" : "LEADS")</span></h3>
+            <div class="contact-details">
+                @foreach (var contact in Model.Contacts)
+                {
+                    <div class="contact-person @(Model.Contacts.Count == 1 ? "large" : "")">
+                        <div class="contact-avatar">
+                            <!-- Prioritize image display -->
+                            <img src="@Url.Content(contact.ImagePath)" alt="@contact.Name" class="avatar-image">
+                            <!-- Only show placeholder if image fails -->
+                            <div class="avatar-placeholder" style="display: none;">
+                                <div class="avatar-initials">@(contact.Name.Split(' ')[0][0])@(contact.Name.Split(' ')[1][0])</div>
+                            </div>
+                        </div>
+                        <div class="contact-info">
+                            <h4>@contact.Name</h4>
+                            <p class="contact-role">@contact.Role</p>
+                            <a href="mailto:@contact.Email" class="contact-email">@contact.Email</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- scroll-indicator Indicator -->
 <div class="scroll-indicator">
     <svg viewBox="0 0 30 18" xmlns="http://www.w3.org/2000/svg">

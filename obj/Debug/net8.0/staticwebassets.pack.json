@@ -117,6 +117,14 @@
       "PackagePath": "staticwebassets/images/StrategicWheel.png"
     },
     {
+      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/ai-paper-cover.jpg",
+      "PackagePath": "staticwebassets/images/ai-paper-cover.jpg"
+    },
+    {
+      "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/manuel-halbing.jpg",
+      "PackagePath": "staticwebassets/images/manuel-halbing.jpg"
+    },
+    {
       "Id": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/js/AssessmentViewController.js",
       "PackagePath": "staticwebassets/js/AssessmentViewController.js"
     },

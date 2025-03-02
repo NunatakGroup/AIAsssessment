@@ -40,7 +40,13 @@ namespace AI_Maturity_Assessment.Controllers
                 return RedirectToAction("Index", "Assessment");
             }
             
-            return View();
+            // Pass AILabViewModel to the view
+            var viewModel = new AILabViewModel
+            {
+                Contacts = GetAILabContacts()
+            };
+            
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -139,6 +145,23 @@ namespace AI_Maturity_Assessment.Controllers
             }
 
             return answers.Any() ? answers.Average() : 0;
+        }
+
+        private List<ContactPerson> GetAILabContacts()
+        {
+            // Get the base URL of the application
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            
+            return new List<ContactPerson>
+            {
+                new ContactPerson
+                {
+                    Name = "MANUEL HALBING",
+                    Role = "AI Lab Managing Director",
+                    Email = "manuel.halbing@nunatak.com",
+                    ImagePath = "~/images/manuel-halbing.jpg"
+                },
+            };
         }
 
         [HttpPost]
