@@ -13,7 +13,7 @@ public class CategoryService
             {
                 "AI APPLICATION", 
                 (
-                    QuestionIds: new[] { 2, 3, 4 },
+                    QuestionIds: new[] { 3, 4, 5 },
                     ThresholdTexts: new Dictionary<double, string>
                     {
                         { 1.0, "Beginning stage: Your organization is starting to explore AI applications." },
@@ -25,7 +25,7 @@ public class CategoryService
             {
                 "PEOPLE & ORGANIZATION", 
                 (
-                    QuestionIds: new[] { 5, 6, 7 },
+                    QuestionIds: new[] { 6, 7, 8 },
                     ThresholdTexts: new Dictionary<double, string>
                     {
                         { 1.0, "Beginning stage: Your organization is starting to explore AI applications." },
@@ -37,7 +37,7 @@ public class CategoryService
             {
                 "TECH & DATA", 
                 (
-                    QuestionIds: new[] { 8, 9, 10 },
+                    QuestionIds: new[] { 9, 10, 11 },
                     ThresholdTexts: new Dictionary<double, string>
                     {
                         { 1.0, "Beginning stage: Your organization is starting to explore AI applications." },

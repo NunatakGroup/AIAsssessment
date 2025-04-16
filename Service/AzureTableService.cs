@@ -61,16 +61,31 @@ namespace AI_Maturity_Assessment.Services
             }
         }
 
-        public async Task SaveContactInfo(string sessionId, string name, string company, string email, string businessSector, string companySize)
+        public async Task SaveContactInfo(string sessionId, string name, string company, string email)
         {
             var entity = await GetOrCreateEntity(sessionId);
             entity.Name = name;
             entity.Company = company;
             entity.Email = email;
-            entity.BusinessSector = businessSector;
-            entity.CompanySize = companySize;
             await _tableClient.UpsertEntityAsync(entity);
         }
+
+        public async Task SaveDemographics(string sessionId, string businessSector, string companySize)
+        {
+            try
+            {
+                var entity = await GetOrCreateEntity(sessionId);
+                entity.BusinessSector = businessSector;
+                entity.CompanySize = companySize;
+                await _tableClient.UpsertEntityAsync(entity);
+                _logger.LogInformation($"Saved demographics for session {sessionId}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error saving demographics for session {sessionId}");
+                throw;
+            }
+        }       
 
         private async Task<AssessmentResponseEntity> GetOrCreateEntity(string sessionId)
         {

@@ -40,25 +40,34 @@ const AssessmentViewController = {
 
     async nextQuestion() {
         let answerId;
+       
+        if (this.currentQuestionId === 2) {
+            const success = await this.saveDemographics();
+            if (!success) return; // Stopp, wenn Speichern fehlgeschlagen ist
+        } 
+        // Andere Fragen behandeln
+        else {
+            let answerId;
+            
+            if (this.currentQuestionId === 1) {
+                const slider = document.querySelector('#maturitySlider');
+                if (!slider) {
+                    this.showNotification('Error: Slider not found', true);
+                    return;
+                }
+                answerId = parseInt(slider.value);
+            } else {
+                const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+                if (!selectedAnswer) {
+                    this.showNotification('Please select an answer', true);
+                    return;
+                }
+                answerId = parseInt(selectedAnswer.value);
+            }
         
-        if (this.currentQuestionId === 1) {
-            const slider = document.querySelector('#maturitySlider');
-            if (!slider) {
-                this.showNotification('Error: Slider not found', true);
-                return;
-            }
-            answerId = parseInt(slider.value);
-        } else {
-            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-            if (!selectedAnswer) {
-                this.showNotification('Please select an answer', true);
-                return;
-            }
-            answerId = parseInt(selectedAnswer.value);
+            await this.saveAnswer(this.currentQuestionId, answerId);
+            this.userAnswers.set(this.currentQuestionId, answerId);
         }
-    
-        await this.saveAnswer(this.currentQuestionId, answerId);
-        this.userAnswers.set(this.currentQuestionId, answerId);
     
         if (this.currentQuestionId === this.totalQuestions) {
             await this.submitAssessment();
@@ -118,15 +127,111 @@ const AssessmentViewController = {
                 </button>
             </div>`;
     },
+
+    createDemographicsUI(question) {
+        return `
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    Question ${this.currentQuestionId} of ${this.totalQuestions}
+                </div>
+            </div>
+            <div class="question-header">
+                <div class="question-content">
+                    <div class="chapter-label">${question.chapter}</div>
+                    <h2>${question.questionText}</h2>
+                </div>
+                <div class="image-container">
+                    <img src="${question.imagePath}" alt="Company profile">
+                </div>
+            </div>
+            <div class="demographics-container">
+                <div class="form-group">
+                    <label for="businessSector">Business Sector</label>
+                    <select id="businessSector" class="form-control" required>
+                        <option value="" disabled selected>Select your business sector</option>
+                        <option value="Aerospace-Defense">Aerospace & Defense</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Automotive">Automotive</option>
+                        <option value="Chemical">Chemical</option>
+                        <option value="Communications">Communications</option>
+                        <option value="Construction">Construction</option>
+                        <option value="E-Commerce">E-Commerce</option>
+                        <option value="Education">Education</option>
+                        <option value="Energy-Utilities">Energy & Utilities</option>
+                        <option value="Fashion-Apparel">Fashion & Apparel</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Food-Beverage">Food & Beverage</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Hospitality">Hospitality</option>
+                        <option value="Insurance">Insurance</option>
+                        <option value="IT-Technology">IT & Technology</option>
+                        <option value="Logistics-Transportation">Logistics & Transportation</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Media-Entertainment">Media & Entertainment</option>
+                        <option value="Pharmaceuticals">Pharmaceuticals</option>
+                        <option value="Real-Estate">Real Estate</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Sports-Fitness">Sports & Fitness</option>
+                        <option value="Telecommunications">Telecommunications</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group" id="otherSectorGroup" style="display: none;">
+                    <label for="otherBusinessSector">Please specify</label>
+                    <input type="text" id="otherBusinessSector" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="companySize">Company Size</label>
+                    <select id="companySize" class="form-control" required>
+                        <option value="" disabled selected>Select your company size</option>
+                        <option value="1-50">1-50 employees</option>
+                        <option value="51-200">51-200 employees</option>
+                        <option value="201-1000">201-1000 employees</option>
+                        <option value="1001+">1001+ employees</option>
+                    </select>
+                </div>
+            </div>
+            <div class="button-container">
+                ${this.currentQuestionId > 1 ? `<button class="back-button" onclick="AssessmentViewController.previousQuestion()">Back</button>` : ''}
+                <button class="continue-button" onclick="AssessmentViewController.nextQuestion()">
+                    Continue
+                </button>
+            </div>`;
+    },
  
+    // Update this method in AssessmentViewController.js
     updateUI(question) {
         this.updateProgressBar();
         const panel = document.querySelector('.glass-panel');
+        // Remove all existing chapter classes
+        panel.classList.remove('chapter-1', 'chapter-2', 'chapter-3');
+        // Then add the correct one for the current question
         const currentChapter = this.determineCurrentChapter();
         panel.classList.add(`chapter-${currentChapter}`);
 
-        // Check if it's the first question
-        if (this.currentQuestionId === 1) {
+        // Check question type to determine UI
+        if (question.type === 1) { // Demographics question type (QuestionType.Demographics = 1)
+            panel.innerHTML = this.createDemographicsUI(question);
+            
+            // Add event listener for "Other" business sector
+            const businessSector = document.getElementById('businessSector');
+            const otherSectorGroup = document.getElementById('otherSectorGroup');
+            
+            if (businessSector && otherSectorGroup) {
+                businessSector.addEventListener('change', function() {
+                    if (this.value === 'Other') {
+                        otherSectorGroup.style.display = 'block';
+                    } else {
+                        otherSectorGroup.style.display = 'none';
+                    }
+                });
+            }
+        } 
+        // First question (slider)
+        else if (this.currentQuestionId === 1) {
             panel.innerHTML = this.createSliderUI(question);
             
             // Add slider event listener
@@ -145,11 +250,12 @@ const AssessmentViewController = {
                         parseInt(marker.dataset.value) <= parseInt(this.value));
                 });
             });
-    
+
             // Trigger initial state
             slider.dispatchEvent(new Event('input'));
-        } else {
-            // Original question UI for questions 2-10
+        } 
+        // Standard questions
+        else {
             panel.innerHTML = `
                 <div class="progress-container">
                     <div class="progress-bar">
@@ -185,13 +291,13 @@ const AssessmentViewController = {
                         ${this.currentQuestionId === this.totalQuestions ? 'Complete' : 'Continue'}
                     </button>
                 </div>`;
-    
+
             if (this.userAnswers.has(this.currentQuestionId)) {
                 const previousAnswer = this.userAnswers.get(this.currentQuestionId);
                 document.querySelector(`input[value="${previousAnswer}"]`).checked = true;
             }
         }
-    
+
         const imageContainer = document.querySelector('#questionImage');
         imageContainer.innerHTML = `<img src="${question.imagePath}" alt="Question visual">`;
 
@@ -217,9 +323,10 @@ const AssessmentViewController = {
     },
 
     determineCurrentChapter() {
-        if (this.currentQuestionId <= 4) return 1;
-        if (this.currentQuestionId <= 7) return 2;
-        return 3;
+        if (this.currentQuestionId <= 2) return 1; // Introduction & Demographics (Green)
+        if (this.currentQuestionId <= 5) return 1; // AI APPLICATION (Green)
+        if (this.currentQuestionId <= 8) return 2; // PEOPLE & ORGANIZATION (Blue)
+        return 3; // TECH & DATA (Red)
       },
  
     previousQuestion() {
@@ -232,6 +339,66 @@ const AssessmentViewController = {
         }
     },
  
+    async saveDemographics() {
+        try {
+            const businessSectorEl = document.getElementById('businessSector');
+            const otherBusinessSectorEl = document.getElementById('otherBusinessSector');
+            const companySizeEl = document.getElementById('companySize');
+            
+            if (!businessSectorEl || !companySizeEl) {
+                this.showNotification('Error: Form fields not found', true);
+                return false;
+            }
+    
+            const businessSector = businessSectorEl.value;
+            const companySize = companySizeEl.value;
+            
+            if (!businessSector || !companySize) {
+                this.showNotification('Please complete all fields', true);
+                return false;
+            }
+    
+            // Check if "Other" is selected and other field is empty
+            if (businessSector === 'Other' && 
+                (!otherBusinessSectorEl || !otherBusinessSectorEl.value)) {
+                this.showNotification('Please specify your business sector', true);
+                return false;
+            }
+    
+            const demographicData = {
+                businessSector: businessSector,
+                otherBusinessSector: businessSector === 'Other' ? otherBusinessSectorEl.value : null,
+                companySize: companySize,
+                sessionId: this.sessionId
+            };
+    
+            // Call the correct endpoint in the AssessmentController
+            const response = await fetch('/Assessment/SaveDemographics', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(demographicData)
+            });
+            
+            if (!response.ok) throw new Error('Failed to save demographics');
+            const result = await response.json();
+            
+            // Update session ID if provided
+            if (result.sessionId) {
+                this.sessionId = result.sessionId;
+                localStorage.setItem('assessmentSessionId', result.sessionId);
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Error saving demographics:', error);
+            this.showNotification('Error saving demographic information', true);
+            return false;
+        }
+    },
+
     async submitAssessment() {
         try {
             console.log('Starting submission...');

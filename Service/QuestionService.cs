@@ -29,9 +29,19 @@ namespace AI_Maturity_Assessment.Services
                         new Answer { Id = 5, AnswerText = "...following our ambition to outperform market competitors", Score = 5 }
                     }
                 },
-                 new Question
+                new Question
                 {
                     Id = 2,
+                    Chapter = "",
+                    ImagePath = "/images/AI_Wheel_Full.png",
+                    QuestionText = "Please tell us a bit about your organization",
+                    Type = QuestionType.Demographics,
+                    OrderIndex = 1,
+                    Answers = new List<Answer>()
+                },
+                 new Question
+                {
+                    Id = 3,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q1.png",
                     QuestionText = "We consistently develop new AI-driven solutions for our customers",
@@ -48,7 +58,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                  new Question
                 {
-                    Id = 3,
+                    Id = 4,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q2.png",
                     QuestionText = "We deploy AI to improve efficiency throughout all internal processes",
@@ -65,7 +75,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 4,
+                    Id = 5,
                     Chapter = "AI APPLICATION AREAS",
                     ImagePath = "/images/AI_Wheel_Q3.png",
                     QuestionText = "We have the capability to assess the impact of AI applications and consistently monitor their performance",
@@ -82,7 +92,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 5,
+                    Id = 6,
                     Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q4.png",
                     QuestionText = "Our organization has clearly established structures, decision-making processes, and guidelines for responsible AI deployment",
@@ -99,7 +109,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 6,
+                    Id = 7,
                     Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q5.png",
                     QuestionText = "Our organization embraces AI innovation and actively promotes a culture of data-driven decision making",
@@ -116,7 +126,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 7,
+                    Id = 8,
                     Chapter = "ORGANIZATION & PEOPLE",
                     ImagePath = "/images/AI_Wheel_Q6.png",
                     QuestionText = "Our organization has defined the AI competencies required, strategically recruits talent in this field, and provides continuous training to empower employees to effectively use AI",
@@ -133,7 +143,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 8,
+                    Id = 9,
                     Chapter = "TECH & DATA",
                     ImagePath = "/images/AI_Wheel_Q7.png",
                     QuestionText = "We deploy the right tools and models to power AI applications and integrate solutions into a coherent ecosystem",
@@ -150,7 +160,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 9,
+                    Id = 10,
                     Chapter = "TECH & DATA",
                     ImagePath = "/images/AI_Wheel_Q8.png",
                     QuestionText = "We have established a robust data architecture that enables efficient data collection, storage, and access for AI deployment",
@@ -167,7 +177,7 @@ namespace AI_Maturity_Assessment.Services
                 },
                 new Question
                 {
-                    Id = 10,
+                    Id = 11,
                     Chapter = "TECH & DATA",
                     ImagePath = "/images/AI_Wheel_Q9.png",
                     QuestionText = "We ensure robust security and privacy protection in the development and deployment of AI solutions",

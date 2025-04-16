@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iLKrMKU5w7JNqV2wuIHm2EGyAI3QDZChd2Nac724VpE=",
+  "Hash": "YBn8+xgBEV+elnhS5z1HbxvDia+Z3T5xe/KBonFjhNI=",
   "Source": "AI-Maturity-Assessment",
   "BasePath": "_content/AI-Maturity-Assessment",
   "Mode": "Default",
@@ -511,25 +511,6 @@
       "OriginalItemSpec": "wwwroot/images/Ai-House.png"
     },
     {
-      "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/ai-paper-cover.jpg",
-      "SourceId": "AI-Maturity-Assessment",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/",
-      "BasePath": "_content/AI-Maturity-Assessment",
-      "RelativePath": "images/ai-paper-cover.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/images/ai-paper-cover.jpg"
-    },
-    {
       "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/Ambition-Partnering.png",
       "SourceId": "AI-Maturity-Assessment",
       "SourceType": "Discovered",
@@ -568,6 +549,25 @@
       "OriginalItemSpec": "wwwroot/images/Ambition-Planning.png"
     },
     {
+      "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/lea-klick.png",
+      "SourceId": "AI-Maturity-Assessment",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/",
+      "BasePath": "_content/AI-Maturity-Assessment",
+      "RelativePath": "images/lea-klick.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/lea-klick.png"
+    },
+    {
       "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/manuel-halbing.jpg",
       "SourceId": "AI-Maturity-Assessment",
       "SourceType": "Discovered",
@@ -604,6 +604,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/Nunatak-AI-Lab.png"
+    },
+    {
+      "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/oliver-zindler.png",
+      "SourceId": "AI-Maturity-Assessment",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/",
+      "BasePath": "_content/AI-Maturity-Assessment",
+      "RelativePath": "images/oliver-zindler.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/oliver-zindler.png"
     },
     {
       "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/StrategicWheel.png",

@@ -73,9 +73,9 @@ namespace AI_Maturity_Assessment.Controllers
                 }
 
                 // Calculate category averages
-                var aiApplicationAvg = CalculateAverage(responses, 2, 4);
-                var peopleOrgAvg = CalculateAverage(responses, 5, 7);
-                var techDataAvg = CalculateAverage(responses, 8, 10);
+                var aiApplicationAvg = CalculateAverage(responses, 3, 5);
+                var peopleOrgAvg = CalculateAverage(responses, 6, 8);
+                var techDataAvg = CalculateAverage(responses, 9, 11);
 
                 // Store averages in the entity
                 responses.AIApplicationAverage = aiApplicationAvg;
@@ -85,7 +85,6 @@ namespace AI_Maturity_Assessment.Controllers
 
                 var chartData = new[] 
                 { 
-                    responses.Question2Answer ?? 0,
                     responses.Question3Answer ?? 0,
                     responses.Question4Answer ?? 0,
                     responses.Question5Answer ?? 0,
@@ -93,7 +92,8 @@ namespace AI_Maturity_Assessment.Controllers
                     responses.Question7Answer ?? 0,
                     responses.Question8Answer ?? 0,
                     responses.Question9Answer ?? 0,
-                    responses.Question10Answer ?? 0
+                    responses.Question10Answer ?? 0,
+                    responses.Question11Answer ?? 0
                 };
 
                 var categoryResults = new[]
@@ -161,6 +161,20 @@ namespace AI_Maturity_Assessment.Controllers
                     Email = "manuel.halbing@nunatak.com",
                     ImagePath = "~/images/manuel-halbing.jpg"
                 },
+                new ContactPerson
+                {
+                    Name = "LEA KLICK",
+                    Role = "AI Lab Transformation Lead",
+                    Email = "lea.klick@nunatak.com",
+                    ImagePath = "~/images/lea-klick.png"
+                },
+                new ContactPerson
+                {
+                    Name = "OLIVER ZINDLER",
+                    Role = "AI Lab Strategy Lead",
+                    Email = "oliver.zindler@nunatak.com",
+                    ImagePath = "~/images/oliver-zindler.png"
+                },
             };
         }
 
@@ -170,11 +184,6 @@ namespace AI_Maturity_Assessment.Controllers
         {
             try
             {
-                if (model.BusinessSector == "Other" && string.IsNullOrWhiteSpace(model.OtherBusinessSector))
-                {
-                    ModelState.AddModelError("OtherBusinessSector", "Please specify your business sector");
-                }
-                
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -186,9 +195,8 @@ namespace AI_Maturity_Assessment.Controllers
                     return BadRequest(new { error = "No session found" });
                 }
 
-                // Save contact info
-                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email, model.BusinessSector == "Other" ? model.OtherBusinessSector : model.BusinessSector,
-                model.CompanySize);
+                // Save only name, company, and email
+                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email);
 
                 // Get assessment results
                 var responses = await _azureTableService.GetResponses(sessionId);
@@ -221,8 +229,6 @@ namespace AI_Maturity_Assessment.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Failed to send assessment results email");
-                    // Note: We're not returning an error to the client here
-                    // as the contact form submission was successful
                 }
 
                 return Ok();

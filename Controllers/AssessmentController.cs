@@ -97,6 +97,37 @@ namespace AI_Maturity_Assessment.Controllers
         }
     }
 
+    [HttpPost]
+    [Route("SaveDemographics")]
+    public async Task<IActionResult> SaveDemographics([FromBody] DemographicData data)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(data.SessionId))
+            {
+                // Generate session ID if not provided
+                data.SessionId = Guid.NewGuid().ToString();
+            }
+            
+            // Store demographics in Azure via service
+            await _azureTableService.SaveDemographics(
+                data.SessionId,
+                data.BusinessSector == "Other" ? data.OtherBusinessSector : data.BusinessSector,
+                data.CompanySize
+            );
+            
+            // Save session ID in HTTP session
+            HttpContext.Session.SetString("AssessmentSessionId", data.SessionId);
+            
+            return Json(new { success = true, sessionId = data.SessionId });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error saving demographics");
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
         [HttpPost("SubmitAnswers")]
     public async Task<IActionResult> SubmitAnswers([FromBody] List<AnswerSubmission> answers)
     {
@@ -139,9 +170,9 @@ namespace AI_Maturity_Assessment.Controllers
                     return BadRequest(new { error = "No responses found" });
                 }
 
-                responses.AIApplicationAverage = CalculateAverage(responses, new[] { 2, 3, 4 });
-                responses.PeopleOrgAverage = CalculateAverage(responses, new[] { 5, 6, 7 });
-                responses.TechDataAverage = CalculateAverage(responses, new[] { 8, 9, 10 });
+                responses.AIApplicationAverage = CalculateAverage(responses, new[] { 3, 4, 5 });
+                responses.PeopleOrgAverage = CalculateAverage(responses, new[] { 6, 7, 8 });
+                responses.TechDataAverage = CalculateAverage(responses, new[] { 9, 10, 11 });
 
                 await _azureTableService.UpdateEntity(responses);
                 
@@ -178,7 +209,6 @@ namespace AI_Maturity_Assessment.Controllers
         {
             return id switch
             {
-                2 => responses.Question2Answer,
                 3 => responses.Question3Answer,
                 4 => responses.Question4Answer,
                 5 => responses.Question5Answer,
@@ -187,6 +217,7 @@ namespace AI_Maturity_Assessment.Controllers
                 8 => responses.Question8Answer,
                 9 => responses.Question9Answer,
                 10 => responses.Question10Answer,
+                11 => responses.Question11Answer,
                 _ => null
             };
         }

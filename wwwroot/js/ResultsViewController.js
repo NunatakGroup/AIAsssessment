@@ -407,22 +407,6 @@ const ResultsViewController = {
             modal.style.display = 'none';
             modal.classList.remove('active');
         }
-        const businessSectorDropdown = document.getElementById('businessSector');
-        const otherSectorGroup = document.getElementById('otherSectorGroup');
-        const otherBusinessSector = document.getElementById('otherBusinessSector');
-        
-        if (businessSectorDropdown && otherSectorGroup && otherBusinessSector) {
-            businessSectorDropdown.addEventListener('change', function() {
-                if (this.value === 'Other') {
-                    otherSectorGroup.style.display = 'block';
-                    otherBusinessSector.setAttribute('required', 'required');
-                } else {
-                    otherSectorGroup.style.display = 'none';
-                    otherBusinessSector.removeAttribute('required');
-                    otherBusinessSector.value = '';
-                }
-            });
-        }
     },
 
     showContactModal() {
@@ -443,118 +427,109 @@ const ResultsViewController = {
 
     async handleModalSubmit(e) {
         e.preventDefault();
+    
+    const form = e.target;
+    const button = form.querySelector('.submit-button');
+    const buttonText = button.querySelector('.button-text');
+    const buttonLoading = button.querySelector('.button-loading');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    
+    try {
+        // Debug: Ausgabe vor Formularübermittlung
+        console.log("Form submission started");
         
-        const form = e.target;
-        const button = form.querySelector('.submit-button');
-        const buttonText = button.querySelector('.button-text');
-        const buttonLoading = button.querySelector('.button-loading');
-        const scrollIndicator = document.querySelector('.scroll-indicator');
+        // Buttonzustand für Ladeanimation aktualisieren
+        buttonText.classList.add('hidden');
+        buttonLoading.classList.remove('hidden');
+        button.disabled = true;
+
+        // FormData erstellen
+        const formData = new FormData(form);
         
-        const businessSector = form.querySelector('#businessSector').value;
-        const otherBusinessSector = form.querySelector('#otherBusinessSector');
-        
-        if (businessSector === 'Other' && (!otherBusinessSector.value || otherBusinessSector.value.trim() === '')) {
-            alert('Please specify your business sector');
-            return;
+        // Debug: Formulardaten protokollieren
+        console.log("Form data being sent:");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
         }
         
-        try {
-            buttonText.classList.add('hidden');
-            buttonLoading.classList.remove('hidden');
-            button.disabled = true;
-    
-            // Create form data and add dummy value if needed
-            const formData = new FormData(form);
-            
-            // If business sector is not "Other", add a dummy value for OtherBusinessSector
-            if (businessSector !== 'Other') {
-                formData.set('OtherBusinessSector', 'NotApplicable');
+        // Daten an den Server senden
+        const response = await fetch('/Results/SubmitContact', {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Debug: Antwortdetails protokollieren
+        console.log("Response status:", response.status);
+        console.log("Response status text:", response.statusText);
+        
+        if (response.ok) {
+            console.log("Form submitted successfully");
+            const unlockPrompt = document.querySelector('.unlock-prompt');
+            if (unlockPrompt) {
+                unlockPrompt.style.display = 'none';
             }
             
-            // Debug: log form data
-            console.log("Form data being sent:");
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
-            
-            // Send the form data
-            const response = await fetch('/Results/SubmitContact', {
-                method: 'POST',
-                body: formData
-            });
-            
-            // Debug: log response details
-            console.log("Response status:", response.status);
-            console.log("Response status text:", response.statusText);
-            
-            if (response.ok) {
-                console.log("Form submitted successfully");
-                const unlockPrompt = document.querySelector('.unlock-prompt');
-                if (unlockPrompt) {
-                    unlockPrompt.style.display = 'none';
-                }
-                
-                this.hideModal();
-                this.showDetailedResults();
-                form.reset();
-    
-                // Show scroll indicator after detailed results are shown
-                setTimeout(() => {
-                    if (scrollIndicator) {
-                        scrollIndicator.style.display = 'block';
-                        requestAnimationFrame(() => {
-                            scrollIndicator.classList.add('visible');
-                        });
-    
-                        // Hide scroll indicator when user scrolls
-                        const handleScroll = () => {
+            this.hideModal();
+            this.showDetailedResults();
+            form.reset();
+
+            // Scrollindikator nach Anzeige der detaillierten Ergebnisse anzeigen
+            setTimeout(() => {
+                if (scrollIndicator) {
+                    scrollIndicator.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        scrollIndicator.classList.add('visible');
+                    });
+
+                    // Scrollindikator ausblenden, wenn der Benutzer scrollt
+                    const handleScroll = () => {
+                        scrollIndicator.classList.remove('visible');
+                        setTimeout(() => {
+                            scrollIndicator.style.display = 'none';
+                        }, 300);
+                        window.removeEventListener('scroll', handleScroll);
+                    };
+                    
+                    window.addEventListener('scroll', handleScroll);
+                    
+                    // Automatisch nach 6 Sekunden ausblenden, wenn kein Scrollen erfolgt
+                    setTimeout(() => {
+                        if (scrollIndicator.classList.contains('visible')) {
                             scrollIndicator.classList.remove('visible');
                             setTimeout(() => {
                                 scrollIndicator.style.display = 'none';
                             }, 300);
-                            window.removeEventListener('scroll', handleScroll);
-                        };
-                        
-                        window.addEventListener('scroll', handleScroll);
-                        
-                        // Auto-hide after 6 seconds if no scroll
-                        setTimeout(() => {
-                            if (scrollIndicator.classList.contains('visible')) {
-                                scrollIndicator.classList.remove('visible');
-                                setTimeout(() => {
-                                    scrollIndicator.style.display = 'none';
-                                }, 300);
-                            }
-                        }, 6000);
-                    }
-                }, 500); // Slight delay after content loads
-            } else {
-                // Try to get detailed error information
-                let errorText = "Unknown error";
-                try {
-                    errorText = await response.text();
-                    console.error("Server error response:", errorText);
-                    
-                    // Try to parse as JSON if possible
-                    try {
-                        const jsonError = JSON.parse(errorText);
-                        console.error("Parsed JSON error:", jsonError);
-                    } catch {
-                        // Not JSON, use as plain text
-                    }
-                } catch (readError) {
-                    console.error("Could not read error response:", readError);
+                        }
+                    }, 6000);
                 }
+            }, 500); // Geringfügige Verzögerung nach dem Laden der Inhalte
+        } else {
+            // Versuchen, detaillierte Fehlerinformationen zu erhalten
+            let errorText = "Unknown error";
+            try {
+                errorText = await response.text();
+                console.error("Server error response:", errorText);
                 
-                throw new Error(`Server returned ${response.status}: ${errorText}`);
+                // Versuchen, als JSON zu parsen, falls möglich
+                try {
+                    const jsonError = JSON.parse(errorText);
+                    console.error("Parsed JSON error:", jsonError);
+                } catch {
+                    // Kein JSON, als Klartext verwenden
+                }
+            } catch (readError) {
+                console.error("Could not read error response:", readError);
             }
-        } catch (error) {
-            console.error("Error submitting form:", error);
-            alert('Failed to send results. Please try again. Error: ' + error.message);
-        } finally {
-            buttonText.classList.remove('hidden');
-            buttonLoading.classList.add('hidden');
-            button.disabled = false;
+            
+            throw new Error(`Server returned ${response.status}: ${errorText}`);
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        alert('Failed to send results. Please try again. Error: ' + error.message);
+    } finally {
+        buttonText.classList.remove('hidden');
+        buttonLoading.classList.add('hidden');
+        button.disabled = false;
         }
     },
 
