@@ -311,25 +311,25 @@ if (tabButtons.length > 0) {
         let isValid = true;
 
         // Collect and validate data
-        for (let i = 3; i <= 11; i++) {
-            const input = document.getElementById(`benchmarkQ${i}`);
-            if (!input) {
-                isValid = false;
-                console.error(`Input benchmarkQ${i} not found!`);
-                break;
-            }
-            const value = parseInt(input.value, 10);
-            if (isNaN(value) || value < 1 || value > 5) {
-                isValid = false;
-                input.style.borderColor = '#e74c3c'; // Highlight invalid input
-                statusElement.textContent = `Invalid value for Q${i}. Must be between 1 and 5.`;
-                statusElement.classList.add('error', 'visible');
-                break; // Stop validation on first error
-            } else {
-                input.style.borderColor = ''; // Reset border color
-                benchmarkData[`q${i}Benchmark`] = value; // Use key matching backend expectation
-            }
-        }
+for (let i = 3; i <= 11; i++) {
+    const input = document.getElementById(`benchmarkQ${i}`);
+    if (!input) {
+        isValid = false;
+        console.error(`Input benchmarkQ${i} not found!`);
+        break;
+    }
+    const value = parseFloat(input.value);
+    if (isNaN(value) || value < 1 || value > 5) {
+        isValid = false;
+        input.style.borderColor = '#e74c3c'; // Highlight invalid input
+        statusElement.textContent = `Invalid value for Q${i}. Must be between 1 and 5.`;
+        statusElement.classList.add('error', 'visible');
+        break; // Stop validation on first error
+    } else {
+        input.style.borderColor = ''; // Reset border color
+        benchmarkData[`q${i}Benchmark`] = value; // Use key matching backend expectation
+    }
+}
 
         if (!isValid) {
             saveButton.disabled = false;
