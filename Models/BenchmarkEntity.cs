@@ -20,14 +20,14 @@ namespace AI_Maturity_Assessment.Models // Adjust namespace as needed
 
         // Benchmark properties (nullable ints allow checking if they were set).
         // Default values (e.g., 3) are applied if no value is found in storage.
-        public int? Q3Benchmark { get; set; } = 3;
-        public int? Q4Benchmark { get; set; } = 3;
-        public int? Q5Benchmark { get; set; } = 3;
-        public int? Q6Benchmark { get; set; } = 3;
-        public int? Q7Benchmark { get; set; } = 3;
-        public int? Q8Benchmark { get; set; } = 3;
-        public int? Q9Benchmark { get; set; } = 3;
-        public int? Q10Benchmark { get; set; } = 3;
-        public int? Q11Benchmark { get; set; } = 3;
+        public double? Q3Benchmark { get; set; } = 3.0;
+        public double? Q4Benchmark { get; set; } = 3.0;
+        public double? Q5Benchmark { get; set; } = 3.0;
+        public double? Q6Benchmark { get; set; } = 3.0;
+        public double? Q7Benchmark { get; set; } = 3.0;
+        public double? Q8Benchmark { get; set; } = 3.0;
+        public double? Q9Benchmark { get; set; } = 3.0;
+        public double? Q10Benchmark { get; set; } = 3.0;
+        public double? Q11Benchmark { get; set; } = 3.0;
     }
 }

@@ -17,27 +17,6 @@ using Azure.Data.Tables;
 using Azure; // Required for RequestFailedException
 using Microsoft.Extensions.Logging; // Ensure Logger is used
 
-// Define BenchmarkEntity here or move to Models folder and add using statement
-// Ensure property names match JS expectations (e.g., Q3Benchmark)
-public class BenchmarkEntity : ITableEntity
-{
-    public string PartitionKey { get; set; } = "CONFIG"; // Fixed PartitionKey
-    public string RowKey { get; set; } = "BENCHMARKS";   // Fixed RowKey
-    public DateTimeOffset? Timestamp { get; set; }
-    public ETag ETag { get; set; }
-
-    // Benchmark properties (nullable ints allow checking if they were set)
-    public int? Q3Benchmark { get; set; } = 3; // Default to 3 if not set
-    public int? Q4Benchmark { get; set; } = 3;
-    public int? Q5Benchmark { get; set; } = 3;
-    public int? Q6Benchmark { get; set; } = 3;
-    public int? Q7Benchmark { get; set; } = 3;
-    public int? Q8Benchmark { get; set; } = 3;
-    public int? Q9Benchmark { get; set; } = 3;
-    public int? Q10Benchmark { get; set; } = 3;
-    public int? Q11Benchmark { get; set; } = 3;
-}
-
 
 namespace AI_Maturity_Assessment.Controllers
 {

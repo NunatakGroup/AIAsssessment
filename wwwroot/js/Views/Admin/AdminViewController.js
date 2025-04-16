@@ -319,7 +319,7 @@ for (let i = 3; i <= 11; i++) {
         break;
     }
     const value = parseFloat(input.value);
-    if (isNaN(value) || value < 1 || value > 5) {
+    if (isNaN(value) || value < 1.0 || value > 5.0) {
         isValid = false;
         input.style.borderColor = '#e74c3c'; // Highlight invalid input
         statusElement.textContent = `Invalid value for Q${i}. Must be between 1 and 5.`;
