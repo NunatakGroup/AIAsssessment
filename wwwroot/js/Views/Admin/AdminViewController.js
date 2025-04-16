@@ -458,6 +458,78 @@ AdminViewController.updateFunnelHighlighting = function() {
     });
 };
 
+/**
+ * Calculates and displays average scores for each assessment question
+ * to help admins set appropriate benchmark values.
+ */
+AdminViewController.calculateQuestionAverages = function() {
+    if (!this.assessmentData || this.assessmentData.length === 0) {
+        console.log('No assessment data available to calculate question averages');
+        return;
+    }
+
+    console.log('Calculating question averages from assessment data');
+    
+    // Object to store the results for each question
+    const questionStats = {
+        // Initialize for each question (3-11)
+        'q3': { sum: 0, count: 0, average: 0 },
+        'q4': { sum: 0, count: 0, average: 0 },
+        'q5': { sum: 0, count: 0, average: 0 },
+        'q6': { sum: 0, count: 0, average: 0 },
+        'q7': { sum: 0, count: 0, average: 0 },
+        'q8': { sum: 0, count: 0, average: 0 },
+        'q9': { sum: 0, count: 0, average: 0 },
+        'q10': { sum: 0, count: 0, average: 0 },
+        'q11': { sum: 0, count: 0, average: 0 },
+    };
+
+    // Calculate sums and counts for each question
+    this.assessmentData.forEach(assessment => {
+        // Since we're having trouble finding the properties directly,
+        // log the entire assessment object for the first few entries
+        if (questionStats.q3.count < 1) {
+            console.log("Full assessment data:", JSON.stringify(assessment));
+        }
+
+        // Process each question from 3 to 11
+        for (let i = 3; i <= 11; i++) {
+            // Use our getQuestionAnswer helper method that already exists
+            // This method seems to be working for rendering the table
+            const answer = this.getQuestionAnswer(assessment, i);
+            
+            if (answer !== null) {
+                questionStats[`q${i}`].sum += answer;
+                questionStats[`q${i}`].count++;
+            }
+        }
+    });
+
+    // Calculate averages and update UI
+    for (let i = 3; i <= 11; i++) {
+        const stats = questionStats[`q${i}`];
+        if (stats.count > 0) {
+            stats.average = (stats.sum / stats.count).toFixed(2);
+        }
+
+        // Update the UI with the calculated average
+        const averageElement = document.getElementById(`q${i}Average`);
+        if (averageElement) {
+            averageElement.textContent = stats.count > 0 
+                ? `Current avg: ${stats.average}` 
+                : 'No data';
+            
+            // Show the container for the average
+            const avgContainer = document.getElementById(`q${i}AverageContainer`);
+            if (avgContainer) {
+                avgContainer.style.display = 'block';
+            }
+        }
+    }
+    
+    console.log('Question averages calculated:', questionStats);
+};
+
 AdminViewController.loadAssessmentData = async function() {
     const loadingIndicator = document.getElementById('dataLoadingIndicator');
     const errorMessage = document.getElementById('dataErrorMessage');
@@ -500,6 +572,7 @@ AdminViewController.loadAssessmentData = async function() {
         loadingIndicator.style.display = 'none';
         if (funnelContainer) { funnelContainer.style.display = this.isAuthenticated ? 'flex' : 'none'; }
     }
+    this.calculateQuestionAverages();
 };
 
 AdminViewController.calculateFunnelMetrics = function() {

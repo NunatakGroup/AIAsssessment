@@ -48,44 +48,71 @@
         <div id="settingsTab" class="tab-content active">
             <div class="benchmark-settings-container glass-panel">
                 <h2>Benchmark Settings</h2>
-                <p>Set the benchmark scores (1-5) for comparison on the results page spiderweb chart.</p>
+                <p>Set the benchmark scores (1-5) for comparison on the results page spiderweb chart. Current averages from all responses are displayed for reference.</p>
                 <form id="benchmarkForm" class="benchmark-form">
                     <div class="benchmark-grid">
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ3">Q3: New AI Products</label>
                             <input type="number" id="benchmarkQ3" name="benchmarkQ3" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q3AverageContainer" class="average-container" style="display:none;">
+                                <span id="q3Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ4">Q4: Process Optimization</label>
                             <input type="number" id="benchmarkQ4" name="benchmarkQ4" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q4AverageContainer" class="average-container" style="display:none;">
+                                <span id="q4Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ5">Q5: Impact Management</label>
                             <input type="number" id="benchmarkQ5" name="benchmarkQ5" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q5AverageContainer" class="average-container" style="display:none;">
+                                <span id="q5Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ6">Q6: AI Governance</label>
                             <input type="number" id="benchmarkQ6" name="benchmarkQ6" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q6AverageContainer" class="average-container" style="display:none;">
+                                <span id="q6Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ7">Q7: Organization Culture</label>
                             <input type="number" id="benchmarkQ7" name="benchmarkQ7" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q7AverageContainer" class="average-container" style="display:none;">
+                                <span id="q7Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ8">Q8: Skills & Competencies</label>
                             <input type="number" id="benchmarkQ8" name="benchmarkQ8" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q8AverageContainer" class="average-container" style="display:none;">
+                                <span id="q8Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ9">Q9: AI Tools & Platform</label>
                             <input type="number" id="benchmarkQ9" name="benchmarkQ9" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q9AverageContainer" class="average-container" style="display:none;">
+                                <span id="q9Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ10">Q10: Data Infrastructure</label>
                             <input type="number" id="benchmarkQ10" name="benchmarkQ10" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q10AverageContainer" class="average-container" style="display:none;">
+                                <span id="q10Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                         <div class="form-group benchmark-item">
                             <label for="benchmarkQ11">Q11: Security & Privacy</label>
                             <input type="number" id="benchmarkQ11" name="benchmarkQ11" min="1" max="5" step="1" required class="form-control benchmark-input">
+                            <div id="q11AverageContainer" class="average-container" style="display:none;">
+                                <span id="q11Average" class="question-average">Current avg: 0.00</span>
+                            </div>
                         </div>
                     </div>
                     <div class="benchmark-actions">
@@ -266,6 +293,19 @@
         display: block; 
     }
 
+    /* Question Averages - New Styles */
+    .average-container {
+        margin-top: 8px;
+    }
+    .question-average {
+        font-size: 13px;
+        color: #A0D0CB;
+        display: inline-block;
+        padding: 3px 8px;
+        background: rgba(160, 208, 203, 0.1);
+        border-radius: 4px;
+    }
+
     /* Funnel Visualization */
     .funnel-container { display: flex; flex-direction: row; justify-content: space-around; align-items: center; flex-wrap: nowrap; gap: 15px; padding: 20px; margin-bottom: 30px; overflow-x: auto; cursor: default; }
     .funnel-step { text-align: center; padding: 15px; border-radius: 8px; background: rgba(160, 208, 203, 0.1); flex-shrink: 0; transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
@@ -286,7 +326,6 @@
     .benchmark-item .form-group { margin-bottom: 0; } /* Remove bottom margin inside grid item */
     .benchmark-input { /* Specific styles for benchmark inputs if needed */ }
     .benchmark-actions { display: flex; align-items: center; }
-
 
     /* Data Table */
     .data-table-container { margin-top: 30px; padding: 20px; overflow: hidden; }
