@@ -1,0 +1,216 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_Layout"; // Assuming you have a base layout
+}
+
+<div class="admin-page">
+    <div id="adminLoginContainer" class="admin-login-container glass-panel">
+        <h1>Admin Dashboard</h1>
+        <p class="login-instruction">Please enter the admin password to access the assessment data.</p>
+        <form id="adminLoginForm" class="admin-login-form">
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" required class="form-control" placeholder="Enter admin password">
+            </div>
+            <div id="loginError" class="error-message"></div>
+            <button type="submit" class="admin-button">Log In</button>
+        </form>
+    </div>
+
+    <div id="adminPanelContainer" class="admin-panel-container" style="display:none;">
+        <div class="admin-header">
+            <h1>AI Maturity Assessment Dashboard</h1>
+            <div class="admin-actions">
+                <button id="exportButton" class="admin-button">Export to CSV</button>
+                <button id="logoutButton" class="admin-button outline">Log Out</button>
+            </div>
+        </div>
+
+        <div class="data-status">
+            <div id="dataLoadingIndicator" class="loading-indicator" style="display:none;">
+                <div class="spinner"></div>
+                <span>Loading assessment data...</span>
+            </div>
+            <div id="dataErrorMessage" class="error-message" style="display:none;"></div>
+        </div>
+
+        <div id="funnelVisualizationContainer" class="funnel-container glass-panel" style="display:none;">
+            <div class="funnel-step" data-filter="clicks">
+                <div class="funnel-label">Total Clicks</div>
+                <div class="funnel-value" id="funnelValueClicks">0</div>
+                <div class="funnel-percentage" id="funnelPercClicks">100%</div>
+            </div>
+            <div class="funnel-arrow">→</div>
+            <div class="funnel-step" data-filter="q1">
+                <div class="funnel-label">Started (≥ Q1)</div>
+                <div class="funnel-value" id="funnelValueQ1">0</div>
+                <div class="funnel-percentage" id="funnelPercQ1">0%</div>
+            </div>
+            <div class="funnel-arrow">→</div>
+            <div class="funnel-step" data-filter="q11">
+                <div class="funnel-label">Finished (≥ Q11)</div>
+                <div class="funnel-value" id="funnelValueQ11">0</div>
+                <div class="funnel-percentage" id="funnelPercQ11">0%</div>
+            </div>
+            <div class="funnel-arrow">→</div>
+            <div class="funnel-step" data-filter="leads">
+                <div class="funnel-label">Leads (Name Provided)</div>
+                <div class="funnel-value" id="funnelValueLeads">0</div>
+                <div class="funnel-percentage" id="funnelPercLeads">0%</div>
+            </div>
+        </div>
+
+        <div class="data-table-container glass-panel">
+            <div class="table-responsive">
+                <table id="assessmentTable" class="assessment-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-field="name">
+                                Name <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="email">
+                                Email <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="company">
+                                Company <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="businessSector">
+                                Business Sector <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="companySize">
+                                Company Size <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="question1answer">
+                                AI Ambition <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="aiapplicationaverage">
+                                Application Avg <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="peopleorgaverage">
+                                Org Avg <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="techdataaverage">
+                                Tech Avg <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="totalaverage">
+                                Total Avg <span class="sort-indicator"></span>
+                            </th>
+                            <th class="sortable" data-field="timestamp">
+                                Date <span class="sort-indicator"></span>
+                            </th>
+                            <th>Actions</th> {/* Combined Actions Column */}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="detailsModal" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent">
+                </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Base styles, layout, glass panel */
+    .admin-page { padding: 20px; max-width: 1400px; margin: 0 auto; font-family: sans-serif; color: rgba(255, 255, 255, 0.9); }
+    .glass-panel { background: rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); backdrop-filter: blur(8px); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+    /* Login Form */
+    .admin-login-container { max-width: 500px; margin: 100px auto; padding: 30px; text-align: center; }
+    .admin-login-form { margin-top: 30px; text-align: left; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: rgba(255, 255, 255, 0.9); }
+    .form-control { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.1); color: white; font-size: 16px; box-sizing: border-box; }
+    .form-control:focus { outline: none; border-color: #A0D0CB; box-shadow: 0 0 0 2px rgba(160, 208, 203, 0.3); }
+
+    /* Buttons */
+    .admin-button { background: #A0D0CB; color: #343E48; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 16px; }
+    .admin-button:hover { background: #62B2A9; transform: translateY(-2px); }
+    .admin-button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+    .admin-button.outline { background: transparent; border: 2px solid #A0D0CB; color: #A0D0CB; }
+    .admin-button.outline:hover { background: rgba(160, 208, 203, 0.1); }
+    .view-button, .delete-button { background: rgba(160, 208, 203, 0.2); border: 1px solid rgba(160, 208, 203, 0.4); color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; font-size: 14px; margin-left: 5px; }
+    .view-button:hover, .delete-button:hover { background: rgba(160, 208, 203, 0.3); transform: translateY(-1px); }
+    .delete-button { border-color: rgba(231, 76, 60, 0.4); background: rgba(231, 76, 60, 0.1); color: #e74c3c; } /* Delete button specific style */
+    .delete-button:hover { background: rgba(231, 76, 60, 0.2); border-color: rgba(231, 76, 60, 0.6); }
+    .view-button:disabled, .delete-button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Error/Status Messages */
+    .error-message { color: #e74c3c; margin-top: 10px; font-size: 14px; min-height: 20px; opacity: 0; transition: opacity 0.3s ease; }
+    .error-message.visible { opacity: 1; }
+    .loading-indicator { display: flex; align-items: center; gap: 10px; margin: 20px 0; color: rgba(255, 255, 255, 0.7); }
+    .spinner { width: 24px; height: 24px; border: 3px solid rgba(160, 208, 203, 0.3); border-top: 3px solid #A0D0CB; border-radius: 50%; animation: spin 1s linear infinite; }
+    @@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Admin Panel Layout */
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
+    .admin-actions { display: flex; gap: 15px; }
+    .data-status { margin-bottom: 20px; }
+
+    /* Funnel Visualization */
+    .funnel-container { display: flex; flex-direction: row; justify-content: space-around; align-items: center; flex-wrap: nowrap; gap: 15px; padding: 20px; margin-bottom: 30px; overflow-x: auto; cursor: default; /* Base cursor */}
+    .funnel-step { text-align: center; padding: 15px; border-radius: 8px; background: rgba(160, 208, 203, 0.1); flex-shrink: 0; transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; cursor: pointer; /* Make steps clickable */}
+    .funnel-step:hover { transform: translateY(-3px); background: rgba(160, 208, 203, 0.15); }
+    .funnel-label { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 8px; font-weight: 500; white-space: nowrap; pointer-events: none; /* Prevent label click interfering */}
+    .funnel-value { font-size: 24px; font-weight: 600; color: #A0D0CB; margin-bottom: 5px; pointer-events: none; }
+    .funnel-percentage { font-size: 12px; color: rgba(255, 255, 255, 0.6); pointer-events: none; }
+    .funnel-arrow { font-size: 24px; color: rgba(255, 255, 255, 0.5); flex: 0 0 auto; }
+    .funnel-step.funnel-step-active { background: rgba(160, 208, 203, 0.3); box-shadow: 0 0 0 2px #A0D0CB; transform: translateY(-2px); }
+    .funnel-step.funnel-step-active:hover { transform: translateY(-2px); /* Keep raised on hover when active */ }
+
+    /* Data Table */
+    .data-table-container { margin-top: 30px; padding: 20px; overflow: hidden; }
+    .table-responsive { overflow-x: auto; max-width: 100%; }
+    .assessment-table { width: 100%; border-collapse: collapse; color: rgba(255, 255, 255, 0.9); }
+    .assessment-table th { position: sticky; top: 0; background: rgba(160, 208, 203, 0.1); padding: 12px 15px; text-align: left; font-weight: 600; border-bottom: 2px solid rgba(160, 208, 203, 0.3); white-space: nowrap; z-index: 1; }
+    .assessment-table td { padding: 12px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); white-space: nowrap; }
+    .assessment-table tbody tr:hover { background: rgba(160, 208, 203, 0.05); }
+    .sortable { cursor: pointer; }
+    .sortable:hover { background: rgba(160, 208, 203, 0.2); }
+    .sort-indicator { margin-left: 5px; display: inline-block; width: 10px; }
+    .empty-message { text-align: center; padding: 30px; color: rgba(255, 255, 255, 0.6); font-style: italic; white-space: normal; }
+    .table-actions { white-space: nowrap; text-align: right; } /* Align actions to right */
+
+    /* Modal */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); }
+    .modal-content { margin: 5% auto; max-width: 800px; max-height: 90vh; overflow-y: auto; background: rgba(40, 50, 60, 0.95); padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); position: relative; }
+    .close-modal { position: absolute; top: 20px; right: 20px; font-size: 28px; font-weight: bold; color: rgba(255, 255, 255, 0.7); cursor: pointer; }
+    .close-modal:hover { color: white; }
+    .detail-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .detail-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .detail-section h3 { color: #A0D0CB; margin-top: 0; margin-bottom: 15px; }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .detail-item label { display: block; font-size: 12px; color: rgba(255, 255, 255, 0.7); margin-bottom: 5px; }
+    .detail-item div { word-wrap: break-word; }
+
+    /* Responsive Adjustments */
+    @@media (max-width: 992px) { /* Increased breakpoint for funnel stacking */
+        .funnel-container { flex-direction: column; align-items: stretch; gap: 10px; overflow-x: hidden; }
+        .funnel-arrow { display: none; }
+        .funnel-step { min-width: unset; flex-shrink: 1; }
+        .funnel-step.funnel-step-active { box-shadow: 0 0 0 2px #A0D0CB inset; transform: none; }
+        .funnel-step:hover { transform: none; }
+    }
+    @@media (max-width: 768px) {
+        .admin-page { padding: 10px; }
+        .admin-header { flex-direction: column; align-items: flex-start; }
+        .admin-actions { width: 100%; justify-content: space-between;}
+        .detail-grid { grid-template-columns: 1fr; }
+        .modal-content { margin: 10% 15px; padding: 20px; }
+        .data-table-container { padding: 10px; }
+        .assessment-table td, .assessment-table th { padding: 8px 10px; }
+        .view-button, .delete-button { padding: 4px 8px; font-size: 13px; margin-left: 3px;}
+    }
+</style>
+
+@section Scripts {
+    @* Reference the updated JS file - ensure path is correct *@
+    <script src="~/js/Views/Admin/AdminViewController.js"></script>
+}
