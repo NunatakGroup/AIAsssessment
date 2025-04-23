@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Cs7YLqOwceY=",
+  "dgSpecHash": "QgoLq0qbDn4=",
   "success": true,
   "projectFilePath": "/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/AI-Maturity-Assessment.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,7 @@
     "/Users/moritz.wagner/.nuget/packages/microsoft.netcore.targets/1.1.3/microsoft.netcore.targets.1.1.3.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/microsoft.win32.primitives/4.3.0/microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/netstandard.library/1.6.1/netstandard.library.1.6.1.nupkg.sha512",
+    "/Users/moritz.wagner/.nuget/packages/openai/2.1.0/openai.2.1.0.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
@@ -47,7 +48,7 @@
     "/Users/moritz.wagner/.nuget/packages/sprache/2.3.1/sprache.2.3.1.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/system.appcontext/4.3.0/system.appcontext.4.3.0.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/system.buffers/4.3.0/system.buffers.4.3.0.nupkg.sha512",
-    "/Users/moritz.wagner/.nuget/packages/system.clientmodel/1.1.0/system.clientmodel.1.1.0.nupkg.sha512",
+    "/Users/moritz.wagner/.nuget/packages/system.clientmodel/1.2.1/system.clientmodel.1.2.1.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/system.collections/4.3.0/system.collections.4.3.0.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/system.collections.concurrent/4.3.0/system.collections.concurrent.4.3.0.nupkg.sha512",
     "/Users/moritz.wagner/.nuget/packages/system.console/4.3.0/system.console.4.3.0.nupkg.sha512",

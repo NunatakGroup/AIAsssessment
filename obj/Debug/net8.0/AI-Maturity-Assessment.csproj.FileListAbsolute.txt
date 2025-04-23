@@ -129,15 +129,6 @@
 /Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment-v36/obj/Debug/net8.0/AI-Maturity-Assessment.pdb
 /Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment-v36/obj/Debug/net8.0/AI-Maturity-Assessment.genruntimeconfig.cache
 /Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment-v36/obj/Debug/net8.0/ref/AI-Maturity-Assessment.dll
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.csproj.AssemblyReference.cache
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.GeneratedMSBuildEditorConfig.editorconfig
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.AssemblyInfoInputs.cache
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.AssemblyInfo.cs
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.csproj.CoreCompileInputs.cache
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.MvcApplicationPartsAssemblyInfo.cache
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.RazorAssemblyInfo.cache
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.RazorAssemblyInfo.cs
-/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.sourcelink.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/appsettings.Development.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/appsettings.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/AI-Maturity-Assessment.staticwebassets.runtime.json
@@ -161,11 +152,21 @@
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/OpenAI.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/Sprache.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/System.ClientModel.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/System.IO.Hashing.dll
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/bin/Debug/net8.0/System.Memory.Data.dll
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.csproj.AssemblyReference.cache
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.GeneratedMSBuildEditorConfig.editorconfig
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.AssemblyInfoInputs.cache
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.AssemblyInfo.cs
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.csproj.CoreCompileInputs.cache
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.MvcApplicationPartsAssemblyInfo.cache
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.RazorAssemblyInfo.cache
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.RazorAssemblyInfo.cs
+/Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/AI-Maturity-Assessment.sourcelink.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/staticwebassets.build.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/staticwebassets.development.json
 /Users/moritz.wagner/Documents/AIWebsite/AI-Maturity-Assessment/obj/Debug/net8.0/staticwebassets/msbuild.AI-Maturity-Assessment.Microsoft.AspNetCore.StaticWebAssets.props

@@ -6,23 +6,37 @@ const AssessmentViewController = {
     totalQuestions: 0,
     userAnswers: new Map(),
     sessionId: localStorage.getItem('assessmentSessionId') || null, // Load session ID on init
+    // Cache DOM references that are used repeatedly
+    elements: {
+        questionPanel: null,
+        imageContainer: null,
+        notificationArea: null,
+        progressFill: null
+    },
 
     async initialize() {
+        // Cache DOM elements on initialization
+        this.cacheElements();
         await this.getTotalQuestions();
 
         // --- MODIFICATION START: Skip Question 1 on initial load ---
         // Check if we are starting the assessment fresh (at question 1)
         if (this.currentQuestionId === 1) {
-            console.log("Initial load detected, skipping Question 1...");
             await this.skipQuestion1AndLoadNext(); // Skip Q1 and load Q2 directly
         } else {
             // If resuming later in the assessment (logic would need enhancement for full resume)
-            console.log(`Resuming assessment at question ${this.currentQuestionId}`);
             await this.loadQuestion(this.currentQuestionId);
         }
         // --- MODIFICATION END: Skip Question 1 on initial load ---
 
         this.setupEventListeners();
+    },
+
+    // Cache DOM elements to avoid repeated queries
+    cacheElements() {
+        this.elements.questionPanel = document.getElementById('questionPanel');
+        this.elements.imageContainer = document.getElementById('questionImage');
+        this.elements.notificationArea = document.getElementById('notificationArea');
     },
 
     // --- MODIFICATION START: New function to handle skipping Q1 ---
@@ -31,25 +45,21 @@ const AssessmentViewController = {
             const questionIdToSkip = 1;
             const defaultAnswerId = 1; // Default answer for the skipped slider
 
-            console.log(`Attempting to save default answer (${defaultAnswerId}) for skipped question ${questionIdToSkip}`);
             await this.saveAnswer(questionIdToSkip, defaultAnswerId);
             this.userAnswers.set(questionIdToSkip, defaultAnswerId); // Keep track locally
 
             // Move to the next question (Question 2)
             this.currentQuestionId = 2;
-            console.log(`Successfully skipped Question 1. Loading Question ${this.currentQuestionId}...`);
             await this.loadQuestion(this.currentQuestionId);
 
         } catch (error) {
             console.error('Error during skipQuestion1AndLoadNext:', error);
             this.showNotification('Failed to start the assessment correctly. Please refresh.', true);
-            // Handle failure - maybe display an error message prominently
         }
     },
     // --- MODIFICATION END: New function to handle skipping Q1 ---
 
     async saveAnswer(questionId, answerId) {
-        // This function remains largely the same
         try {
             const response = await fetch('/Assessment/SaveAnswer', {
                 method: 'POST',
@@ -81,29 +91,19 @@ const AssessmentViewController = {
                 this.sessionId = result.sessionId; // Store in controller instance
                 localStorage.setItem('assessmentSessionId', result.sessionId);
             }
-
-            console.log(`Answer saved successfully for Q${questionId}. Session: ${this.sessionId}`);
             return result;
         } catch (error) {
             console.error(`Error saving answer for Q${questionId}:`, error);
-            // Potentially show user notification here
             throw error; // Re-throw error to be handled by caller
         }
     },
 
     async nextQuestion() {
-        let answerId; // Variable to hold the answer ID for non-skipped questions
-
-        // --- MODIFICATION START: Remove specific handling for Q1 ---
-        // Question 1 is now skipped during initialization, so the specific
-        // 'if (this.currentQuestionId === 1)' block for assigning a default
-        // answer here is no longer needed and has been removed.
-        // --- MODIFICATION END: Remove specific handling for Q1 ---
+        let answerId;
 
         if (this.currentQuestionId === 2) { // Handle Demographics submission
             const success = await this.saveDemographics();
             if (!success) return; // Stop if saving failed
-            // Note: Demographics answer isn't stored in userAnswers map currently
         }
         // Handle standard questions (Q3 onwards)
         else {
@@ -134,7 +134,6 @@ const AssessmentViewController = {
     },
 
     async getTotalQuestions() {
-        // This function remains the same
         try {
             const response = await fetch('/Assessment/GetTotalQuestions');
             if (!response.ok) throw new Error('Failed to get total questions count');
@@ -149,8 +148,7 @@ const AssessmentViewController = {
     },
 
     async loadQuestion(id) {
-        // This function remains the same, but will not be called with id=1 initially
-        const panel = document.getElementById('questionPanel');
+        const panel = this.elements.questionPanel;
         if (!panel) {
              console.error("Question panel not found!");
              return;
@@ -159,19 +157,21 @@ const AssessmentViewController = {
         panel.style.transform = 'translateY(20px)';
 
         try {
-            console.log(`Fetching question: ${id}`);
             const response = await fetch(`/Assessment/GetQuestion/${id}`);
             if (!response.ok) {
                 throw new Error(`Failed to fetch question ${id}. Status: ${response.status}`);
             }
             const question = await response.json();
-            console.log('Question data:', question);
 
-            setTimeout(() => {
+            // Use requestAnimationFrame for smoother transitions
+            requestAnimationFrame(() => {
                 this.updateUI(question);
-                panel.style.opacity = '1';
-                panel.style.transform = 'translateY(0)';
-            }, 300);
+                // Use another requestAnimationFrame to ensure the previous style changes have taken effect
+                requestAnimationFrame(() => {
+                    panel.style.opacity = '1';
+                    panel.style.transform = 'translateY(0)';
+                });
+            });
 
         } catch (error) {
             console.error('Error loading question:', error);
@@ -182,16 +182,8 @@ const AssessmentViewController = {
         }
     },
 
-    // createSliderUI function is now completely unused but kept for potential future use
-    createSliderUI(question) {
-        console.warn("createSliderUI called, but slider should be skipped!");
-        // ... (rest of function remains the same)
-        return ``;
-    },
-
     // createDemographicsUI remains the same
     createDemographicsUI(question) {
-        // ... (rest of function remains the same)
         return `
             <div class="progress-container">
                 <div class="progress-bar">
@@ -264,7 +256,6 @@ const AssessmentViewController = {
 
     // createStandardQuestionUI remains the same
     createStandardQuestionUI(question) {
-         // ... (rest of function remains the same)
         return `
             <div class="progress-container">
                 <div class="progress-bar">
@@ -300,8 +291,8 @@ const AssessmentViewController = {
     },
 
     updateUI(question) {
-        const panel = document.getElementById('questionPanel');
-        const imageContainer = document.getElementById('questionImage');
+        const panel = this.elements.questionPanel;
+        const imageContainer = this.elements.imageContainer;
         if (!panel || !imageContainer) return; // Exit if elements not found
 
         // Update progress bar elements if they exist
@@ -309,23 +300,21 @@ const AssessmentViewController = {
         const totalNumEl = document.getElementById('totalQuestions');
         if (currentNumEl) currentNumEl.textContent = this.currentQuestionId;
         if (totalNumEl) totalNumEl.textContent = this.totalQuestions;
-        this.updateProgressBar();
-
+        
+        // Preserve existing classes that might be important for styling
+        // Only remove chapter-specific classes
         panel.classList.remove('chapter-1', 'chapter-2', 'chapter-3');
+        // Add the appropriate chapter class
         panel.classList.add(`chapter-${this.determineCurrentChapter()}`);
 
         let questionHtml = '';
         let showImage = true;
 
-        // --- MODIFICATION START: Remove specific rendering for Q1 ---
-        // The 'else if (this.currentQuestionId === 1)' block is removed
-        // as Question 1 should never be rendered.
-        // --- MODIFICATION END: Remove specific rendering for Q1 ---
-
         if (question.type === 1) { // Demographics (Question 2 in the new flow)
             questionHtml = this.createDemographicsUI(question);
             showImage = false;
 
+            // Defer event binding to next tick to ensure DOM is ready
             setTimeout(() => {
                 const businessSector = document.getElementById('businessSector');
                 const otherSectorGroup = document.getElementById('otherSectorGroup');
@@ -344,23 +333,35 @@ const AssessmentViewController = {
             questionHtml = this.createStandardQuestionUI(question);
             showImage = true;
 
+            // Defer event binding to next tick to ensure DOM is ready
             setTimeout(() => {
+                // Restore previously selected answer if exists
                 if (this.userAnswers.has(this.currentQuestionId)) {
                     const previousAnswerId = this.userAnswers.get(this.currentQuestionId);
                     const radioToCheck = document.querySelector(`input[name="answer"][value="${previousAnswerId}"]`);
                     if (radioToCheck) {
                         radioToCheck.checked = true;
-                        radioToCheck.closest('.option-item')?.classList.add('selected');
+                        const optionItem = radioToCheck.closest('.option-item');
+                        if (optionItem) optionItem.classList.add('selected');
                     }
                 }
 
-                document.querySelectorAll('input[type="radio"][name="answer"]').forEach(radio => {
+                // Add event listeners for radio buttons
+                const radioButtons = document.querySelectorAll('input[type="radio"][name="answer"]');
+                radioButtons.forEach(radio => {
                     radio.addEventListener('change', (e) => {
+                        // First remove selected class from all options
                         document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+                        
+                        // Add selected class to the checked option
                         if (e.target.checked) {
-                            e.target.closest('.option-item')?.classList.add('selected');
+                            const optionItem = e.target.closest('.option-item');
+                            if (optionItem) optionItem.classList.add('selected');
                         }
-                        document.querySelector('.continue-button')?.classList.add('option-selected');
+                        
+                        // Add option-selected class to continue button
+                        const continueButton = document.querySelector('.continue-button');
+                        if (continueButton) continueButton.classList.add('option-selected');
                     });
                 });
             }, 0);
@@ -368,6 +369,7 @@ const AssessmentViewController = {
 
         panel.innerHTML = questionHtml;
 
+        // Update image container
         if (showImage && question.imagePath) {
             imageContainer.innerHTML = `<img src="${question.imagePath}" alt="Question visual">`;
             imageContainer.style.display = '';
@@ -376,49 +378,41 @@ const AssessmentViewController = {
             imageContainer.style.display = 'none';
         }
 
-        this.updateProgressBar(); // Ensure progress bar is updated after content injection
+        this.updateProgressBar(); // Update progress bar after content injection
     },
 
     updateProgressBar() {
-        // This function remains the same
         const progressFill = document.getElementById('progressFill');
-        if (progressFill && this.totalQuestions > 0) {
-            const percentage = Math.max(0, ((this.currentQuestionId - 1) / this.totalQuestions) * 100);
-            progressFill.style.width = `${percentage}%`;
-
-            const chapterNumber = this.determineCurrentChapter();
-            document.documentElement.style.setProperty(
-                '--current-chapter-gradient',
-                `var(--chapter${chapterNumber}-gradient)`
-            );
-            // console.log(`Progress: ${percentage.toFixed(1)}%, Chapter: ${chapterNumber}`);
-        } else if (progressFill) {
-             progressFill.style.width = '0%';
+        if (!progressFill || this.totalQuestions <= 0) {
+            if (progressFill) progressFill.style.width = '0%';
+            return;
         }
+        
+        const percentage = Math.max(0, ((this.currentQuestionId - 1) / this.totalQuestions) * 100);
+        progressFill.style.width = `${percentage}%`;
+
+        const chapterNumber = this.determineCurrentChapter();
+        document.documentElement.style.setProperty(
+            '--current-chapter-gradient',
+            `var(--chapter${chapterNumber}-gradient)`
+        );
     },
 
     determineCurrentChapter() {
-        // This function remains the same, logic depends on question IDs
-        if (this.currentQuestionId <= 2) return 1; // Q1(skipped), Q2(Demo) -> Chapter 1 color
-        if (this.currentQuestionId <= 5) return 1; // Q3, Q4, Q5 -> Chapter 1 color
+        if (this.currentQuestionId <= 5) return 1; // Q1(skipped), Q2(Demo), Q3, Q4, Q5 -> Chapter 1 color
         if (this.currentQuestionId <= 8) return 2; // Q6, Q7, Q8 -> Chapter 2 color
         return 3; // Q9, Q10, Q11 -> Chapter 3 color
     },
 
     previousQuestion() {
-        // --- MODIFICATION START: Prevent going back to Q1 ---
         // Only allow going back if the current question ID is greater than 2
         if (this.currentQuestionId > 2) {
-        // --- MODIFICATION END: Prevent going back to Q1 ---
             this.currentQuestionId--;
             this.loadQuestion(this.currentQuestionId);
-        } else {
-            console.log("Cannot go back further."); // Optional feedback
         }
     },
 
     async saveDemographics() {
-        // This function remains the same
         try {
             const businessSectorEl = document.getElementById('businessSector');
             const otherBusinessSectorEl = document.getElementById('otherBusinessSector');
@@ -433,9 +427,18 @@ const AssessmentViewController = {
             const companySize = companySizeEl.value;
             const otherBusinessSector = (businessSector === 'Other' && otherBusinessSectorEl) ? otherBusinessSectorEl.value : null;
 
-            if (!businessSector) { this.showNotification('Please select a Business Sector', true); return false; }
-            if (businessSector === 'Other' && !otherBusinessSector) { this.showNotification('Please specify your Business Sector', true); return false; }
-            if (!companySize) { this.showNotification('Please select a Company Size', true); return false; }
+            if (!businessSector) { 
+                this.showNotification('Please select a Business Sector', true); 
+                return false; 
+            }
+            if (businessSector === 'Other' && !otherBusinessSector) { 
+                this.showNotification('Please specify your Business Sector', true); 
+                return false; 
+            }
+            if (!companySize) { 
+                this.showNotification('Please select a Company Size', true); 
+                return false; 
+            }
 
             const demographicData = {
                 businessSector: businessSector,
@@ -444,7 +447,6 @@ const AssessmentViewController = {
                 sessionId: this.sessionId
             };
 
-            console.log("Saving demographics:", demographicData);
             const response = await fetch('/Assessment/SaveDemographics', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -452,11 +454,17 @@ const AssessmentViewController = {
                 body: JSON.stringify(demographicData)
             });
 
-            if (!response.ok) { const errorText = await response.text(); throw new Error(`Failed to save demographics: ${errorText}`); }
+            if (!response.ok) { 
+                const errorText = await response.text(); 
+                throw new Error(`Failed to save demographics: ${errorText}`); 
+            }
+            
             const result = await response.json();
-            console.log("Save demographics result:", result);
 
-            if (result.sessionId) { this.sessionId = result.sessionId; localStorage.setItem('assessmentSessionId', result.sessionId); }
+            if (result.sessionId) { 
+                this.sessionId = result.sessionId; 
+                localStorage.setItem('assessmentSessionId', result.sessionId); 
+            }
             return true;
         } catch (error) {
             console.error('Error saving demographics:', error);
@@ -466,11 +474,8 @@ const AssessmentViewController = {
     },
 
     async submitAssessment() {
-        // This function remains the same
-        console.log('Starting assessment submission...');
         try {
             if (!this.userAnswers.has(1)) {
-                 console.warn("Q1 answer missing from map before submit, adding default.");
                  this.userAnswers.set(1, 3); // Ensure default Q1 answer is included
             }
 
@@ -478,29 +483,34 @@ const AssessmentViewController = {
                 questionId, answerId, sessionId: this.sessionId
             }));
 
-            console.log('Submitting answers payload:', answers);
             const response = await fetch('/Assessment/SubmitAnswers', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 credentials: 'same-origin',
-                 body: JSON.stringify(answers)
+                body: JSON.stringify(answers)
             });
 
-            console.log('Submit response status:', response.status);
             if (!response.ok) {
                 const errorData = await response.text();
-                console.error('Submission error response:', errorData);
                 let errorMessage = `Submission failed (Status: ${response.status}).`;
-                try { const errorJson = JSON.parse(errorData); errorMessage = errorJson.error || errorJson.message || errorMessage; }
-                catch (e) { errorMessage = errorData || errorMessage; }
-                 throw new Error(errorMessage);
+                try { 
+                    const errorJson = JSON.parse(errorData); 
+                    errorMessage = errorJson.error || errorJson.message || errorMessage; 
+                }
+                catch (e) { 
+                    errorMessage = errorData || errorMessage; 
+                }
+                throw new Error(errorMessage);
             }
 
             const result = await response.json();
-            console.log('Submit result:', result);
 
-            if (result.redirectUrl) { window.location.href = result.redirectUrl; }
-            else { console.error('No redirect URL received after submission.'); throw new Error('Submission completed, but failed to redirect.'); }
+            if (result.redirectUrl) { 
+                window.location.href = result.redirectUrl; 
+            }
+            else { 
+                throw new Error('Submission completed, but failed to redirect.'); 
+            }
         } catch (error) {
             console.error('Error in submitAssessment:', error);
             this.showNotification(`Error submitting assessment: ${error.message}. Please try again.`, true);
@@ -508,34 +518,31 @@ const AssessmentViewController = {
     },
 
     showNotification(message, isError = false) {
-        // This function remains the same
-        console.log(`Notification (${isError ? 'Error' : 'Info'}): ${message}`);
-        const notificationArea = document.getElementById('notificationArea');
-        if (notificationArea) {
-            const notification = document.createElement('div');
-            notification.className = `notification ${isError ? 'is-error' : 'is-info'}`;
-            notification.textContent = message;
-            notificationArea.appendChild(notification);
-            setTimeout(() => notification.remove(), 5000);
-        } else {
-             alert(message);
+        const notificationArea = this.elements.notificationArea || document.getElementById('notificationArea');
+        if (!notificationArea) {
+            alert(message);
+            return;
         }
+        
+        const notification = document.createElement('div');
+        notification.className = `notification ${isError ? 'is-error' : 'is-info'}`;
+        notification.textContent = message;
+        notificationArea.appendChild(notification);
+        
+        // Use setTimeout to automatically remove notification after 5 seconds
+        setTimeout(() => notification.remove(), 5000);
     },
 
     setupEventListeners() {
-        // This function remains the same
-        document.removeEventListener('keydown', this.handleKeyDown);
-        document.addEventListener('keydown', this.handleKeyDown.bind(this));
-
-        const panel = document.getElementById('questionPanel');
-        if(panel) {
-            panel.removeEventListener('input', this.handleSliderInput);
-            panel.addEventListener('input', this.handleSliderInput.bind(this));
-        }
+        // Remove existing event listeners before adding new ones to prevent duplicates
+        document.removeEventListener('keydown', this.boundHandleKeyDown);
+        
+        // Bind methods once and store references to avoid creating new functions on each call
+        this.boundHandleKeyDown = this.handleKeyDown.bind(this);
+        document.addEventListener('keydown', this.boundHandleKeyDown);
     },
 
     handleKeyDown(e) {
-        // This function remains the same
         if (e.key === 'Enter') {
             if (e.target.tagName === 'INPUT' && e.target.type !== 'radio' && e.target.type !== 'checkbox') {
                  e.preventDefault();
@@ -545,25 +552,10 @@ const AssessmentViewController = {
                 if (continueButton) { continueButton.click(); }
             }
         }
-    },
-
-    handleSliderInput(e) {
-        // This function remains the same, but slider input won't exist
-         if (e.target.classList.contains('custom-slider')) {
-            const slider = e.target;
-            const value = parseInt(slider.value);
-            const percentage = ((value - slider.min) / (slider.max - slider.min)) * 100;
-            slider.style.background = `linear-gradient(to right, var(--slider-active-color, #A0D0CB) ${percentage}%, var(--slider-inactive-color, #e0e0e0) ${percentage}%)`;
-            const labels = slider.closest('.custom-slider-container')?.querySelectorAll('.slider-label');
-            if (labels) {
-                labels.forEach(label => {
-                    label.classList.toggle('active', parseInt(label.dataset.value) === value);
-                });
-            }
-        }
     }
 };
 
+// Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     AssessmentViewController.initialize();
 });

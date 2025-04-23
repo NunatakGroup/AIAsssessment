@@ -5,45 +5,56 @@ using System.Threading.Tasks;
 using AI_Maturity_Assessment.Services;
 using AI_Maturity_Assessment.Models;
 using AI_Maturity_Assessment.Models.Assessment;
-using System.Collections.Generic; // Required for List
-using System.Linq; // Required for Linq methods like Any() Average()
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace AI_Maturity_Assessment.Controllers
 {
-    [ApiController]
+    // Model used for the simple opt-in request body
+    public class ContactOptInModel
+    {
+        public bool ContactOptIn { get; set; }
+    }
+
     [Route("[controller]")]
     public class ResultsController : Controller
     {
         private readonly AzureTableService _azureTableService;
-        private readonly ResultEvaluationService _evaluationService;
         private readonly IEmailService _emailService;
         private readonly ILogger<ResultsController> _logger;
+        private readonly IOpenAIService _openAIService;
         private const string SessionIdKey = "AssessmentSessionId";
+        
+        // Add the team notification email addresses as constants
+        private const string TEAM_EMAIL_1 = "moritz.wagner@nunatak.com";
+        private const string TEAM_EMAIL_2 = "Paolo.caesar@nunatak.com";
 
         public ResultsController(
             AzureTableService azureTableService,
             IEmailService emailService,
-            ILogger<ResultsController> logger)
+            ILogger<ResultsController> logger,
+            IOpenAIService openAIService)
         {
             _azureTableService = azureTableService;
             _emailService = emailService;
-            _evaluationService = new ResultEvaluationService();
             _logger = logger;
+            _openAIService = openAIService;
         }
 
+        // Action method for displaying the initial results page
         [HttpGet]
         public IActionResult Index()
         {
             var sessionId = HttpContext.Session.GetString(SessionIdKey);
-            _logger.LogInformation("Index accessed with sessionId: {SessionId}", sessionId);
+            _logger.LogInformation("[Results/Index] Accessed with sessionId: {SessionId}", sessionId ?? "NULL");
 
             if (string.IsNullOrEmpty(sessionId))
             {
-                _logger.LogWarning("Results/Index accessed without SessionId. Redirecting to Assessment.");
+                _logger.LogWarning("[Results/Index] Accessed without SessionId. Redirecting to Assessment.");
                 return RedirectToAction("Index", "Assessment");
             }
 
-            // Pass AILabViewModel to the view
             var viewModel = new AILabViewModel
             {
                 Contacts = GetAILabContacts()
@@ -52,110 +63,99 @@ namespace AI_Maturity_Assessment.Controllers
             return View(viewModel);
         }
 
+        // API endpoint called by JavaScript to fetch detailed result data
         [HttpGet]
         [Route("GetResults")]
         public async Task<IActionResult> GetResults()
         {
+            var sessionId = HttpContext.Session.GetString(SessionIdKey);
+            _logger.LogInformation("[GetResults] API called with sessionId: {SessionId}", sessionId ?? "NULL");
+
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                 _logger.LogWarning("[GetResults] No session found in HttpContext.");
+                return BadRequest(new { error = "No session found. Please complete the assessment first." });
+            }
+
             try
             {
-                var sessionId = HttpContext.Session.GetString(SessionIdKey);
-                _logger.LogInformation("GetResults called with sessionId: {SessionId}", sessionId);
-
-                if (string.IsNullOrEmpty(sessionId))
-                {
-                    _logger.LogWarning("GetResults: No session found");
-                    return BadRequest(new { error = "No session found. Please complete the assessment first." });
-                }
-
-                // Fetch Benchmarks
-                BenchmarkEntity benchmarks = null;
-                try
-                {
-                    benchmarks = await _azureTableService.GetBenchmarks();
-                    _logger.LogInformation("Benchmarks fetched successfully.");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to fetch benchmarks. Using defaults.");
-                    // Use default values if fetching fails
-                    benchmarks = new BenchmarkEntity(); // Uses constructor default values
-                }
-
                 var responses = await _azureTableService.GetResponses(sessionId);
-                _logger.LogInformation("User responses retrieved: {ResponsesExist}", responses != null);
 
                 if (responses == null)
                 {
-                    _logger.LogWarning("GetResults: No responses found for session {SessionId}", sessionId);
+                     _logger.LogWarning("[GetResults] No responses found in Azure Table for SessionId (PK)={SessionId}", sessionId);
                     return NotFound(new { error = "Assessment results not found for this session." });
                 }
+                
+                BenchmarkEntity benchmarks = await _azureTableService.GetBenchmarks() ?? new BenchmarkEntity();
 
-                // Ensure averages are calculated and stored if not already present
-                // (This might be redundant if SubmitAnswers always calculates them, but safe)
-                if (responses.AIApplicationAverage == null || responses.PeopleOrgAverage == null || responses.TechDataAverage == null)
+                double aiAppAvg = responses.AIApplicationAverage ?? CalculateAverage(responses, 3, 5);
+                double peopleOrgAvg = responses.PeopleOrgAverage ?? CalculateAverage(responses, 6, 8);
+                double techDataAvg = responses.TechDataAverage ?? CalculateAverage(responses, 9, 11);
+
+                bool needsGeneration = string.IsNullOrEmpty(responses.AIApplicationEvaluation) ||
+                                       string.IsNullOrEmpty(responses.PeopleOrgEvaluation) ||
+                                       string.IsNullOrEmpty(responses.TechDataEvaluation);
+
+                string aiAppResultText = responses.AIApplicationEvaluation ?? "";
+                string peopleOrgResultText = responses.PeopleOrgEvaluation ?? "";
+                string techDataResultText = responses.TechDataEvaluation ?? "";
+                bool evaluationDataUpdated = false;
+
+                 if (responses.AIApplicationAverage == null) { responses.AIApplicationAverage = aiAppAvg; evaluationDataUpdated = true; }
+                 if (responses.PeopleOrgAverage == null) { responses.PeopleOrgAverage = peopleOrgAvg; evaluationDataUpdated = true; }
+                 if (responses.TechDataAverage == null) { responses.TechDataAverage = techDataAvg; evaluationDataUpdated = true; }
+
+                if (needsGeneration)
                 {
-                    _logger.LogInformation("Calculating averages for session {SessionId}", sessionId);
-                    responses.AIApplicationAverage = CalculateAverage(responses, 3, 5);
-                    responses.PeopleOrgAverage = CalculateAverage(responses, 6, 8);
-                    responses.TechDataAverage = CalculateAverage(responses, 9, 11);
-                    await _azureTableService.UpdateEntity(responses); // Save updated averages
+                     evaluationDataUpdated = true;
+
+                    Task<string> aiAppTask = _openAIService.GenerateCategoryEvaluationAsync("AI APPLICATION", aiAppAvg, responses);
+                    Task<string> peopleOrgTask = _openAIService.GenerateCategoryEvaluationAsync("PEOPLE & ORGANIZATION", peopleOrgAvg, responses);
+                    Task<string> techDataTask = _openAIService.GenerateCategoryEvaluationAsync("TECH & DATA", techDataAvg, responses);
+
+                    await Task.WhenAll(aiAppTask, peopleOrgTask, techDataTask);
+
+                    aiAppResultText = responses.AIApplicationEvaluation = aiAppTask.Result;
+                    peopleOrgResultText = responses.PeopleOrgEvaluation = peopleOrgTask.Result;
+                    techDataResultText = responses.TechDataEvaluation = techDataTask.Result;
                 }
 
-                // User's answers for the chart (Q3-Q11)
-                var userChartData = new[]
+                if (evaluationDataUpdated)
                 {
-                    responses.Question3Answer ?? 0,
-                    responses.Question4Answer ?? 0,
-                    responses.Question5Answer ?? 0,
-                    responses.Question6Answer ?? 0,
-                    responses.Question7Answer ?? 0,
-                    responses.Question8Answer ?? 0,
-                    responses.Question9Answer ?? 0,
-                    responses.Question10Answer ?? 0,
-                    responses.Question11Answer ?? 0
-                };
+                    try
+                    {
+                        await _azureTableService.UpsertEntityAsync(responses);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "[GetResults] Failed to save updated evaluation data for SessionId {SessionId}.", sessionId);
+                    }
+                }
 
-                // Prepare Benchmark Data
-                var benchmarkChartData = new[]
-                {
-                    benchmarks?.Q3Benchmark ?? 3,
-                    benchmarks?.Q4Benchmark ?? 3,
-                    benchmarks?.Q5Benchmark ?? 3,
-                    benchmarks?.Q6Benchmark ?? 3,
-                    benchmarks?.Q7Benchmark ?? 3,
-                    benchmarks?.Q8Benchmark ?? 3,
-                    benchmarks?.Q9Benchmark ?? 3,
-                    benchmarks?.Q10Benchmark ?? 3,
-                    benchmarks?.Q11Benchmark ?? 3
-                };
-                _logger.LogInformation("Benchmark data prepared: {BenchmarkData}", string.Join(",", benchmarkChartData));
+                 var userChartData = new[] {
+                     responses.Question3Answer ?? 0, responses.Question4Answer ?? 0, responses.Question5Answer ?? 0,
+                     responses.Question6Answer ?? 0, responses.Question7Answer ?? 0, responses.Question8Answer ?? 0,
+                     responses.Question9Answer ?? 0, responses.Question10Answer ?? 0, responses.Question11Answer ?? 0
+                 };
+                 var benchmarkChartData = new[] {
+                     benchmarks.Q3Benchmark, benchmarks.Q4Benchmark, benchmarks.Q5Benchmark,
+                     benchmarks.Q6Benchmark, benchmarks.Q7Benchmark, benchmarks.Q8Benchmark,
+                     benchmarks.Q9Benchmark, benchmarks.Q10Benchmark, benchmarks.Q11Benchmark
+                 };
 
                 var categoryResults = new[]
                 {
-                    new {
-                        name = "AI APPLICATION",
-                        average = responses.AIApplicationAverage ?? 0, // Use calculated average
-                        resultText = _evaluationService.GetEvaluation("AI APPLICATION", responses.AIApplicationAverage ?? 0)
-                    },
-                    new {
-                        name = "PEOPLE & ORGANIZATION",
-                        average = responses.PeopleOrgAverage ?? 0, // Use calculated average
-                        resultText = _evaluationService.GetEvaluation("PEOPLE & ORGANIZATION", responses.PeopleOrgAverage ?? 0)
-                    },
-                    new {
-                        name = "TECH & DATA",
-                        average = responses.TechDataAverage ?? 0, // Use calculated average
-                        resultText = _evaluationService.GetEvaluation("TECH & DATA", responses.TechDataAverage ?? 0)
-                    }
+                    new { name = "AI APPLICATION", average = aiAppAvg, resultText = aiAppResultText },
+                    new { name = "PEOPLE & ORGANIZATION", average = peopleOrgAvg, resultText = peopleOrgResultText },
+                    new { name = "TECH & DATA", average = techDataAvg, resultText = techDataResultText }
                 };
 
-                // Update returned JSON structure
                 var results = new
                 {
-                    userChartData,       // User's scores for Q3-Q11
-                    benchmarkChartData,  // Benchmark scores for Q3-Q11
+                    userChartData,
+                    benchmarkChartData,
                     categoryResults,
-                    // Ambition score might still be useful elsewhere on the page
                     ambition = new { score = responses.Question1Answer ?? 0, details = "AI Ambition Score" }
                 };
 
@@ -163,114 +163,261 @@ namespace AI_Maturity_Assessment.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in GetResults");
-                // Return a generic error message to the client
+                _logger.LogError(ex, "[GetResults] Unexpected error processing request for SessionId {SessionId}.", sessionId ?? "N/A");
                 return StatusCode(500, new { error = "An unexpected error occurred while retrieving results." });
             }
         }
 
-        // CalculateAverage remains the same
+        // Helper method to calculate the average score for a range of questions
         private double CalculateAverage(AssessmentResponseEntity responses, int startQuestion, int endQuestion)
         {
             var answers = new List<int>();
             for (int i = startQuestion; i <= endQuestion; i++)
             {
-                var answer = typeof(AssessmentResponseEntity)
-                    .GetProperty($"Question{i}Answer")
-                    ?.GetValue(responses) as int?;
-
-                if (answer.HasValue)
-                    answers.Add(answer.Value);
+                var propInfo = typeof(AssessmentResponseEntity).GetProperty($"Question{i}Answer");
+                if (propInfo != null && propInfo.GetValue(responses) is int answerValue)
+                {
+                    answers.Add(answerValue);
+                }
             }
-
             return answers.Any() ? answers.Average() : 0;
         }
 
-        // GetAILabContacts remains the same
+        // Helper method to define the AI Lab contact persons
         private List<ContactPerson> GetAILabContacts()
         {
-            // Get the base URL of the application
-            var baseUrl = $"{Request.Scheme}://{Request.Host}";
-
             return new List<ContactPerson>
             {
-                new ContactPerson { Name = "MANUEL HALBING", Role = "AI Lab Managing Director", Email = "manuel.halbing@nunatak.com", ImagePath = "~/images/manuel-halbing.jpg" },
-                new ContactPerson { Name = "LEA KLICK", Role = "AI Lab Transformation Lead", Email = "lea.klick@nunatak.com", ImagePath = "~/images/lea-klick.png" },
-                new ContactPerson { Name = "OLIVER ZINDLER", Role = "AI Lab Strategy Lead", Email = "oliver.zindler@nunatak.com", ImagePath = "~/images/oliver-zindler.png" },
+                new ContactPerson {
+                    Name = "MANUEL HALBING",
+                    Role = "AI Lab Managing Director",
+                    Email = "manuel.halbing@nunatak.com",
+                    ImagePath = "/images/manuel-halbing.jpg"
+                },
+                new ContactPerson {
+                    Name = "LEA KLICK",
+                    Role = "AI Lab Transformation Lead",
+                    Email = "lea.klick@nunatak.com",
+                    ImagePath = "/images/lea-klick.png"
+                },
+                new ContactPerson {
+                    Name = "OLIVER ZINDLER",
+                    Role = "AI Lab Strategy Lead",
+                    Email = "oliver.zindler@nunatak.com",
+                    ImagePath = "/images/oliver-zindler.png"
+                },
             };
         }
 
-        // SubmitContact remains the same
+        // API endpoint called by JavaScript when the contact form is submitted
         [HttpPost]
         [Route("SubmitContact")]
         public async Task<IActionResult> SubmitContact([FromForm] ContactFormModel model)
         {
+            var sessionId = HttpContext.Session.GetString(SessionIdKey);
+            _logger.LogInformation("[SubmitContact] API called for SessionId {SessionId}", sessionId ?? "NULL");
+
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                _logger.LogWarning("[SubmitContact] No session found in HttpContext.");
+                return BadRequest(new { error = "Your session has expired. Please complete the assessment again." });
+            }
+
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    // Log validation errors
                     var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    _logger.LogWarning("SubmitContact validation failed: {Errors}", string.Join("; ", errors));
+                    _logger.LogWarning("[SubmitContact] Validation failed: {Errors}", string.Join("; ", errors));
                     return BadRequest(ModelState);
                 }
 
-                var sessionId = HttpContext.Session.GetString(SessionIdKey);
-                if (string.IsNullOrEmpty(sessionId))
+                bool? contactOptIn = null;
+                if (Request.Form.TryGetValue("ContactOptIn", out var optInValue) &&
+                    bool.TryParse(optInValue, out bool parsedOptIn))
                 {
-                    _logger.LogWarning("SubmitContact: No session found.");
-                    return BadRequest(new { error = "No session found" });
+                    contactOptIn = parsedOptIn;
+                    _logger.LogInformation("[SubmitContact] Received ContactOptIn={OptInValue} from form data for SessionId {SessionId}", contactOptIn, sessionId);
                 }
 
-                // Save only name, company, and email
-                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email);
-                _logger.LogInformation("Contact info saved for session {SessionId}", sessionId);
-
-                // Get assessment results
                 var responses = await _azureTableService.GetResponses(sessionId);
                 if (responses == null)
                 {
-                    _logger.LogError("SubmitContact: Assessment results not found for session {SessionId} after saving contact info.", sessionId);
-                    return BadRequest(new { error = "Assessment results not found" });
+                    _logger.LogError("[SubmitContact] Assessment results not found in storage for SessionId {SessionId}. Cannot save contact or send email.", sessionId);
+                    return BadRequest(new { error = "Assessment results could not be found. Please try again or contact support." });
                 }
 
-                // Prepare results for email
+                await _azureTableService.SaveContactInfo(sessionId, model.Name, model.Company, model.Email, contactOptIn);
+
+                _logger.LogInformation("[SubmitContact] Preparing email DTO for SessionId {SessionId}", sessionId);
+                string fallbackEvalText = "Evaluation currently unavailable.";
+
+                // Prepare the results DTO for email
                 var resultsDto = new AssessmentResultsDTO
                 {
-                    // Use the potentially recalculated averages
                     AIApplicationAverage = responses.AIApplicationAverage ?? CalculateAverage(responses, 3, 5),
                     PeopleOrgAverage = responses.PeopleOrgAverage ?? CalculateAverage(responses, 6, 8),
-                    TechDataAverage = responses.TechDataAverage ?? CalculateAverage(responses, 9, 11)
+                    TechDataAverage = responses.TechDataAverage ?? CalculateAverage(responses, 9, 11),
+                    AIApplicationText = responses.AIApplicationEvaluation ?? fallbackEvalText,
+                    PeopleOrgText = responses.PeopleOrgEvaluation ?? fallbackEvalText,
+                    TechDataText = responses.TechDataEvaluation ?? fallbackEvalText
                 };
-                // Get evaluation text based on potentially recalculated averages
-                resultsDto.AIApplicationText = _evaluationService.GetEvaluation("AI APPLICATION", resultsDto.AIApplicationAverage);
-                resultsDto.PeopleOrgText = _evaluationService.GetEvaluation("PEOPLE & ORGANIZATION", resultsDto.PeopleOrgAverage);
-                resultsDto.TechDataText = _evaluationService.GetEvaluation("TECH & DATA", resultsDto.TechDataAverage);
 
-                // Send email
+                // First, send the assessment results to the user
                 try
                 {
-                    await _emailService.SendAssessmentResultsAsync(
-                        model.Email,
-                        model.Name,
-                        model.Company,
-                        resultsDto
-                    );
-                    _logger.LogInformation("Assessment results email sent successfully to {Email} for session {SessionId}", model.Email, sessionId);
+                    await _emailService.SendAssessmentResultsAsync(model.Email, model.Name, model.Company, resultsDto);
+                    _logger.LogInformation("[SubmitContact] Assessment results email sent successfully to {Email} for SessionId {SessionId}", model.Email, sessionId);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to send assessment results email to {Email} for session {SessionId}", model.Email, sessionId);
-                    // Don't fail the request if email fails, but log it.
+                    _logger.LogError(ex, "[SubmitContact] Failed to send assessment results email to {Email} for SessionId {SessionId}", model.Email, sessionId);
                 }
 
-                return Ok(new { message = "Contact information submitted successfully." }); // Return success message
+                // NEW: Send notification email to the team if contact was explicitly requested (default to true if data is missing)
+                bool shouldNotifyTeam = contactOptIn ?? true;
+                if (shouldNotifyTeam)
+                {
+                    try
+                    {
+                        await SendTeamNotificationEmailAsync(responses, model, resultsDto);
+                        _logger.LogInformation("[SubmitContact] Team notification email sent successfully for SessionId {SessionId}", sessionId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "[SubmitContact] Failed to send team notification email for SessionId {SessionId}", sessionId);
+                        // Don't fail the request if team notification email fails
+                    }
+                }
+
+                return Ok(new { 
+                    message = "Contact information submitted successfully.",
+                    notification = "One of our Data & AI Lab Leads will contact you in the upcoming days" 
+                });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error submitting contact form for session {SessionId}", HttpContext.Session.GetString(SessionIdKey));
+                _logger.LogError(ex, "[SubmitContact] Unexpected error processing request for SessionId {SessionId}", sessionId ?? "N/A");
                 return StatusCode(500, new { error = "An unexpected error occurred while submitting contact information." });
             }
         }
+
+        // NEW: Method to send notification email to the team
+        private async Task SendTeamNotificationEmailAsync(
+            AssessmentResponseEntity responses, 
+            ContactFormModel contactInfo,
+            AssessmentResultsDTO resultsDto)
+        {
+            // Send to both team members
+            var teamEmails = new[] { TEAM_EMAIL_1, TEAM_EMAIL_2 };
+            
+            foreach (var email in teamEmails)
+            {
+                try
+                {
+                    // This uses the same email service but with a different subject
+                    await _emailService.SendAssessmentResultsToTeamAsync(
+                        email,
+                        contactInfo.Name,
+                        contactInfo.Company,
+                        contactInfo.Email,
+                        responses.BusinessSector,
+                        responses.CompanySize,
+                        resultsDto);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send team notification to {Email}", email);
+                    // Continue to next email even if one fails
+                }
+            }
+        }
+
+        // API endpoint called by JavaScript for explicit opt-in update
+        [HttpPost]
+        [Route("OptInContact")]
+        public async Task<IActionResult> OptInContact([FromBody] ContactOptInModel model)
+        {
+             var sessionId = HttpContext.Session.GetString(SessionIdKey);
+             _logger.LogInformation("[OptInContact] API called for SessionId {SessionId} with OptIn={OptInValue}", sessionId ?? "NULL", model?.ContactOptIn);
+
+             if (string.IsNullOrEmpty(sessionId))
+             {
+                 _logger.LogWarning("[OptInContact] No session found in HttpContext.");
+                 return BadRequest(new { error = "Your session has expired. Please complete the assessment again." });
+             }
+
+             if (model == null)
+             {
+                  _logger.LogWarning("[OptInContact] Received null model data for SessionId {SessionId}", sessionId);
+                  return BadRequest(new { error = "Invalid request data." });
+             }
+
+             try
+             {
+                 bool success = await _azureTableService.UpdateContactOptInAsync(sessionId, model.ContactOptIn);
+                 
+                 // If opted in, also try to send the team notification if we have contact info
+                 if (success && model.ContactOptIn)
+                 {
+                     var responses = await _azureTableService.GetResponses(sessionId);
+                     if (responses != null && !string.IsNullOrEmpty(responses.Email))
+                     {
+                         try
+                         {
+                             var resultsDto = new AssessmentResultsDTO
+                             {
+                                 AIApplicationAverage = responses.AIApplicationAverage ?? CalculateAverage(responses, 3, 5),
+                                 PeopleOrgAverage = responses.PeopleOrgAverage ?? CalculateAverage(responses, 6, 8),
+                                 TechDataAverage = responses.TechDataAverage ?? CalculateAverage(responses, 9, 11),
+                                 AIApplicationText = responses.AIApplicationEvaluation ?? "Evaluation not available.",
+                                 PeopleOrgText = responses.PeopleOrgEvaluation ?? "Evaluation not available.",
+                                 TechDataText = responses.TechDataEvaluation ?? "Evaluation not available."
+                             };
+                             
+                             var contactModel = new ContactFormModel
+                             {
+                                 Name = responses.Name ?? "Unknown",
+                                 Company = responses.Company ?? "Unknown",
+                                 Email = responses.Email
+                             };
+                             
+                             await SendTeamNotificationEmailAsync(responses, contactModel, resultsDto);
+                             _logger.LogInformation("[OptInContact] Team notification email sent for SessionId {SessionId}", sessionId);
+                         }
+                         catch (Exception ex)
+                         {
+                             _logger.LogError(ex, "[OptInContact] Failed to send team notification for SessionId {SessionId}", sessionId);
+                             // Continue with success response even if notification email fails
+                         }
+                     }
+                     
+                     return Ok(new { 
+                         message = "Contact preference updated successfully.", 
+                         notification = "One of our Data & AI Lab Leads will contact you in the upcoming days" 
+                     });
+                 }
+
+                 if (success)
+                 {
+                     return Ok(new { message = "Contact preference updated successfully." });
+                 }
+                 else
+                 {
+                     return NotFound(new { error = "Could not update preference. Assessment record not found." });
+                 }
+             }
+             catch (Exception ex)
+             {
+                 _logger.LogError(ex, "[OptInContact] Unexpected error processing request for SessionId {SessionId}", sessionId);
+                 return StatusCode(500, new { error = "An unexpected error occurred while updating contact preference." });
+             }
+        }
+    }
+
+    // Placeholder for the ViewModel used by the Index view
+    public class AILabViewModel
+    {
+       public List<ContactPerson> Contacts { get; set; }
     }
 }

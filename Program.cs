@@ -20,6 +20,8 @@ builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<AzureTableService>();
 builder.Services.AddScoped<ResultEvaluationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<IOpenAIService, OpenAIService>();
+builder.Services.AddHttpClient();
 
 // Configure Session with more specific settings
 builder.Services.AddDistributedMemoryCache();

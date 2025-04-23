@@ -8,92 +8,122 @@
     </div>
 </div>
 
+@* Optional: Remove or comment out old background elements if using newer ones
 <div class="tech-grid"></div>
 <div class="tech-dots"></div>
+*@
 
 <div class="results-container position-relative overflow-hidden">
-    <!-- Initial Results Section -->
     <div class="results-content initial-results">
         <div class="results-left">
             <div class="glass-panel chart-panel">
                 <h3>AI Maturity Overview</h3>
                 <canvas id="radarChart"></canvas>
-                <div class="chart-legend-container"></div>
+                @* Chart legend is typically handled by Chart.js options directly *@
             </div>
         </div>
-        <div class="results-right"> 
+        <div class="results-right">
             <div class="glass-panel scores-panel">
                 <h3>Category Scores</h3>
                 <div class="category-scores">
-                    <!-- Scores will be injected here by JavaScript -->
+                    @* Scores injected by JS *@
                 </div>
                 <div class="unlock-prompt">
                     <p>Want to see the detailed analysis and recommendations?</p>
-                    <button class="unlock-button" onclick="ResultsViewController.showContactModal()">
-                        Unlock Full Results
-                    </button>
+                    <div class="button-group">
+                        <button class="primary-action" id="unlockResultsButton">Unlock Full Results</button>
+                        <button class="primary-action" id="contactOptInButton">Contact Me</button>
+                    </div>
+                     <div id="optInMessage" class="opt-in-message" style="display: none; margin-top: 10px; font-size: 0.9em;"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Detailed Results Section (Initially Hidden) -->
     <div class="results-content detailed-results hidden">
-        <div class="results-tabs">
+        <div class="accordion-container">
             @foreach (var category in new[] { "AI APPLICATION", "PEOPLE & ORGANIZATION", "TECH & DATA" })
             {
-                <div class="result-tab" data-category="@category">
-                    <div class="tab-header">
+                <div class="accordion-item" data-category="@category">
+                    <button class="accordion-header" aria-expanded="false">
                         <h3>@category</h3>
-                    </div>
-                    <div class="tab-content">
-                        <!-- Content will be injected by JavaScript -->
+                        <span class="accordion-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="tab-content"> @* Keep this inner div for JS targeting consistency *@
+                            <p>Loading details...</p> @* Loading text shown briefly *@
+                        </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-</div>
+    </div>
 
-<!-- AI Lab Contact Section - UPDATED -->
+
 <div class="ai-lab-section">
+    @{
+        // Safely get the contacts list, defaulting to an empty list if null
+        var contacts = Model?.Contacts as List<AI_Maturity_Assessment.Models.ContactPerson> ?? new List<AI_Maturity_Assessment.Models.ContactPerson>();
+        bool isSingleContact = contacts.Count == 1;
+    }
     <div class="results-content ai-lab-content full-width">
-        <div class="glass-panel contact-panel @(Model.Contacts.Count == 1 ? "single-contact" : "") full-width">
-            <h3>Do you have any questions or would you like to discuss your results? <br> <br> Contact Our <span class="accent-text">AI LAB @(Model.Contacts.Count == 1 ? "LEAD" : "LEADS")</span></h3>
+        <div class="glass-panel contact-panel @(isSingleContact ? "single-contact" : "") full-width">
+            @* Use the safe 'contacts' variable here *@
+            <h3>Do you have any questions or would you like to discuss your results? <br> <br> Contact Our <span class="accent-text">AI LAB @(isSingleContact ? "LEAD" : "LEADS")</span></h3>
             <div class="contact-details">
-                @foreach (var contact in Model.Contacts)
+                @* Check count on the safe 'contacts' variable *@
+                @if (contacts.Count > 0)
                 {
-                    <div class="contact-person @(Model.Contacts.Count == 1 ? "large" : "")">
-                        <div class="contact-avatar">
-                            <!-- Prioritize image display -->
-                            <img src="@Url.Content(contact.ImagePath)" alt="@contact.Name" class="avatar-image">
-                            <!-- Only show placeholder if image fails -->
-                            <div class="avatar-placeholder" style="display: none;">
-                                <div class="avatar-initials">@(contact.Name.Split(' ')[0][0])@(contact.Name.Split(' ')[1][0])</div>
+                    @* Loop over the safe 'contacts' variable *@
+                    @foreach (var contact in contacts)
+                    {
+                        <div class="contact-person @(isSingleContact ? "large" : "")">
+                            <div class="contact-avatar">
+                                <img src="@Url.Content(contact.ImagePath ?? "~/images/default-avatar.png")" alt="@contact.Name" class="avatar-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="avatar-placeholder" style="display: none;">
+                                    @{
+                                        // Logic to get initials
+                                        var initials = "??";
+                                        if (!string.IsNullOrWhiteSpace(contact.Name))
+                                        {
+                                            var parts = contact.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                            if (parts.Length >= 2) {
+                                                initials = $"{parts[0][0]}{parts[1][0]}".ToUpper();
+                                            } else if (parts.Length == 1 && parts[0].Length >= 1) {
+                                                initials = parts[0].Substring(0, Math.Min(parts[0].Length, 2)).ToUpper();
+                                            }
+                                        }
+                                    }
+                                    <div class="avatar-initials">@initials</div>
+                                </div>
+                            </div>
+                            <div class="contact-info">
+                                <h4>@contact.Name</h4>
+                                <p class="contact-role">@contact.Role</p>
+                                <a href="mailto:@contact.Email" class="contact-email">@contact.Email</a>
                             </div>
                         </div>
-                        <div class="contact-info">
-                            <h4>@contact.Name</h4>
-                            <p class="contact-role">@contact.Role</p>
-                            <a href="mailto:@contact.Email" class="contact-email">@contact.Email</a>
-                        </div>
-                    </div>
+                    }
+                }
+                else
+                {
+                    <p>Contact information is currently unavailable.</p>
                 }
             </div>
         </div>
     </div>
 </div>
 
-<!-- scroll-indicator Indicator -->
 <div class="scroll-indicator">
     <svg viewBox="0 0 30 18" xmlns="http://www.w3.org/2000/svg">
         <path class="triangle" d="M15 18L0 0h30z"/>
     </svg>
 </div>
 
-<!-- Contact Modal -->
 <div class="modal-overlay" id="contactModal">
     <div class="contact-modal">
+        <button class="close-modal-button" aria-label="Close modal">&times;</button> @* Added Close Button *@
         <h2>Get Your Complete Results</h2>
         <p>Enter your details to receive the full analysis and recommendations</p>
         <form class="contact-form" id="contactForm">
@@ -127,5 +157,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/ResultsViewController.js"></script>
+    @* Ensure Chart.js library is included, preferably in _Layout.cshtml or here *@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="~/js/ResultsViewController.js" asp-append-version="true"></script> @* Use asp-append-version for cache busting *@
 }

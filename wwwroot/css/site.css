@@ -397,11 +397,6 @@ html {
   transition: opacity 0.3s ease; /* Smooth transition when images change */
 }
 
-/* Clear any other image containers */
-.glass-panel img {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .assessment-content {
     flex-direction: column;
@@ -939,12 +934,14 @@ html {
   padding: 0 2rem;
 }
 
+/*
 .results-tabs {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
+*/
 
 /* Chart Panel */
 .glass-panel.chart-panel {
@@ -1014,16 +1011,15 @@ html {
 }
 
 /* Detailed Results Section */
-.detailed-results {
-  margin-top: 4rem;
-  padding: 3rem 2rem;
-  max-width: 1400px;
-  margin: 4rem auto 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-}
+.detailed-results { 
+margin-top: 3rem; /* Keep or adjust spacing */
+ padding: 0 2rem 3rem; /* Keep or adjust padding */
+ max-width: 1400px; /* Keep */
+ margin: 3rem auto 0; /* Keep or adjust spacing */
+ display: block; /* Ensure block display */
+ }
 
+/* 
 .result-tab {
   background: rgba(52, 62, 72, 0.7);
   backdrop-filter: blur(15px);
@@ -1038,6 +1034,7 @@ html {
   width: 100%;
   box-sizing: border-box;
 }
+
 
 .result-tab[data-category="AI APPLICATION"] {
   border-left: 4px solid var(--accent-green);
@@ -1081,30 +1078,15 @@ html {
   padding-bottom: 0.5rem;
 }
 
+*/
+
 tab-content {
   color: var(--accent-white);
   line-height: 1.6;
   font-size: 1.5rem;
-  opacity: 0.8;
+  opacity: 1;
 }
 
-/* Unlock Section */
-.unlock-button {
-  background: var(--accent-green-dark);
-  color: var(--accent-white);
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 2rem;
-}
-
-.unlock-button:hover {
-  background: var(--accent-green);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -1122,6 +1104,34 @@ tab-content {
       gap: 3rem;
       align-items: stretch; /* Wichtig: Dehnt die Items aus */
   }
+
+  /* Add this new rule */
+.primary-action {
+  background: var(--accent-green-dark);
+  color: var(--accent-white);
+  border: none;
+  padding: 0.75rem 1.5rem; /* Consistent padding */
+  border-radius: 8px;
+  font-size: 1rem; /* Consistent font size */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /* Add margin if needed for spacing within .button-group */
+  /* margin-top: 0; Remove if not needed */
+}
+
+/* Add a hover state for the primary action */
+.primary-action:hover {
+background: var(--accent-green);
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional hover shadow */
+}
+
+/* Add a disabled state style */
+.primary-action:disabled {
+  background-color: rgba(98, 178, 169, 0.5); /* Dimmed green */
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
   
   .glass-panel.chart-panel,
   .glass-panel.scores-panel {
@@ -1523,22 +1533,6 @@ tab-content {
 .lock-message li {
   margin: 0.5rem 0;
   color: var(--accent-white);
-}
-
-.unlock-button {
-  background: var(--accent-green-dark);
-  color: var(--accent-white);
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-}
-
-.unlock-button:hover {
-  background: var(--accent-green);
 }
 
 .detailed-results.hidden {
@@ -2187,3 +2181,156 @@ tab-content {
     font-size: 3rem;
   }
 }
+
+/* --- START: NEW ACCORDION STYLES --- */
+.detailed-results {
+  /* Ensure it's a block container, remove grid if previously applied */
+  display: block;
+  margin-top: 3rem; /* Keep or adjust spacing */
+  padding-bottom: 3rem; /* Keep or adjust spacing */
+  /* Remove grid-template-columns and gap if they were here */
+}
+
+.accordion-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between accordion items */
+}
+
+.accordion-item {
+  background: rgba(52, 62, 72, 0.5); /* Match score item hover */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px; /* Use --border-radius-base if defined, or keep 12px */
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+  position: relative;
+  border-left-width: 5px;
+  border-left-style: solid;
+}
+
+/* Category-specific border colors */
+.accordion-item[data-category="AI APPLICATION"] { border-left-color: var(--accent-green); }
+.accordion-item[data-category="PEOPLE & ORGANIZATION"] { border-left-color: var(--accent-blue); } /* Use adjusted blue if defined */
+.accordion-item[data-category="TECH & DATA"] { border-left-color: var(--accent-red); } /* Use adjusted red if defined */
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--accent-white);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.accordion-header:hover { background-color: rgba(255, 255, 255, 0.05); }
+
+.accordion-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  flex-grow: 1;
+}
+
+/* Category-specific header text colors */
+.accordion-item[data-category="AI APPLICATION"] .accordion-header h3 { color: var(--accent-green); }
+.accordion-item[data-category="PEOPLE & ORGANIZATION"] .accordion-header h3 { color: var(--accent-blue); } /* Use adjusted blue if defined */
+.accordion-item[data-category="TECH & DATA"] .accordion-header h3 { color: var(--accent-red); } /* Use adjusted red if defined */
+
+.accordion-icon {
+  width: 22px; height: 22px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  margin-left: 1rem; flex-shrink: 0;
+}
+.accordion-icon::before {
+  content: '+'; font-size: 1.4rem; line-height: 1;
+  color: rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s ease;
+  font-weight: 300;
+}
+.accordion-header:hover .accordion-icon { border-color: var(--accent-white); }
+.accordion-header:hover .accordion-icon::before { color: var(--accent-white); }
+
+/* Icon state when accordion is open */
+.accordion-header[aria-expanded="true"] .accordion-icon { transform: rotate(45deg); }
+.accordion-header[aria-expanded="true"] .accordion-icon::before { transform: translateY(-1px); }
+
+
+.accordion-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease-in-out,
+              padding 0.4s ease;
+  padding: 0 1.5rem; /* Match header horizontal padding */
+}
+
+/* State when accordion is open */
+.accordion-content.active {
+  /* max-height set by JS */
+  opacity: 1;
+  padding: 0.5rem 1.5rem 1.5rem; /* Top, H, Bottom padding when open */
+}
+
+/* Styles for the text content within the accordion panel */
+/* Reuse .tab-content class if JS targets it, or style directly */
+.accordion-content .tab-content {
+  color: rgba(240, 240, 240, 0.85); /* Use --accent-white with opacity */
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+.accordion-content .tab-content p { margin: 0 0 1em 0; }
+.accordion-content .tab-content p:last-child { margin-bottom: 0; }
+
+/* --- END: NEW ACCORDION STYLES --- */
+
+
+/* --- START: MODAL CLOSE BUTTON STYLE --- */
+/* Add this rule */
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--accent-white);
+  cursor: pointer;
+  padding: 0.2rem;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  z-index: 1002;
+}
+.close-modal-button:hover {
+  opacity: 1;
+}
+/* --- END: MODAL CLOSE BUTTON STYLE --- */
+
+.score-value-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+.score-maturity {
+  font-size: 0.9em;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+.maturity-exploring { background-color: #34070b; color: white;}
+.maturity-building { background-color: #4b6a02; color: rgb(255, 255, 255);}
+.maturity-pioneering { background-color: #037b63; color: white;}

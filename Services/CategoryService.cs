@@ -1,3 +1,4 @@
+using AI_Maturity_Assessment.Models; // Add this line
 public class CategoryService
 {
     public class CategoryResult
