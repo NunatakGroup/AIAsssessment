@@ -989,7 +989,7 @@ html {
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
-  border-left-width: 5px; /* Match accordion item border */
+  border-left-width: 5px !important; /* Match accordion item border */
   border-left-style: solid;
   border-left-color: transparent; /* Default/fallback color */
   position: relative; /* Good practice for borders/positioning children */
