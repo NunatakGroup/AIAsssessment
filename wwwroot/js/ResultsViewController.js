@@ -122,24 +122,67 @@ const ResultsViewController = {
     contactOptInRequested: false,
     resultsData: null, // Cache results data
 
+    /**
+     * Determines the maturity level based on the score.
+     * @param {number|null} score - The average score.
+     * @returns {string} The maturity level string ('Exploring', 'Building', 'Pioneering', 'N/A').
+     */
+    getMaturityLevel(score) {
+        if (score === null || score === undefined || isNaN(score)) return "N/A";
+        // Adjust score thresholds if needed to match exact desired ranges
+        if (score < 2.0) return "Exploring";
+        if (score < 4.0) return "Building";
+        return "Pioneering";
+    },
+
     async initialize() {
         console.log('Initializing ResultsViewController');
-        this.initializeModal(); // Setup contact form modal listeners first
+        this.initializeModal(); // Setup modal listeners
 
-        const results = await this.loadResults(); // Fetch data
-
-        if (results) {
-            // Data loaded successfully, initialize UI components that need it
-            this.initializeChart(results);
-            this.displayCategoryScores(results);
-            // Note: Detailed results content (accordion) is loaded ONLY after unlock
+        // --- START: ADD Loading Overlay Logic ---
+        const loadingOverlay = document.getElementById('resultsLoadingOverlay');
+        if (!loadingOverlay) {
+            console.error("Loading overlay element not found!");
+            // Handle error or proceed without overlay
         } else {
-            // Failed to load results data
-            console.error("Failed to load results, cannot initialize page components.");
-            this.displayErrorMessage("Failed to load assessment results. Please try refreshing the page or contact support if the problem persists.");
+            // Make overlay visible BEFORE starting data load
+            loadingOverlay.classList.add('visible'); 
         }
-        // Initialize non-data-dependent effects last
+        // --- END: ADD Loading Overlay Logic ---
+
+        let results = null; // Define results variable outside try block
+        try {
+            results = await this.loadResults(); // Fetch data (potentially triggers AI generation)
+
+            if (results) {
+                // Data loaded successfully, initialize UI components
+                this.initializeChart(results);
+                this.displayCategoryScores(results);
+                // Accordion content is loaded later via showDetailedResults -> loadDetailedResults
+            } else {
+                // Failed to load results data (error handled in loadResults)
+                console.error("Failed to load results, cannot initialize page components.");
+                // displayErrorMessage is likely called within loadResults on error
+            }
+
+        } catch (error) {
+             // Catch any unexpected errors during initialization *after* loadResults might have succeeded/failed
+             console.error("Error during initialization after loading results:", error);
+             this.displayErrorMessage("An unexpected error occurred while initializing the results display.");
+
+        } finally {
+             // --- START: ADD Hiding Overlay Logic ---
+             // ALWAYS hide the overlay once processing is done or failed
+             if (loadingOverlay) {
+                 loadingOverlay.classList.remove('visible');
+             }
+             // --- END: ADD Hiding Overlay Logic ---
+        }
+
+
+        // Initialize non-data-dependent effects last (if any)
         InteractiveEffects.initialize();
+
     },
 
     /**
@@ -199,20 +242,12 @@ const ResultsViewController = {
             return;
         }
 
-        // --- Define Maturity Levels ---
-        const getMaturityLevel = (score) => {
-            if (score === null || score === undefined || isNaN(score)) return "N/A";
-            if (score < 2.0) return "Exploring";     // e.g., 0.0 - 1.4
-            if (score < 4.0) return "Building";    // e.g., 1.5 - 2.4
-            return "Pioneering";         // e.g., 4.5 - 5.0
-        };
-
         // Generate HTML for each score item
-        const categoryScores = results.categoryResults.map(category => {
+        const categoryScores = results.categoryResults.map(category => { 
             const average = typeof category.average === 'number' ? category.average : null;
             const averageFormatted = average !== null ? average.toFixed(1) : 'N/A';
             const name = category.name || 'Unnamed Category';
-            const maturityLevel = getMaturityLevel(average);
+            const maturityLevel = this.getMaturityLevel(average); //Changed to new function
             const maturityClass = maturityLevel.toLowerCase().replace(/\s+/g, '-'); // e.g., 'integrating'
 
             // Removed 'glass-effect' class if not needed, rely on .score-item styles
@@ -425,15 +460,52 @@ handleOptInButtonClick() {
     }
 },
 
-    /**
+/**
  * Sends an asynchronous request to update the ContactOptIn flag.
+ * Shows a loading state on the button during the request.
  * @param {boolean} optInValue - The value to set for ContactOptIn.
  */
 async sendOptInUpdateRequest(optInValue) {
     const optInMessageElement = document.getElementById('optInMessage');
     if (optInMessageElement) optInMessageElement.style.display = 'none'; // Hide previous message
 
+    // --- Get button elements ---
+    const contactOptInButton = document.getElementById('contactOptInButton');
+    // Ensure elements exist before proceeding
+    if (!contactOptInButton) {
+         console.error("Contact Me button (#contactOptInButton) not found.");
+         // Optionally show an error to the user
+         if (optInMessageElement) {
+             optInMessageElement.textContent = 'Error: UI element missing.';
+             optInMessageElement.className = 'opt-in-message error';
+             optInMessageElement.style.display = 'block';
+         }
+         return; // Stop execution if button isn't found
+    }
+    const buttonText = contactOptInButton.querySelector('.button-text');
+    const buttonLoading = contactOptInButton.querySelector('.button-loading');
+     // Ensure inner spans exist
+    if (!buttonText || !buttonLoading) {
+         console.error("Required spans (.button-text, .button-loading) not found inside #contactOptInButton.");
+         if (optInMessageElement) {
+             optInMessageElement.textContent = 'Error: Button structure incorrect.';
+             optInMessageElement.className = 'opt-in-message error';
+             optInMessageElement.style.display = 'block';
+         }
+         return; // Stop execution
+    }
+    // --- End Get button elements ---
+
+
     console.log(`Sending request to update ContactOptIn to ${optInValue}`);
+
+    // --- Start Loading State ---
+    contactOptInButton.disabled = true;
+    buttonText.classList.add('hidden');
+    buttonLoading.classList.remove('hidden');
+    let isSuccess = false; // Flag to track success for finally block
+    // ---
+
     try {
         const response = await fetch('/Results/OptInContact', {
             method: 'POST',
@@ -447,26 +519,27 @@ async sendOptInUpdateRequest(optInValue) {
 
         if (response.ok) {
             console.log('ContactOptIn update successful:', result.message);
-            
+            isSuccess = true; // Mark as successful
+
             // Display success notification with custom message
             if (result.notification) {
                 this.showNotification(result.notification, 'success', 8000);
             } else {
-                this.showNotification('One of our Data & AI Lab Leads will contact you in the upcoming days', 'success', 8000);
+                // Provide a default success message if needed
+                 this.showNotification('Contact preference updated.', 'success', 5000); 
             }
-            
+
             if (optInMessageElement) {
                 optInMessageElement.textContent = result.message || 'Contact preference updated successfully.';
                 optInMessageElement.className = 'opt-in-message success'; // Add class for styling
                 optInMessageElement.style.display = 'block';
             }
-            
-            // Optionally disable the button after success to prevent multiple clicks
-            const contactOptInButton = document.getElementById('contactOptInButton');
-            if(contactOptInButton) {
-                contactOptInButton.disabled = true;
-                contactOptInButton.textContent = 'Preference Saved'; // Update button text
-            }
+
+            // Update button text content for when it's reshown
+            buttonText.textContent = 'Preference Saved';
+
+            // Button remains disabled on success (handled in finally)
+
         } else {
             // Handle specific known errors or general failure
             console.error(`ContactOptIn update failed (${response.status}):`, result?.error || 'Unknown server error');
@@ -474,15 +547,29 @@ async sendOptInUpdateRequest(optInValue) {
         }
     } catch (error) {
         console.error('Error sending ContactOptIn update request:', error);
+        isSuccess = false; // Mark as failed
         if (optInMessageElement) {
             optInMessageElement.textContent = `Error: ${error.message || 'Could not update preference.'}`;
             optInMessageElement.className = 'opt-in-message error'; // Add class for styling
             optInMessageElement.style.display = 'block';
         }
-        // Do not disable the button on error, allow retry
+        // Restore original button text content for when it's reshown
+         buttonText.textContent = 'Contact Me';
+
+        // Re-enable button on error (handled in finally)
+    } finally {
+        // --- Stop Loading State ---
+        buttonLoading.classList.add('hidden'); // Hide spinner/saving text
+        buttonText.classList.remove('hidden'); // Show button text (either "Preference Saved" or "Contact Me")
+
+        // Keep button disabled ONLY on success, otherwise re-enable it
+        contactOptInButton.disabled = isSuccess;
+
+         console.log(`Finished loading state for Contact Me button. Success: ${isSuccess}`);
+        // ---
     }
-    
-    // Auto-hide message after a few seconds (if not showing notification)
+
+    // Auto-hide message after a few seconds (if not showing notification or if desired regardless)
     if (optInMessageElement && optInMessageElement.style.display === 'block') {
         setTimeout(() => {
             if (optInMessageElement) {
@@ -490,7 +577,7 @@ async sendOptInUpdateRequest(optInValue) {
             }
         }, 6000); // Hide after 6 seconds
     }
-},
+}, // End of sendOptInUpdateRequest
 
 
     /**
@@ -580,6 +667,12 @@ showNotification: function(message, type = 'success', duration = 5000) {
  * Reveals detailed results upon successful submission.
  * @param {Event} e - The form submission event.
  */
+/**
+ * Handles the submission of the contact form within the modal.
+ * Reveals detailed results upon successful submission.
+ * Adjusts prompt text and button visibility based on the initial trigger.
+ * @param {Event} e - The form submission event.
+ */
 async handleModalSubmit(e) {
     e.preventDefault(); // Prevent default browser form submission
 
@@ -588,6 +681,12 @@ async handleModalSubmit(e) {
     const buttonText = submitButton?.querySelector('.button-text');
     const buttonLoading = submitButton?.querySelector('.button-loading');
     const scrollIndicator = document.querySelector('.scroll-indicator');
+
+    // Get references to elements we might modify *before* the async call
+    const unlockButton = document.getElementById('unlockResultsButton');
+    const contactButton = document.getElementById('contactOptInButton');
+    const unlockPromptDiv = document.querySelector('.unlock-prompt');
+    const promptTextElement = unlockPromptDiv ? unlockPromptDiv.querySelector('p') : null;
 
     if (!submitButton || !buttonText || !buttonLoading) {
         console.error("Submit button or its text/loading elements not found in the form.");
@@ -600,15 +699,17 @@ async handleModalSubmit(e) {
     buttonLoading.classList.remove('hidden');
     submitButton.disabled = true;
 
+    // Store the flag before the async call, as it might be reset in 'finally'
+    const wasContactOptInRequested = this.contactOptInRequested;
+
     try {
         const formData = new FormData(form);
 
-        // Append ContactOptIn flag if requested from the specific button click
-        if (this.contactOptInRequested) {
-            formData.append('ContactOptIn', 'true'); // Backend must handle this field
+        // Append ContactOptIn flag based on the stored state
+        if (wasContactOptInRequested) {
+            formData.append('ContactOptIn', 'true');
             console.log("Appending ContactOptIn=true to form data.");
         } else {
-            // Ensure the backend knows the default state if needed, e.g., false
             formData.append('ContactOptIn', 'false');
             console.log("Appending ContactOptIn=false to form data.");
         }
@@ -624,28 +725,62 @@ async handleModalSubmit(e) {
 
         if (response.ok) {
             console.log("Contact form submitted successfully.");
-            
-            // Parse the JSON response
             const result = await response.json();
-            
-            // Show notification message if provided in the response
-            if (this.contactOptInRequested && (result.notification || this.contactOptInRequested)) {
+
+            // Show notification message if 'Contact Me' was clicked or if the response specifies one
+            if (wasContactOptInRequested && (result.notification || wasContactOptInRequested)) {
                 this.showNotification(
-                    result.notification || "One of our Data & AI Lab Leads will contact you in the upcoming days", 
-                    'success', 
+                    result.notification || "One of our Data & AI Lab Leads will contact you in the upcoming days",
+                    'success',
                     8000
                 );
             }
 
-            // --- User Experience Change: Hide the entire prompt section ---
-            const unlockPrompt = document.querySelector('.unlock-prompt');
-            if (unlockPrompt) {
-                unlockPrompt.style.display = 'none'; // Hide the whole prompt area
-                console.log("Hid the entire '.unlock-prompt' section.");
+            // --- START: NEW PROMPT & BUTTON VISIBILITY LOGIC ---
+            if (wasContactOptInRequested) {
+                // Scenario B: 'Contact Me' was clicked initially. Hide the entire prompt section.
+                if (unlockPromptDiv) {
+                    unlockPromptDiv.style.display = 'none';
+                    console.log("Hid the entire unlock prompt section because 'Contact Me' was the trigger.");
+                } else {
+                    console.warn("Unlock prompt div not found to hide.");
+                }
             } else {
-                console.warn("'.unlock-prompt' section not found to hide.");
+                // Scenario A: 'Unlock Full Results' was clicked. Adjust the prompt section.
+                if (unlockPromptDiv) {
+                    // Ensure the container is visible
+                     unlockPromptDiv.style.display = ''; // Reset display style
+                     console.log("Ensured prompt container div is visible.");
+
+                    // Hide the 'Unlock' button
+                    if (unlockButton) {
+                        unlockButton.style.display = 'none';
+                        console.log("Hid the 'Unlock Full Results' button.");
+                    } else {
+                         console.warn("'Unlock Full Results' button not found to hide.");
+                    }
+
+                    // Ensure 'Contact Me' button is visible
+                    if (contactButton) {
+                        contactButton.style.display = ''; // Reset display style
+                        console.log("Ensured 'Contact Me' button is visible.");
+                    } else {
+                        console.warn("'Contact Me' button not found.");
+                    }
+
+                    // Change the prompt text
+                    if (promptTextElement) {
+                        promptTextElement.textContent = "Would you like to discuss your results?"; // Set the new text
+                        console.log("Changed the prompt text.");
+                    } else {
+                        console.warn("Prompt text element not found to update.");
+                    }
+                } else {
+                     console.warn("Unlock prompt div not found to adjust.");
+                }
             }
-            // --- End Change ---
+            // --- END: NEW PROMPT & BUTTON VISIBILITY LOGIC ---
+
 
             this.hideModal(); // Close the modal
             await this.showDetailedResults(); // Show detailed results AND initialize accordion
@@ -663,11 +798,9 @@ async handleModalSubmit(e) {
                     const hideScrollIndicator = () => {
                         if (scrollIndicator.classList.contains('visible')) {
                             scrollIndicator.classList.remove('visible');
-                            // Use transitionend listener for robustness
                             scrollIndicator.addEventListener('transitionend', () => {
                                 scrollIndicator.style.display = 'none';
                             }, { once: true });
-                            // Fallback timeout
                             setTimeout(() => { scrollIndicator.style.display = 'none'; }, 500);
                         }
                         window.removeEventListener('scroll', hideScrollIndicator); // Clean up listener
@@ -678,30 +811,29 @@ async handleModalSubmit(e) {
             }, 500); // Delay to allow detailed results to potentially render
 
         } else {
-            // Handle server-side errors (e.g., validation failure, unexpected issues)
+            // Handle server-side errors
             let errorText = `Server error (${response.status})`;
              try {
                  const errorBody = await response.text();
                  console.error("Server error response body:", errorBody);
-                 try { // Attempt to parse as JSON for structured errors
+                 try {
                      const jsonError = JSON.parse(errorBody);
                      errorText = jsonError.error || jsonError.message || (typeof errorBody === 'string' && errorBody.length < 100 ? errorBody : `Server error ${response.status}`);
-                 } catch { // If not JSON, use raw text or default message
+                 } catch {
                      errorText = (typeof errorBody === 'string' && errorBody.length < 100 ? errorBody : errorText);
                  }
              } catch (readError) { console.error("Could not read error response body:", readError); }
-            throw new Error(errorText); // Throw error to be caught below
+            throw new Error(errorText);
         }
     } catch (error) {
         console.error("Error submitting contact form:", error);
-        // Use the notification instead of alert for errors
         this.showNotification(`Failed to submit contact information: ${error.message}`, 'error', 8000);
     } finally {
         // Always restore button state and reset flag
         buttonText.classList.remove('hidden');
         buttonLoading.classList.add('hidden');
-        submitButton.disabled = false;
-        this.contactOptInRequested = false; // Ensure flag is reset
+        if(submitButton) submitButton.disabled = false; // Check if submitButton exists before accessing property
+        this.contactOptInRequested = false; // Reset flag AFTER using it in the try/catch blocks
     }
 }, // End of handleModalSubmit
 
@@ -769,12 +901,53 @@ async handleModalSubmit(e) {
         accordionItems.forEach(item => {
             const categoryName = item.dataset.category;
             const result = results.categoryResults.find(r => r.name === categoryName);
-            const contentElement = item.querySelector('.accordion-content .tab-content'); // Target the inner div
+            const contentElement = item.querySelector('.accordion-content .tab-content'); // Target the inner div for content
+
+            // --- START: ADD THIS NEW BLOCK ---
+            const headerElement = item.querySelector('.accordion-header');
+            // Check if header exists and if score hasn't already been added
+            if (headerElement && !headerElement.querySelector('.accordion-header-score')) {
+                if (result && typeof result.average === 'number') {
+                    const average = result.average;
+                    const averageFormatted = average.toFixed(1);
+                    const maturityLevel = this.getMaturityLevel(average); // Use the moved function via 'this.'
+                    const maturityClass = maturityLevel.toLowerCase().replace(/\s+/g, '-');
+
+                    // Create the container for score/level in the header
+                    const scoreContainer = document.createElement('div');
+                    // Add classes - reuse existing and add a specific one for header styling
+                    scoreContainer.className = 'score-value-container accordion-header-score';
+
+                    // Create the score element
+                    const scoreDiv = document.createElement('div');
+                    scoreDiv.className = 'score-value';
+                    scoreDiv.textContent = `${averageFormatted}/5.0`;
+
+                    // Create the maturity level element
+                    const maturityDiv = document.createElement('div');
+                    maturityDiv.className = `score-maturity maturity-${maturityClass}`;
+                    maturityDiv.textContent = maturityLevel;
+
+                    // Append score and maturity to their container
+                    scoreContainer.appendChild(scoreDiv);
+                    scoreContainer.appendChild(maturityDiv);
+
+                    // Insert the score container into the header, before the icon
+                    const iconElement = headerElement.querySelector('.accordion-icon');
+                    if (iconElement) {
+                        headerElement.insertBefore(scoreContainer, iconElement);
+                    } else {
+                        headerElement.appendChild(scoreContainer); // Fallback if icon not found
+                    }
+                } else {
+                     // Optionally add a placeholder if score is missing for some reason
+                     console.warn(`Score data missing for category: ${categoryName} in header.`);
+                }
+            }
 
             if (contentElement) {
                  if (result?.resultText) {
                      // Basic HTML formatting: replace newlines with paragraphs
-                     // More robust parsing might be needed if source is Markdown or complex HTML
                      const formattedText = '<p>' + result.resultText.trim().replace(/\n\s*\n/g, '</p><p>').replace(/\n/g, '<br>') + '</p>';
                      contentElement.innerHTML = formattedText;
                  } else {
@@ -782,12 +955,11 @@ async handleModalSubmit(e) {
                      contentElement.innerHTML = `<p>Detailed evaluation is currently unavailable for this category.</p>`;
                  }
             } else {
-                 // This shouldn't happen with the correct HTML structure
                  console.error(`Accordion content inner div (.tab-content) not found for category: ${categoryName}`);
-                 item.querySelector('.accordion-content').innerHTML = `<p class="error-message">Error displaying content structure.</p>`;
+                 // ... (error handling) ...
             }
         });
-        console.log("Finished loading text into accordion panels.");
+        console.log("Finished loading text and header scores into accordion panels.");
     },
 
     /**

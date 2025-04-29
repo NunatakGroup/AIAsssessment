@@ -1,6 +1,8 @@
 using Azure.Communication.Email;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq; // Added for Linq methods like Where/Select
+using System.Net;  // Added for WebUtility
 using System.Threading.Tasks;
 using AI_Maturity_Assessment.Models.Assessment;
 
@@ -14,10 +16,10 @@ namespace AI_Maturity_Assessment.Services
         public EmailService(IConfiguration configuration)
         {
             var connectionString = configuration["AzureCommunication:ConnectionString"]
-                ?? throw new ArgumentNullException("Azure Communication connection string is missing");
-            
+                ?? throw new ArgumentNullException(nameof(configuration), "Azure Communication connection string is missing");
+
             _senderEmail = configuration["AzureCommunication:SenderEmail"]
-                ?? throw new ArgumentNullException("Sender email is missing");
+                ?? throw new ArgumentNullException(nameof(configuration), "Sender email is missing");
 
             _emailClient = new EmailClient(connectionString);
         }
@@ -25,7 +27,7 @@ namespace AI_Maturity_Assessment.Services
         public async Task SendAssessmentResultsAsync(string recipientEmail, string recipientName, string company, AssessmentResultsDTO results)
         {
             var subject = $"Your AI Maturity Assessment Results - {company} | Nunatak";
-            
+
             var htmlContent = GenerateEmailContent(recipientName, company, results);
 
             try
@@ -39,6 +41,7 @@ namespace AI_Maturity_Assessment.Services
             }
             catch (Exception ex)
             {
+                // Consider logging the exception details here
                 throw new ApplicationException("Failed to send assessment results email", ex);
             }
         }
@@ -53,7 +56,7 @@ namespace AI_Maturity_Assessment.Services
             AssessmentResultsDTO results)
         {
             var subject = $"[ACTION REQUIRED] New AI Assessment Contact Request: {userName} from {userCompany}";
-            
+
             var htmlContent = GenerateTeamEmailContent(userName, userCompany, userEmail, businessSector, companySize, results);
 
             try
@@ -67,24 +70,49 @@ namespace AI_Maturity_Assessment.Services
             }
             catch (Exception ex)
             {
+                 // Consider logging the exception details here
                 throw new ApplicationException("Failed to send team notification email", ex);
             }
         }
 
+        // +---------------------------------------------------------+
+        // |           HELPER METHOD MOVED TO CLASS LEVEL            |
+        // +---------------------------------------------------------+
+        private string FormatCategoryText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                // Return default text for empty input
+                return "<p style='margin:10px 0; color:#4a4a4a; line-height:1.7;'>No detailed assessment available for this category.</p>";
+            }
+            // 1. Normalize newline characters (replace \r\n with \n)
+            string normalizedText = text.Replace("\r\n", "\n");
+            // 2. Split the text into paragraphs based on one or more newline characters
+            var paragraphs = normalizedText.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            // 3. Filter out any paragraphs that might be just whitespace after splitting
+            var validParagraphs = paragraphs.Select(p => p.Trim()).Where(p => !string.IsNullOrWhiteSpace(p));
+            // 4. Wrap each valid paragraph in <p> tags. Use HtmlEncode for security.
+            var formattedParagraphs = validParagraphs.Select(p => $"<p style='margin:10px 0; color:#4a4a4a; line-height:1.7;'>{WebUtility.HtmlEncode(p)}</p>");
+            // 5. Join the formatted paragraphs back together
+            return string.Join("\n", formattedParagraphs); // Use newline for readability in HTML source
+        }
+        // +---------------------------------------------------------+
+
         private string GenerateTeamEmailContent(
-            string userName, 
-            string userCompany, 
-            string userEmail, 
-            string businessSector, 
-            string companySize, 
+            string userName,
+            string userCompany,
+            string userEmail,
+            string businessSector,
+            string companySize,
             AssessmentResultsDTO results)
         {
-            // Create score bars for visualization - table-based approach for maximum compatibility
+            // CreateScoreBar can remain a local function as it's simple and used only here
             string CreateScoreBar(double score, double maxScore = 5.0)
             {
-                int percentage = (int)Math.Round((score / maxScore) * 100);
+                int percentage = score <= 0 ? 0 : (int)Math.Round((score / maxScore) * 100); // Handle score <= 0
+                percentage = Math.Clamp(percentage, 0, 100); // Ensure percentage is between 0 and 100
                 string bgColor = "#A0D0CB";
-                
+
                 return $@"
                 <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top:10px;'>
                     <tr>
@@ -99,22 +127,9 @@ namespace AI_Maturity_Assessment.Services
                 </table>";
             }
 
-            // Format category text with a better structure
-            string FormatCategoryText(string text)
-            {
-                if (string.IsNullOrEmpty(text))
-                {
-                    return "<p style='margin:10px 0;color:#4a4a4a;line-height:1.7;'>No detailed assessment available for this category.</p>";
-                }
+            // <<<< NO FormatCategoryText local function definition here anymore >>>>
 
-                // Split by periods to create multiple paragraphs
-                var paragraphs = text.Split('.')
-                    .Where(p => !string.IsNullOrWhiteSpace(p))
-                    .Select(p => $"<p style='margin:10px 0;color:#4a4a4a;line-height:1.7;'>{p.Trim()}.</p>");
-
-                return string.Join("", paragraphs);
-            }
-
+            // Now FormatCategoryText call below will use the private class method
             return $@"
 <!DOCTYPE html>
 <html>
@@ -128,25 +143,22 @@ namespace AI_Maturity_Assessment.Services
         <tr>
             <td align='center' style='padding: 20px 0;'>
                 <table width='600' cellpadding='0' cellspacing='0' border='0' style='background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
-                    <!-- Header Section -->
                     <tr>
                         <td bgcolor='#A0D0CB' style='padding: 30px 20px; text-align: center;'>
                             <h1 style='margin: 0; font-size: 26px; font-weight: 700; color:rgb(255, 255, 255); letter-spacing: -0.5px;'>New Contact Request</h1>
                             <p style='margin-top: 10px; font-size: 18px; color:rgb(255, 255, 255); font-weight: 500;'>AI Maturity Assessment</p>
                         </td>
                     </tr>
-                    
-                    <!-- Content Section -->
+
                     <tr>
                         <td style='padding: 30px 25px;'>
                             <p style='color: #343E48; font-weight: bold; font-size: 16px;'>A user has requested to be contacted about their AI Maturity Assessment results.</p>
-                            
-                            <!-- User Information Card -->
+
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
                                         <h2 style='margin-top:0; color:#343E48; font-size:20px; border-bottom: 1px solid #eaeaea; padding-bottom: 10px;'>User Information</h2>
-                                        
+
                                         <table width='100%' cellpadding='4' cellspacing='0' border='0'>
                                             <tr>
                                                 <td width='150' style='color: #666666; font-weight: 600;'>Name:</td>
@@ -175,13 +187,11 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- Assessment Summary Card -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-bottom: 30px; background-color: transparent; border-radius: 8px; border: 1px solid #cccccc; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
                                         <h2 style='margin-top:0; color:#343E48; font-size:20px; border-bottom: 1px solid #eaeaea; padding-bottom: 10px;'>Assessment Results</h2>
-                                        
-                                        <!-- AI Application Score -->
+
                                         <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
                                             <tr>
                                                 <td style='padding: 15px;'>
@@ -195,8 +205,7 @@ namespace AI_Maturity_Assessment.Services
                                                 </td>
                                             </tr>
                                         </table>
-                                        
-                                        <!-- People & Organization Score -->
+
                                         <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
                                             <tr>
                                                 <td style='padding: 15px;'>
@@ -210,8 +219,7 @@ namespace AI_Maturity_Assessment.Services
                                                 </td>
                                             </tr>
                                         </table>
-                                        
-                                        <!-- Tech & Data Score -->
+
                                         <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
                                             <tr>
                                                 <td style='padding: 15px;'>
@@ -229,7 +237,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- AI Application Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
@@ -249,7 +256,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- People & Organization Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
@@ -269,7 +275,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- Tech & Data Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
@@ -288,8 +293,7 @@ namespace AI_Maturity_Assessment.Services
                                     </td>
                                 </tr>
                             </table>
-                            
-                            <!-- Action Required Section -->
+
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #FFF7ED; border-radius: 8px; border: 1px solid #FFD7AE; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td width='6' bgcolor='#FF9933' style='border-radius: 8px 0 0 8px;'></td>
@@ -309,12 +313,10 @@ namespace AI_Maturity_Assessment.Services
                             </table>
                         </td>
                     </tr>
-                    
-                    <!-- Footer Section -->
+
                     <tr>
                         <td bgcolor='#343E48' style='padding: 30px 25px; text-align: center; color: white;'>
-                            <p style='margin:0; font-size:14px;'>© 2025 The Nunatak Group</p>
-                            <p style='margin:8px 0; font-size:15px; font-weight:300;'>Transforming businesses through AI innovation</p>
+                            <p style='margin:0; font-size:14px;'>© {DateTime.UtcNow.Year} The Nunatak Group</p> <p style='margin:8px 0; font-size:15px; font-weight:300;'>Transforming businesses through AI innovation</p>
                         </td>
                     </tr>
                 </table>
@@ -327,12 +329,13 @@ namespace AI_Maturity_Assessment.Services
 
         private string GenerateEmailContent(string recipientName, string company, AssessmentResultsDTO results)
         {
-            // Create score bars for visualization - table-based approach for maximum compatibility
+             // CreateScoreBar can remain a local function as it's simple and used only here
             string CreateScoreBar(double score, double maxScore = 5.0)
             {
-                int percentage = (int)Math.Round((score / maxScore) * 100);
+                int percentage = score <= 0 ? 0 : (int)Math.Round((score / maxScore) * 100); // Handle score <= 0
+                percentage = Math.Clamp(percentage, 0, 100); // Ensure percentage is between 0 and 100
                 string bgColor = "#A0D0CB";
-                
+
                 return $@"
                 <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top:10px;'>
                     <tr>
@@ -347,22 +350,9 @@ namespace AI_Maturity_Assessment.Services
                 </table>";
             }
 
-            // Format category text with a better structure
-            string FormatCategoryText(string text)
-            {
-                if (string.IsNullOrEmpty(text))
-                {
-                    return "<p style='margin:10px 0;color:#4a4a4a;line-height:1.7;'>No detailed assessment available for this category.</p>";
-                }
+            // <<<< NO FormatCategoryText local function definition here anymore >>>>
 
-                // Split by periods to create multiple paragraphs
-                var paragraphs = text.Split('.')
-                    .Where(p => !string.IsNullOrWhiteSpace(p))
-                    .Select(p => $"<p style='margin:10px 0;color:#4a4a4a;line-height:1.7;'>{p.Trim()}.</p>");
-
-                return string.Join("", paragraphs);
-            }
-
+            // Now FormatCategoryText call below will use the private class method
             return $@"
 <!DOCTYPE html>
 <html>
@@ -376,28 +366,24 @@ namespace AI_Maturity_Assessment.Services
         <tr>
             <td align='center' style='padding: 20px 0;'>
                 <table width='600' cellpadding='0' cellspacing='0' border='0' style='background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);'>
-                    <!-- Header Section -->
                     <tr>
                         <td bgcolor='#A0D0CB' style='padding: 30px 20px; text-align: center;'>
                             <h1 style='margin: 0; font-size: 26px; font-weight: 700; color:rgb(255, 255, 255); letter-spacing: -0.5px;'>AI Maturity Assessment Results</h1>
                             <p style='margin-top: 10px; font-size: 18px; color:rgb(255, 255, 255); font-weight: 500;'>{company}</p>
                         </td>
                     </tr>
-                    
-                    <!-- Content Section -->
+
                     <tr>
                         <td style='padding: 30px 25px;'>
                             <p style='color: #343E48;'>Dear {recipientName},</p>
-                            
+
                             <p style='color: #343E48;'>Thank you for completing Nunatak's AI Maturity Assessment. We have analyzed your responses and prepared a comprehensive evaluation of your organization's AI maturity across key dimensions.</p>
 
-                            <!-- Executive Summary Card -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-bottom: 30px; background-color: transparent; border-radius: 8px; border: 1px solid #cccccc; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
                                         <h2 style='margin-top:0; color:#343E48; font-size:20px; border-bottom: 1px solid #eaeaea; padding-bottom: 10px;'>Executive Summary</h2>
-                                        
-                                        <!-- AI Application Score -->
+
                                         <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
                                             <tr>
                                                 <td style='padding: 15px;'>
@@ -411,8 +397,7 @@ namespace AI_Maturity_Assessment.Services
                                                 </td>
                                             </tr>
                                         </table>
-                                        
-                                        <!-- People & Organization Score -->
+
                                         <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
                                             <tr>
                                                 <td style='padding: 15px;'>
@@ -426,8 +411,7 @@ namespace AI_Maturity_Assessment.Services
                                                 </td>
                                             </tr>
                                         </table>
-                                        
-                                        <!-- Tech & Data Score -->
+
                                         <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0; background-color: transparent; border: 1px solid #cccccc; border-radius: 6px;'>
                                             <tr>
                                                 <td style='padding: 15px;'>
@@ -445,7 +429,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- AI Application Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
@@ -465,7 +448,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- People & Organization Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
@@ -485,7 +467,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- Tech & Data Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td style='padding: 20px 25px;'>
@@ -505,13 +486,11 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- Contact Person Section -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 25px 0; background-color: #ffffff; border-radius: 8px; border: 1px solid #eaeaea; box-shadow: 0 2px 10px rgba(0,0,0,0.03);'>
                                 <tr>
                                     <td width='6' bgcolor='#A0D0CB' style='border-radius: 8px 0 0 8px;'></td>
                                     <td style='padding: 20px 25px;'>
-                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Do your have any questions or would you like to discuss your results?</h3>
-                                        <p style='color: #343E48; line-height: 1.6;'>
+                                        <h3 style='margin-top:0; font-size:18px; color: #343E48;'>Do you have any questions or would you like to discuss your results?</h3> <p style='color: #343E48; line-height: 1.6;'>
                                             <strong>Manuel Halbing</strong><br>
                                             AI Lab Managing Director<br>
                                             Email: <a href='mailto:manuel.halbing@nunatak.com' style='color:#62B2A9; text-decoration: none;'>manuel.halbing@nunatak.com</a><br>
@@ -521,7 +500,6 @@ namespace AI_Maturity_Assessment.Services
                                 </tr>
                             </table>
 
-                            <!-- CTA Button -->
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin-top: 30px;'>
                                 <tr>
                                     <td align='center'>
@@ -531,13 +509,11 @@ namespace AI_Maturity_Assessment.Services
                             </table>
                         </td>
                     </tr>
-                    
-                    <!-- Footer Section -->
+
                     <tr>
                         <td bgcolor='#343E48' style='padding: 30px 25px; text-align: center; color: white;'>
-                            <p style='margin:0; font-size:14px;'>© 2025 The Nunatak Group</p>
-                            <p style='margin:8px 0; font-size:15px; font-weight:300;'>Transforming businesses through AI innovation</p>
-                            
+                             <p style='margin:0; font-size:14px;'>© {DateTime.UtcNow.Year} The Nunatak Group</p> <p style='margin:8px 0; font-size:15px; font-weight:300;'>Transforming businesses through AI innovation</p>
+
                             <table width='100%' cellpadding='0' cellspacing='0' border='0' style='margin: 15px 0;'>
                                 <tr>
                                     <td align='center'>
@@ -546,7 +522,7 @@ namespace AI_Maturity_Assessment.Services
                                     </td>
                                 </tr>
                             </table>
-                            
+
                            <p style='font-style: italic; margin: 20px auto; max-width: 80%; color: rgba(255,255,255,0.8); font-size: 13px; line-height: 1.5;'>
                                 Nu|na|tak ['nu:natak]<br>
                                 Nunataks are mountains which stick up above the level of a glacier. In Inuit language Nunataks resemble signposts which lead the way.

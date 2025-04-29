@@ -30,6 +30,9 @@
   --breakpoint-desktop: 1200px;
 }
 
+.hidden{
+  display: none !important;
+}
 
 body.dark-mode {
   background: var(--bg-dark);
@@ -2216,9 +2219,10 @@ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional hover shadow */
 .accordion-item[data-category="TECH & DATA"] { border-left-color: var(--accent-red); } /* Use adjusted red if defined */
 
 .accordion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* Existing styles */
+  display: flex; /* ADD: Use Flexbox */
+  justify-content: space-between; /* ADD: Space out title, score, icon */
+  align-items: center; /* ADD: Vertically align items */
   width: 100%;
   padding: 1.2rem 1.5rem;
   background: transparent;
@@ -2227,14 +2231,21 @@ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional hover shadow */
   text-align: left;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  gap: 1rem; /* ADD: Optional gap between items */
 }
+
 .accordion-header:hover { background-color: rgba(255, 255, 255, 0.05); }
 
 .accordion-header h3 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.2rem; /* Adjust if needed */
   font-weight: 500;
-  flex-grow: 1;
+  flex-grow: 1; /* Allow title to take available space */
+  /* Make sure title doesn't push score off screen if too long */
+  min-width: 0; /* Allows flex item to shrink */
+  overflow: hidden; /* Optional: hide overflow */
+  text-overflow: ellipsis; /* Optional: add ellipsis */
+  white-space: nowrap; /* Optional: prevent wrapping */
 }
 
 /* Category-specific header text colors */
@@ -2243,12 +2254,14 @@ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional hover shadow */
 .accordion-item[data-category="TECH & DATA"] .accordion-header h3 { color: var(--accent-red); } /* Use adjusted red if defined */
 
 .accordion-icon {
+  /* Existing styles */
   width: 22px; height: 22px;
   border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.3s ease, border-color 0.3s ease;
-  margin-left: 1rem; flex-shrink: 0;
+  margin-left: 1rem; /* Adjust or remove if using gap */
+  flex-shrink: 0; /* Prevent icon from shrinking */
 }
 .accordion-icon::before {
   content: '+'; font-size: 1.4rem; line-height: 1;
@@ -2291,7 +2304,28 @@ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional hover shadow */
 .accordion-content .tab-content p { margin: 0 0 1em 0; }
 .accordion-content .tab-content p:last-child { margin-bottom: 0; }
 
-/* --- END: NEW ACCORDION STYLES --- */
+/* Style the container we added in JS */
+.accordion-header-score {
+  /* Inherits from .score-value-container, add specifics */
+  flex-shrink: 0; /* Prevent score from shrinking */
+  text-align: right; /* Align text inside to the right */
+}
+
+/* Adjust font sizes within the header */
+.accordion-header .score-value {
+  font-size: 1.1rem; /* Smaller than initial display */
+  font-weight: 400; /* Maybe slightly bolder */
+  /* Adjust text shadow if desired */
+  /* text-shadow: 0 0 10px rgba(160, 208, 203, 0.2); */
+}
+
+.accordion-header .score-maturity {
+  font-size: 0.75rem; /* Smaller than initial display */
+  margin-top: 2px; /* Adjust spacing */
+  padding: 1px 6px; /* Adjust padding */
+  /* background-color: transparent; */ /* Optional: remove background */
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */ /* Optional: add border */
+}
 
 
 /* --- START: MODAL CLOSE BUTTON STYLE --- */
@@ -2316,6 +2350,83 @@ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Optional hover shadow */
   opacity: 1;
 }
 /* --- END: MODAL CLOSE BUTTON STYLE --- */
+
+.loading-overlay {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 53, 61, 0.85); 
+  backdrop-filter: blur(5px); 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  /* Increase z-index just in case mobile nav interferes */
+  z-index: 1001; 
+  opacity: 0; 
+  visibility: hidden; 
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; 
+  text-align: center; 
+}
+
+.loading-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+}
+
+.loading-content {
+  color: var(--accent-white);
+  padding: 20px; 
+  max-width: 90%; 
+  box-sizing: border-box;
+}
+
+/* Simple CSS Spinner (Example) */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--accent-green); /* Use your accent color */
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem; /* Center and space below */
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+#contactOptInButton .button-loading {
+  display: flex; /* Use flex for alignment */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Space between spinner and text */
+}
+
+/* If using a custom image/SVG loader */
+.custom-loader { 
+  width: 80px; 
+  height: 80px; 
+  margin-bottom: 1.5rem; 
+  /* Add animations if needed */
+}
+
+.loading-message {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--accent-white);
+}
+
+.loading-submessage {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  max-width: 300px;
+  margin: 0 auto;
+  color: var(--accent-white);
+}
 
 .score-value-container {
   display: flex;

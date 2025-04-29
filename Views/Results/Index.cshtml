@@ -14,12 +14,21 @@
 *@
 
 <div class="results-container position-relative overflow-hidden">
+
+    <div id="resultsLoadingOverlay" class="loading-overlay"> @* NOTE: CSS hides this by default *@
+        <div class="loading-content">
+            <div class="spinner"></div> 
+
+            <p class="loading-message">Evaluating Your AI Maturity Responses...</p>
+            <p class="loading-submessage">This involves real-time AI processing and may take a few moments.</p>
+        </div>
+    </div>
+    @* --- LOADING OVERLAY ABOVE, RESULTS PAGE BELOEW --- *@
     <div class="results-content initial-results">
         <div class="results-left">
             <div class="glass-panel chart-panel">
                 <h3>AI Maturity Overview</h3>
                 <canvas id="radarChart"></canvas>
-                @* Chart legend is typically handled by Chart.js options directly *@
             </div>
         </div>
         <div class="results-right">
@@ -32,7 +41,13 @@
                     <p>Want to see the detailed analysis and recommendations?</p>
                     <div class="button-group">
                         <button class="primary-action" id="unlockResultsButton">Unlock Full Results</button>
-                        <button class="primary-action" id="contactOptInButton">Contact Me</button>
+                        <button class="primary-action" id="contactOptInButton">
+                            <span class="button-text">Contact Me</span>
+                            <span class="button-loading hidden">
+                                <span class="spinner-small"></span>
+                                <span>Saving...</span> 
+                            </span>
+                        </button>
                     </div>
                      <div id="optInMessage" class="opt-in-message" style="display: none; margin-top: 10px; font-size: 0.9em;"></div>
                 </div>
