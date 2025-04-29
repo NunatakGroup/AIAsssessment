@@ -213,11 +213,12 @@ namespace AI_Maturity_Assessment.Services
 
         private string GetSystemInstructions()
         {
-            return @"You are an expert AI strategy consultant at Nunatak providing feedback directly to a client based on their organization's AI maturity self-assessment. Scores range from 1 (low maturity) to 5 (high maturity). Analyze the provided
- average score and specific answers within the specified category. Deliver a concise (around 200 words) evaluation in a professional and constructive tone, speaking directly to the client (your organization). Interpret the pattern of scores to identify 
- strengths, weaknesses, or inconsistencies, referring to the question topics (e.g., 'Developing New AI Products/Services'), don't refer to the the question numbers (Q1). Carefully review the 'Potential Nunatak Offerings' listed for the category and select the single offering 
- most directly addressing the primary weakness based on specific scores. Mention this offering as an area where we (Nunatak) could provide valuable support for your organization's future development. Focus on the potential implications these scores suggest for 
- your organization. Do not list or repeat the scores. Do not use any formatting such symbols (like '*') or ALL CAPS. Format the output as a single, consistent block of text suitable for display on a web results page.";
+            return @"You are an expert AI strategy consultant at Nunatak providing direct feedback based on a client's AI maturity self-assessment. Scores range from 1 (low maturity) to 5 (high maturity). 
+Analyze the average score and specific answers for the assigned category. Write a concise evaluation (around 200 words) in a professional, constructive tone, speaking directly to the client (your organization). 
+Focus first on interpreting the pattern of scores: highlight clear strengths, weaknesses, or inconsistencies, and refer naturally to the topics. Do not mention question numbers, raw scores, or percentages. Then, 
+start a new paragraph. Select the single 'Potential Nunatak Offering' (from the list provided) that best addresses the main weakness identified. Briefly describe how Nunatak can support development through this offering. 
+Maintain a consistent, natural style throughout. Avoid formatting like ALL CAPS, bullet points, quotation marks around topic names, or symbols such as '*'. Topic names should flow naturally within sentences (e.g., 'your 
+efforts in developing new AI products and services'). Write in full sentences, suitable for a web page, with a clear line break between evaluation and offering. Emphasize business implications and opportunities, not just score summaries";
         }
 
         private ResponseApiRequest CreateRequestPayload(string userPromptContent, string systemInstructions)
@@ -241,8 +242,8 @@ namespace AI_Maturity_Assessment.Services
         private string BuildPrompt(string categoryName, double averageScore, AssessmentResponseEntity responses)
 {
     var promptBuilder = new StringBuilder();
-    promptBuilder.AppendLine($"Analyze the AI maturity for the **{categoryName}** category.");
-    promptBuilder.AppendLine($"The organization's average score in this category is **{averageScore:F1} out of 5.0 points.**.");
+    promptBuilder.AppendLine($"Analyze the AI maturity for the {categoryName} category.");
+    promptBuilder.AppendLine($"The organization's average score in this category is {averageScore:F1} out of 5.0 points.");
     promptBuilder.AppendLine("\nHere are the specific answers (scores 1-5) provided by the user for the questions in this category:");
 
     string GetAnswerString(int? answer) => answer?.ToString() ?? "N/A";
@@ -255,42 +256,42 @@ namespace AI_Maturity_Assessment.Services
     switch (categoryName.ToUpperInvariant())
     {
         case "AI APPLICATION":
-            promptBuilder.AppendLine($"- Q3 (Developing New AI Products/Services): **{GetAnswerString(responses.Question3Answer)}**");
-            promptBuilder.AppendLine($"- Q4 (Optimizing Internal Processes with AI): **{GetAnswerString(responses.Question4Answer)}**");
-            promptBuilder.AppendLine($"- Q5 (Managing AI Impact & Value): **{GetAnswerString(responses.Question5Answer)}**");
+            promptBuilder.AppendLine($"- Q3 (Developing New AI Products/Services): {GetAnswerString(responses.Question3Answer)}");
+            promptBuilder.AppendLine($"- Q4 (Optimizing Internal Processes with AI): {GetAnswerString(responses.Question4Answer)}");
+            promptBuilder.AppendLine($"- Q5 (Managing AI Impact & Value): {GetAnswerString(responses.Question5Answer)}");
 
             // Add offerings header
             offeringsBuilder.AppendLine("\nPotential Nunatak Offerings for this Category (Instructions: Based on the scores above, choose the single MOST relevant offering below to mention in your feedback):");
             // Add offerings for this category to offeringsBuilder
-            offeringsBuilder.AppendLine($"- **Develop New AI Products and Services:** {GetOfferingDescription("Develop New AI Products and Services")}");
-            offeringsBuilder.AppendLine($"- **Optimizing Internal Processes with AI:** {GetOfferingDescription("Optimizing Internal Processes with AI")}");
-            offeringsBuilder.AppendLine($"- **Managing AI Impact and Value:** {GetOfferingDescription("Managing AI Impact and Value")}");
+            offeringsBuilder.AppendLine($"- Develop New AI Products and Services: {GetOfferingDescription("Develop New AI Products and Services")}");
+            offeringsBuilder.AppendLine($"- Optimizing Internal Processes with AI: {GetOfferingDescription("Optimizing Internal Processes with AI")}");
+            offeringsBuilder.AppendLine($"- Managing AI Impact and Value: {GetOfferingDescription("Managing AI Impact and Value")}");
             break; // Added missing break
 
         case "PEOPLE & ORGANIZATION":
-            promptBuilder.AppendLine($"- Q6 (AI Governance & Responsibility): **{GetAnswerString(responses.Question6Answer)}**");
-            promptBuilder.AppendLine($"- Q7 (Organizational Culture & AI Adoption): **{GetAnswerString(responses.Question7Answer)}**");
-            promptBuilder.AppendLine($"- Q8 (AI Skills & Competencies): **{GetAnswerString(responses.Question8Answer)}**");
+            promptBuilder.AppendLine($"- Q6 (AI Governance & Responsibility): {GetAnswerString(responses.Question6Answer)}");
+            promptBuilder.AppendLine($"- Q7 (Organizational Culture & AI Adoption): {GetAnswerString(responses.Question7Answer)}");
+            promptBuilder.AppendLine($"- Q8 (AI Skills & Competencies): {GetAnswerString(responses.Question8Answer)}");
 
             // Add offerings header
             offeringsBuilder.AppendLine("\nPotential Nunatak Offerings for this Category (Instructions: Based on the scores above, choose the single MOST relevant offering below to mention in your feedback):");
             // Add offerings for this category to offeringsBuilder
-            offeringsBuilder.AppendLine($"- **AI Governance and Responsibility:** {GetOfferingDescription("AI Governance and Responsibility")}");
-            offeringsBuilder.AppendLine($"- **Organizational Culture and AI Adoption:** {GetOfferingDescription("Organizational Culture and AI Adoption")}");
-            offeringsBuilder.AppendLine($"- **AI Skills and Competencies:** {GetOfferingDescription("AI Skills and Competencies")}");
+            offeringsBuilder.AppendLine($"- AI Governance and Responsibility: {GetOfferingDescription("AI Governance and Responsibility")}");
+            offeringsBuilder.AppendLine($"- Organizational Culture and AI Adoption: {GetOfferingDescription("Organizational Culture and AI Adoption")}");
+            offeringsBuilder.AppendLine($"- AI Skills and Competencies: {GetOfferingDescription("AI Skills and Competencies")}");
             break; // Added missing break
 
-        case "DATA AND TOOLS": // Using your category name "Data and Tools"
-            promptBuilder.AppendLine($"- Q9 (AI Tools & Platforms): **{GetAnswerString(responses.Question9Answer)}**");
-            promptBuilder.AppendLine($"- Q10 (Data Infrastructure & Management for AI): **{GetAnswerString(responses.Question10Answer)}**");
-            promptBuilder.AppendLine($"- Q11 (AI Security & Data Privacy): **{GetAnswerString(responses.Question11Answer)}**");
+        case "TECH & DATA": // Using your category name "Data and Tools"
+            promptBuilder.AppendLine($"- Q9 (AI Tools & Platforms): {GetAnswerString(responses.Question9Answer)}");
+            promptBuilder.AppendLine($"- Q10 (Data Infrastructure & Management for AI): {GetAnswerString(responses.Question10Answer)}");
+            promptBuilder.AppendLine($"- Q11 (AI Security & Data Privacy): {GetAnswerString(responses.Question11Answer)}");
 
              // Add offerings header
             offeringsBuilder.AppendLine("\nPotential Nunatak Offerings for this Category (Instructions: Based on the scores above, choose the single MOST relevant offering below to mention in your feedback):");
            // Add offerings for this category to offeringsBuilder
-            offeringsBuilder.AppendLine($"- **AI Tools & Platforms:** {GetOfferingDescription("AI Tools & Platforms")}");
-            offeringsBuilder.AppendLine($"- **Data Infrastructure & Management:** {GetOfferingDescription("Data Infrastructure & Management")}");
-            offeringsBuilder.AppendLine($"- **AI Security and Data Privacy:** {GetOfferingDescription("AI Security and Data Privacy")}");
+            offeringsBuilder.AppendLine($"- AI Tools & Platforms: {GetOfferingDescription("AI Tools & Platforms")}");
+            offeringsBuilder.AppendLine($"- Data Infrastructure & Management: {GetOfferingDescription("Data Infrastructure & Management")}");
+            offeringsBuilder.AppendLine($"- AI Security and Data Privacy: {GetOfferingDescription("AI Security and Data Privacy")}");
             break; // Added missing break
 
         default:
@@ -310,7 +311,7 @@ namespace AI_Maturity_Assessment.Services
 
     // Replace the original final instruction with the updated one guiding the AI to select an offering
     // Original line: promptBuilder.AppendLine("\nBased on both the average score and these specific answers, please provide your concise evaluation and actionable insights.");
-    promptBuilder.AppendLine("\n\nBased on the average score and the specific answers provided above, please provide your concise evaluation and actionable insights. Remember to identify the primary area for improvement based on the scores and suggest how the *single most relevant* Nunatak offering (chosen from the list provided above, if any) could help address it.");
+    promptBuilder.AppendLine("\n\nBased on the average score and the specific answers provided above, please provide your concise evaluation and actionable insights. Remember to identify the primary area for improvement based on the scores and suggest how the single most relevant Nunatak offering (chosen from the list provided above, if any) could help address it.");
 
     return promptBuilder.ToString();
 }
