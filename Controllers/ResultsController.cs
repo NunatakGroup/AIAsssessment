@@ -29,6 +29,7 @@ namespace AI_Maturity_Assessment.Controllers
         // Add the team notification email addresses as constants
         private const string TEAM_EMAIL_1 = "moritz.wagner@nunatak.com";
         private const string TEAM_EMAIL_2 = "Paolo.caesar@nunatak.com";
+        private const string TEAM_EMAIL_3 = "lea.klick@nunatak.com";
 
         public ResultsController(
             AzureTableService azureTableService,
@@ -309,7 +310,7 @@ namespace AI_Maturity_Assessment.Controllers
             AssessmentResultsDTO resultsDto)
         {
             // Send to both team members
-            var teamEmails = new[] { TEAM_EMAIL_1, TEAM_EMAIL_2 };
+            var teamEmails = new[] { TEAM_EMAIL_1, TEAM_EMAIL_2, TEAM_EMAIL_3 };
             
             foreach (var email in teamEmails)
             {

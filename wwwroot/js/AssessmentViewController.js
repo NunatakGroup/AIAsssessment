@@ -312,7 +312,7 @@ const AssessmentViewController = {
 
         if (question.type === 1) { // Demographics (Question 2 in the new flow)
             questionHtml = this.createDemographicsUI(question);
-            showImage = false;
+            showImage = true;
 
             // Defer event binding to next tick to ensure DOM is ready
             setTimeout(() => {
