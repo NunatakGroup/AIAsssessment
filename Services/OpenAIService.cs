@@ -218,7 +218,7 @@ Analyze the average score and specific answers for the assigned category. Write 
 Focus first on interpreting the pattern of scores: highlight clear strengths, weaknesses, or inconsistencies, and refer naturally to the topics. Do not mention question numbers, raw scores, or percentages. Then, 
 start a new paragraph. Select the single 'Potential Nunatak Offering' (from the list provided) that best addresses the main weakness identified. Briefly describe how Nunatak can support development through this offering. 
 Maintain a consistent, natural style throughout. Avoid formatting like ALL CAPS, bullet points, quotation marks around topic names, or symbols such as '*'. Topic names should flow naturally within sentences (e.g., 'your 
-efforts in developing new AI products and services'). Write in full sentences, suitable for a web page, with a clear line break between evaluation and offering. Emphasize business implications and opportunities, not just score summaries";
+efforts in developing new AI products and services'). Write in full sentences, suitable for a web page, with a clear line break between evaluation and offering. Do NOT include section headers! Emphasize business implications and opportunities, not just score summaries";
         }
 
         private ResponseApiRequest CreateRequestPayload(string userPromptContent, string systemInstructions)
