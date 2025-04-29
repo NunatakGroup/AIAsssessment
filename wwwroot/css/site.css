@@ -989,6 +989,24 @@ html {
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
+  border-left-width: 5px; /* Match accordion item border */
+  border-left-style: solid;
+  border-left-color: transparent; /* Default/fallback color */
+  position: relative; /* Good practice for borders/positioning children */
+  overflow: hidden; /* Helps ensure border radius interacts well */
+}
+
+/* Apply specific border colors based on the data-category attribute */
+.score-item[data-category="AI APPLICATION"] {
+  border-left-color: var(--accent-green);
+}
+
+.score-item[data-category="PEOPLE & ORGANIZATION"] {
+  border-left-color: var(--accent-blue);
+}
+
+.score-item[data-category="TECH & DATA"] {
+  border-left-color: var(--accent-red);
 }
 
 .score-item:hover {

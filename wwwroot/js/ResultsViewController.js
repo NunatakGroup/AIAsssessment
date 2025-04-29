@@ -230,6 +230,7 @@ const ResultsViewController = {
 
     /**
      * Displays category average scores with maturity labels.
+     * Adds data-category attribute for styling.
      * @param {object} results - The results data object from the backend.
      */
     displayCategoryScores(results) {
@@ -243,16 +244,16 @@ const ResultsViewController = {
         }
 
         // Generate HTML for each score item
-        const categoryScores = results.categoryResults.map(category => { 
+        const categoryScores = results.categoryResults.map(category => {
             const average = typeof category.average === 'number' ? category.average : null;
             const averageFormatted = average !== null ? average.toFixed(1) : 'N/A';
-            const name = category.name || 'Unnamed Category';
-            const maturityLevel = this.getMaturityLevel(average); //Changed to new function
-            const maturityClass = maturityLevel.toLowerCase().replace(/\s+/g, '-'); // e.g., 'integrating'
+            const name = category.name || 'Unnamed Category'; // Use the category name
+            const maturityLevel = this.getMaturityLevel(average); 
+            const maturityClass = maturityLevel.toLowerCase().replace(/\s+/g, '-'); 
 
-            // Removed 'glass-effect' class if not needed, rely on .score-item styles
+            // --- Add data-category attribute here ---
             return `
-                <div class="score-item">
+                <div class="score-item" data-category="${name}"> 
                     <div class="score-label">${name}</div>
                     <div class="score-value-container">
                         <div class="score-value">${averageFormatted}/5.0</div>
@@ -260,6 +261,7 @@ const ResultsViewController = {
                     </div>
                 </div>
             `;
+            // --- End change ---
         }).join('');
 
         scoresContainer.innerHTML = categoryScores;

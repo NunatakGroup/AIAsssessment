@@ -215,9 +215,9 @@ namespace AI_Maturity_Assessment.Services
         {
             return @"You are an expert AI strategy consultant at Nunatak providing feedback directly to a client based on their organization's AI maturity self-assessment. Scores range from 1 (low maturity) to 5 (high maturity). Analyze the provided
  average score and specific answers within the specified category. Deliver a concise (around 200 words) evaluation in a professional and constructive tone, speaking directly to the client (your organization). Interpret the pattern of scores to identify 
- strengths, weaknesses, or inconsistencies, referring to the question topics (e.g., 'Developing New AI Products/Services') rather than question numbers. Carefully review the 'Potential Nunatak Offerings' listed for the category and select the single offering 
+ strengths, weaknesses, or inconsistencies, referring to the question topics (e.g., 'Developing New AI Products/Services'), don't refer to the the question numbers (Q1). Carefully review the 'Potential Nunatak Offerings' listed for the category and select the single offering 
  most directly addressing the primary weakness based on specific scores. Mention this offering as an area where we (Nunatak) could provide valuable support for your organization's future development. Focus on the potential implications these scores suggest for 
- your organization. Do not list or repeat the scores. Do not use formatting symbols such as asterisks (*). Format the output as a single block of text suitable for display on a web results page.";
+ your organization. Do not list or repeat the scores. Do not use any formatting such symbols (like '*') or ALL CAPS. Format the output as a single, consistent block of text suitable for display on a web results page.";
         }
 
         private ResponseApiRequest CreateRequestPayload(string userPromptContent, string systemInstructions)
