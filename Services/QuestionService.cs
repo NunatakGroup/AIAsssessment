@@ -20,6 +20,7 @@ namespace AI_Maturity_Assessment.Services
                     QuestionText = "Currently, we are...",
                     Type = QuestionType.SingleChoice,
                     OrderIndex = 1,
+                    
                     Answers = new List<Answer>
                     {
                         new Answer { Id = 1, AnswerText = "...beginning to use AI", Score = 1},

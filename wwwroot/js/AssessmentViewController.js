@@ -2,8 +2,10 @@
 // @ts-nocheck
 
 const AssessmentViewController = {
-    currentQuestionId: 1, // Starts at 1, but might be skipped
-    totalQuestions: 0,
+    currentQuestionId: 1, // Starts at 1, but might be skipped (DO NOT CHANGE FOR LOGIC)
+    displayQuestionNumber: 0, // --- NEW: Number shown in the UI ---
+    totalQuestions: 0, // Actual total from backend (DO NOT CHANGE FOR LOGIC)
+    displayTotalQuestions: 0, // --- NEW: Total shown in the UI ---
     userAnswers: new Map(),
     sessionId: localStorage.getItem('assessmentSessionId') || null, // Load session ID on init
     // Cache DOM references that are used repeatedly
@@ -15,19 +17,22 @@ const AssessmentViewController = {
     },
 
     async initialize() {
-        // Cache DOM elements on initialization
+        localStorage.removeItem('assessmentSessionId'); // Ensure a fresh start every time page loads
+        this.sessionId = null; // Reset internal state too
         this.cacheElements();
-        await this.getTotalQuestions();
+        await this.getTotalQuestions(); // Fetches the *actual* total
+
+        // --- MODIFICATION START: Calculate display total ---
+        this.displayTotalQuestions = this.totalQuestions > 0 ? this.totalQuestions - 1 : 0;
 
         // --- MODIFICATION START: Skip Question 1 on initial load ---
-        // Check if we are starting the assessment fresh (at question 1)
         if (this.currentQuestionId === 1) {
             await this.skipQuestion1AndLoadNext(); // Skip Q1 and load Q2 directly
         } else {
-            // If resuming later in the assessment (logic would need enhancement for full resume)
+            // If resuming later (needs more logic for full resume, but set display number if needed)
+            this.displayQuestionNumber = this.currentQuestionId > 1 ? this.currentQuestionId - 1 : 0; // Adjust display number if resuming past Q1
             await this.loadQuestion(this.currentQuestionId);
         }
-        // --- MODIFICATION END: Skip Question 1 on initial load ---
 
         this.setupEventListeners();
     },
@@ -129,6 +134,7 @@ const AssessmentViewController = {
             await this.submitAssessment();
         } else {
             this.currentQuestionId++;
+            this.displayQuestionNumber++; // Increment display number for UI
             await this.loadQuestion(this.currentQuestionId);
         }
     },
@@ -190,7 +196,7 @@ const AssessmentViewController = {
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <div class="progress-text">
-                    Question <span id="currentQuestionNumber">${this.currentQuestionId}</span> of <span id="totalQuestions">${this.totalQuestions}</span>
+                    Question <span id="currentQuestionNumber">${this.displayQuestionNumber}</span> of <span id="totalQuestions">${this.displayTotalQuestions}</span>
                 </div>
             </div>
             <div class="question-header">
@@ -262,7 +268,7 @@ const AssessmentViewController = {
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <div class="progress-text">
-                    Question <span id="currentQuestionNumber">${this.currentQuestionId}</span> of <span id="totalQuestions">${this.totalQuestions}</span>
+                    Question <span id="currentQuestionNumber">${this.displayQuestionNumber}</span> of <span id="totalQuestions">${this.displayTotalQuestions}</span>
                 </div>
             </div>
             <div class="question-header">
@@ -383,12 +389,12 @@ const AssessmentViewController = {
 
     updateProgressBar() {
         const progressFill = document.getElementById('progressFill');
-        if (!progressFill || this.totalQuestions <= 0) {
+        if (!progressFill || this.displayTotalQuestions <= 0) {
             if (progressFill) progressFill.style.width = '0%';
             return;
         }
         
-        const percentage = Math.max(0, ((this.currentQuestionId - 1) / this.totalQuestions) * 100);
+        const percentage = Math.max(0, ((this.displayQuestionNumber - 1) / this.displayTotalQuestions) * 100);
         progressFill.style.width = `${percentage}%`;
 
         const chapterNumber = this.determineCurrentChapter();
@@ -408,6 +414,7 @@ const AssessmentViewController = {
         // Only allow going back if the current question ID is greater than 2
         if (this.currentQuestionId > 2) {
             this.currentQuestionId--;
+            this.displayQuestionNumber--; // Decrement display number for UI
             this.loadQuestion(this.currentQuestionId);
         }
     },
