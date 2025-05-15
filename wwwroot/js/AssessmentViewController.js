@@ -216,6 +216,7 @@ const AssessmentViewController = {
                         <option value="Chemical">Chemical</option>
                         <option value="Communications">Communications</option>
                         <option value="Construction">Construction</option>
+                        <option value="Consulting">Consulting</option>
                         <option value="E-Commerce">E-Commerce</option>
                         <option value="Education">Education</option>
                         <option value="Energy-Utilities">Energy & Utilities</option>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HLAybrEqcUPoutdHyFA/5VIUdqUOxrIp8IVWx530zHg=",
+  "Hash": "L50xEAXF78aLioJxdYI8VVufdIFq9GTmroHhh2lud7U=",
   "Source": "AI-Maturity-Assessment",
   "BasePath": "_content/AI-Maturity-Assessment",
   "Mode": "Default",
@@ -300,25 +300,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/AI_Wheel_Full.png"
-    },
-    {
-      "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q0.png",
-      "SourceId": "AI-Maturity-Assessment",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/",
-      "BasePath": "_content/AI-Maturity-Assessment",
-      "RelativePath": "images/AI_Wheel_Q0.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/images/AI_Wheel_Q0.png"
     },
     {
       "Identity": "/Users/paolo.caesar/Desktop/AI Lab/Nunatak Ai Assessment/AI-Maturity-Assessment/wwwroot/images/AI_Wheel_Q1.png",

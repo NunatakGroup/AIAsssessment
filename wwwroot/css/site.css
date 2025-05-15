@@ -22,7 +22,7 @@
   --chapter3-gradient: linear-gradient(90deg, var(--accent-red) 0%, var(--accent-red) 100%);
   --current-chapter-gradient: var(--chapter3-gradient); /* Default gradient */
   --nav-height: 80px;
-  --nav-heigt-mobile: 300px;
+  --nav-height-mobile: 300px;
   /* Add breakpoints for easier maintenance */
   --breakpoint-mobile: 480px;
   --breakpoint-tablet: 768px;
